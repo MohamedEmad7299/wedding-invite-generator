@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal Wedding Invite Studio & Generator | 75+ Luxury Designs</title>
+  <title>Royal Wedding Invitation Builder | Coded Luxury Card Studio</title>
   
-  <!-- Fonts -->
+  <!-- Premium Fonts: Cinzel Decorative, Cormorant Garamond, Great Vibes, Alex Brush, Aref Ruqaa, Amiri, Reem Kufi, Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
   
   <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -21,7 +21,7 @@
 <body class="locked-body">
 
   <!-- ============================================ -->
-  <!-- 1. PASSWORD GATE & SECRET ADMIN BACKDOOR     -->
+  <!-- 1. PASSWORD GATE MODAL                       -->
   <!-- ============================================ -->
   <div id="passwordGateModal" class="gate-overlay active">
     <div class="gate-card">
@@ -32,10 +32,10 @@
       </div>
       
       <h2 class="gate-title">Wedding Invitation Studio</h2>
-      <p class="gate-arabic-title">استوديو تصميم دعوات الزفاف الملكية</p>
+      <p class="gate-arabic-title">استوديو تصميم كروت الزفاف الملكية المبرمجة</p>
       <div class="gate-divider"><span>❦</span></div>
       
-      <p class="gate-subtitle">Please enter your studio access key</p>
+      <p class="gate-subtitle">Please enter your studio access password</p>
       <p class="gate-subtitle-ar">يرجى إدخال رمز الدخول الخاص بالاستوديو</p>
 
       <form id="gateForm" onsubmit="handleGateSubmit(event)" class="gate-form">
@@ -50,7 +50,7 @@
         <div id="gateError" class="gate-error-msg"></div>
 
         <button type="submit" class="gate-btn">
-          <span>Open Studio Portal</span>
+          <span>Open Studio</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </form>
@@ -82,30 +82,25 @@
       </div>
 
       <div class="gate-footer">
-        <small>© Royal Wedding Studio Suite • VIP Access</small>
+        <small>© Royal Wedding Studio Suite • Coded Card Engine</small>
       </div>
     </div>
   </div>
 
 
   <!-- ============================================ -->
-  <!-- 2. MAIN GENERATOR DASHBOARD (STUDIO)         -->
+  <!-- 2. MAIN STUDIO DASHBOARD                     -->
   <!-- ============================================ -->
   <div id="appContainer" class="app-container hidden">
     
     <!-- Topbar -->
     <header class="app-topbar">
       <div class="topbar-brand">
-        <div class="brand-monogram"><i class="fa-solid fa-gem"></i></div>
+        <div class="brand-monogram"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         <div class="brand-info">
-          <h1>Wedding Invitation Studio</h1>
-          <span>75+ Reference Luxury Designs • Full Customization Suite</span>
+          <h1>Royal Wedding Invitation Builder</h1>
+          <span>100% Code-Rendered Luxury Cards • Choose Style & Put Any Name</span>
         </div>
-      </div>
-
-      <div class="topbar-active-design">
-        <span class="active-design-label">Selected Design:</span>
-        <strong id="topbarActiveDesignName">Royal Gold & Emerald Arch (#1)</strong>
       </div>
 
       <div class="topbar-controls">
@@ -116,7 +111,10 @@
           <i class="fa-solid fa-mobile-screen"></i>
         </button>
         <button class="topbar-btn action-download-top" onclick="downloadStandaloneInvite()" title="Download Standalone HTML">
-          <i class="fa-solid fa-download"></i> <span>Download HTML</span>
+          <i class="fa-solid fa-download"></i> <span>Download Card HTML</span>
+        </button>
+        <button class="topbar-btn action-print-top" onclick="printCard()" title="Print / Save PDF">
+          <i class="fa-solid fa-print"></i> <span>Print / PDF</span>
         </button>
         <button class="topbar-btn action-share-top" onclick="copyPersonalizedLink()" title="Copy VIP Share Link">
           <i class="fa-solid fa-share-nodes"></i>
@@ -138,9 +136,9 @@
         
         <!-- Navigation Tabs -->
         <nav class="sidebar-tabs">
-          <button class="tab-btn active" onclick="switchSidebarTab('designs')">
-            <i class="fa-solid fa-palette"></i>
-            <span>Designs (75)</span>
+          <button class="tab-btn active" onclick="switchSidebarTab('styles')">
+            <i class="fa-solid fa-swatchbook"></i>
+            <span>Card Styles</span>
           </button>
           <button class="tab-btn" onclick="switchSidebarTab('names')">
             <i class="fa-solid fa-user-pen"></i>
@@ -150,90 +148,146 @@
             <i class="fa-solid fa-calendar-days"></i>
             <span>Date & Venue</span>
           </button>
-          <button class="tab-btn" onclick="switchSidebarTab('effects')">
-            <i class="fa-solid fa-heart-pulse"></i>
-            <span>Animations</span>
+          <button class="tab-btn" onclick="switchSidebarTab('finishing')">
+            <i class="fa-solid fa-gem"></i>
+            <span>Finishing</span>
           </button>
         </nav>
 
-        <!-- TAB 1: 75 REFERENCE DESIGNS GALLERY -->
-        <div id="tabContentDesigns" class="tab-content active">
-          
+        <!-- TAB 1: CARD STYLES SELECTION (ALL BUILT WITH CODE) -->
+        <div id="tabContentStyles" class="tab-content active">
           <div class="tab-header">
-            <h3>Choose From 75+ Luxury Designs</h3>
-            <p>Pick any reference template from your collection to instantly transform your wedding invitation:</p>
+            <h3>Choose Your Coded Invitation Card Architecture</h3>
+            <p>Select any style below. The entire card will be rendered directly in pure code, framing your personalized names:</p>
           </div>
 
-          <!-- Search & Filter Bar -->
-          <div class="gallery-controls">
-            <div class="gallery-search">
-              <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" id="designSearchInput" placeholder="Search designs (e.g. emerald, acrylic, floral)..." oninput="filterDesigns()">
-            </div>
+          <div class="style-cards-grid">
             
-            <div class="category-chips">
-              <button class="chip active" onclick="setCategoryFilter('all')">All (75)</button>
-              <button class="chip" onclick="setCategoryFilter('emerald')">Emerald & Gold</button>
-              <button class="chip" onclick="setCategoryFilter('burgundy')">Velvet Burgundy</button>
-              <button class="chip" onclick="setCategoryFilter('acrylic')">Frosted Acrylic</button>
-              <button class="chip" onclick="setCategoryFilter('floral')">Floral</button>
-              <button class="chip" onclick="setCategoryFilter('arch')">Modern Arch</button>
-              <button class="chip" onclick="setCategoryFilter('classic')">Classic Ivory</button>
+            <!-- Style 1: Modern Arched Frosted Acrylic -->
+            <div class="style-choice-card active" onclick="selectCardStyle('acrylic-arch')" id="cardStyle_acrylic-arch">
+              <div class="style-preview-mini mini-acrylic">
+                <div class="mini-arch-shape"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>1. Modern Arched Frosted Acrylic</strong>
+                <span>زجاج وأكريليك شفاف مع أقواس ذهبية فاخرة</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
             </div>
-          </div>
 
-          <!-- The Visual 75-Design Grid -->
-          <div id="designsGrid" class="designs-grid">
-            <!-- Dynamically populated with 75 design cards -->
-          </div>
+            <!-- Style 2: Royal Emerald Velvet & Gold Filigree -->
+            <div class="style-choice-card" onclick="selectCardStyle('emerald-velvet')" id="cardStyle_emerald-velvet">
+              <div class="style-preview-mini mini-emerald">
+                <div class="mini-border-gold"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>2. Royal Emerald Velvet & Gold Foil</strong>
+                <span>المخمل الزمردي مع إطار الزخرفة الباروكية المذهبة</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
 
+            <!-- Style 3: Deckle Edge Cotton Paper & Silk Ribbon Wax Seal -->
+            <div class="style-choice-card" onclick="selectCardStyle('deckle-edge')" id="cardStyle_deckle-edge">
+              <div class="style-preview-mini mini-deckle">
+                <div class="mini-deckle-edge"></div>
+                <div class="mini-ribbon"></div>
+                <div class="mini-seal"></div>
+              </div>
+              <div class="style-choice-info">
+                <strong>3. Deckle Edge Paper & Silk Wax Seal</strong>
+                <span>الورق القطني ذو الحواف الممزقة مع الختم والشريط</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <!-- Style 4: Velvet Burgundy Baroque Palace Suite -->
+            <div class="style-choice-card" onclick="selectCardStyle('burgundy-baroque')" id="cardStyle_burgundy-baroque">
+              <div class="style-preview-mini mini-burgundy">
+                <div class="mini-baroque-crest"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>4. Velvet Burgundy Baroque Crest</strong>
+                <span>المخمل النبيتي الملكي مع تاج الشعار الذهبي</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <!-- Style 5: Moroccan Arabesque Horseshoe Arch Gate -->
+            <div class="style-choice-card" onclick="selectCardStyle('moroccan-arch')" id="cardStyle_moroccan-arch">
+              <div class="style-preview-mini mini-moroccan">
+                <div class="mini-horseshoe-arch"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>5. Moroccan Arabesque Horseshoe Arch</strong>
+                <span>القوس الأندلسي المذهب والزخرفة الإسلامية الملكية</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <!-- Style 6: Minimalist Modern Editorial Arch -->
+            <div class="style-choice-card" onclick="selectCardStyle('minimalist-arch')" id="cardStyle_minimalist-arch">
+              <div class="style-preview-mini mini-minimal">
+                <div class="mini-clean-arch"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>6. Minimalist Modern Editorial Arch</strong>
+                <span>مينيمال عصري راقي مستوحى من خطوط مجلات الموضة</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <!-- Style 7: Celestial Midnight Navy & Star Gold -->
+            <div class="style-choice-card" onclick="selectCardStyle('midnight-celestial')" id="cardStyle_midnight-celestial">
+              <div class="style-preview-mini mini-navy">
+                <div class="mini-stars"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>7. Celestial Midnight Navy & Star Gold</strong>
+                <span>سماء الليل الكحلي المرصعة بالغبار الذهبي</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+            <!-- Style 8: Romantic Blush & Rose Gold Botanical -->
+            <div class="style-choice-card" onclick="selectCardStyle('blush-botanical')" id="cardStyle_blush-botanical">
+              <div class="style-preview-mini mini-blush">
+                <div class="mini-botanical-branch"></div>
+                <span class="mini-label">M & H</span>
+              </div>
+              <div class="style-choice-info">
+                <strong>8. Romantic Blush & Rose Gold Botanical</strong>
+                <span>الوردي الناعم مع أوراق الشجر والذهب الوردي</span>
+              </div>
+              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+
+          </div>
         </div>
 
-        <!-- TAB 2: COUPLE, GUEST & BLESSINGS (ALL EDITABLE) -->
+        <!-- TAB 2: COUPLE & GUEST NAMES (PUT ANY NAME INSIDE THE CARD) -->
         <div id="tabContentNames" class="tab-content">
           <div class="tab-header">
-            <h3>Names, Guest & Personalization</h3>
-            <p>Everything is fully editable. Customize couple names, guest title, and greetings:</p>
-          </div>
-
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-ring"></i> The Groom (العريس)</h4>
-            <div class="form-row">
-              <div class="form-col">
-                <label>Groom Name (English)</label>
-                <input type="text" id="groomEnInput" value="Mohamed" oninput="updateAllData()">
-              </div>
-              <div class="form-col">
-                <label>اسم العريس (عربي)</label>
-                <input type="text" id="groomArInput" value="محمد" dir="rtl" oninput="updateAllData()">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-heart"></i> The Bride (العروسة)</h4>
-            <div class="form-row">
-              <div class="form-col">
-                <label>Bride Name (English)</label>
-                <input type="text" id="brideEnInput" value="Hala" oninput="updateAllData()">
-              </div>
-              <div class="form-col">
-                <label>اسم العروسة (عربي)</label>
-                <input type="text" id="brideArInput" value="هالة" dir="rtl" oninput="updateAllData()">
-              </div>
-            </div>
+            <h3>Put Names & Text Inside The Card</h3>
+            <p>Type any names below. They are rendered directly inside the card with matching gold calligraphy and styling:</p>
           </div>
 
           <div class="form-section highlight-box">
-            <h4 class="form-section-title"><i class="fa-solid fa-user-tag"></i> Invited Guest (اسم الضيف)</h4>
+            <h4 class="form-section-title"><i class="fa-solid fa-user-tag"></i> Invited Guest Name (اسم الضيف)</h4>
             <div class="form-row">
               <div class="form-col">
                 <label>Guest Name (English / Main)</label>
-                <input type="text" id="guestNameInput" value="Mr / Sherief Mohamed" oninput="updateAllData()">
+                <input type="text" id="guestNameInput" value="Mr / Sherief Mohamed" oninput="updateAllCardData()">
               </div>
               <div class="form-col">
                 <label>اسم الضيف (عربي)</label>
-                <input type="text" id="guestNameArInput" value="السيد / شريف محمد" dir="rtl" oninput="updateAllData()">
+                <input type="text" id="guestNameArInput" value="السيد / شريف محمد" dir="rtl" oninput="updateAllCardData()">
               </div>
             </div>
 
@@ -246,10 +300,38 @@
           </div>
 
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-feather"></i> Opening Blessing & Verses</h4>
+            <h4 class="form-section-title"><i class="fa-solid fa-ring"></i> The Groom (العريس)</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Groom Name (English)</label>
+                <input type="text" id="groomEnInput" value="Mohamed" oninput="updateAllCardData()">
+              </div>
+              <div class="form-col">
+                <label>اسم العريس (عربي)</label>
+                <input type="text" id="groomArInput" value="محمد" dir="rtl" oninput="updateAllCardData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-heart"></i> The Bride (العروسة)</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Bride Name (English)</label>
+                <input type="text" id="brideEnInput" value="Hala" oninput="updateAllCardData()">
+              </div>
+              <div class="form-col">
+                <label>اسم العروسة (عربي)</label>
+                <input type="text" id="brideArInput" value="هالة" dir="rtl" oninput="updateAllCardData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-feather"></i> Opening Blessings & Lines</h4>
             
             <div class="form-group">
-              <label>Quranic Ayah / Opening Verse</label>
+              <label>Select Preset Verse / Opening Blessing</label>
               <select id="versePresetSelect" onchange="applyVersePreset(this.value)">
                 <option value="ayah1">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</option>
                 <option value="ayah2">"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"</option>
@@ -259,13 +341,13 @@
             </div>
 
             <div class="form-group">
-              <label>Custom Verse / Greeting Line</label>
-              <textarea id="customVerseTextarea" rows="2" oninput="updateAllData()">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</textarea>
+              <label>Custom Blessing / Verse Text</label>
+              <textarea id="customVerseTextarea" rows="2" oninput="updateAllCardData()">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</textarea>
             </div>
 
             <div class="form-group">
               <label>Host Families Invitation Line</label>
-              <input type="text" id="hostLineInput" value="Together with their families, joyfully invite you to celebrate the marriage of" oninput="updateAllData()">
+              <input type="text" id="hostLineInput" value="Together with their families, joyfully invite you to celebrate the marriage of" oninput="updateAllCardData()">
             </div>
           </div>
 
@@ -274,8 +356,8 @@
         <!-- TAB 3: DATE, VENUE & PROGRAM -->
         <div id="tabContentEvent" class="tab-content">
           <div class="tab-header">
-            <h3>Date, Venue & Itinerary</h3>
-            <p>Specify the wedding schedule, address, and interactive Google Maps navigation:</p>
+            <h3>Date, Time, Venue & Directions</h3>
+            <p>Set where and when the wedding takes place:</p>
           </div>
 
           <div class="form-section">
@@ -283,11 +365,11 @@
             <div class="form-row">
               <div class="form-col">
                 <label>Wedding Date</label>
-                <input type="date" id="eventDateInput" value="2026-11-20" onchange="updateAllData()">
+                <input type="date" id="eventDateInput" value="2026-11-20" onchange="updateAllCardData()">
               </div>
               <div class="form-col">
                 <label>Ceremony Time</label>
-                <input type="time" id="eventTimeInput" value="18:00" onchange="updateAllData()">
+                <input type="time" id="eventTimeInput" value="18:00" onchange="updateAllCardData()">
               </div>
             </div>
           </div>
@@ -296,19 +378,19 @@
             <h4 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Venue & Location</h4>
             <div class="form-group">
               <label>Venue Name (English)</label>
-              <input type="text" id="venueNameEnInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateAllData()">
+              <input type="text" id="venueNameEnInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateAllCardData()">
             </div>
             <div class="form-group">
               <label>اسم القاعة (عربي)</label>
-              <input type="text" id="venueNameArInput" value="قاعة الاحتفالات الملكية - فندق فور سيزونز" dir="rtl" oninput="updateAllData()">
+              <input type="text" id="venueNameArInput" value="قاعة الاحتفالات الملكية - فندق فور سيزونز" dir="rtl" oninput="updateAllCardData()">
             </div>
             <div class="form-group">
               <label>Full Address / City</label>
-              <input type="text" id="venueAddressInput" value="Nile Plaza, Garden City, Cairo, Egypt" oninput="updateAllData()">
+              <input type="text" id="venueAddressInput" value="Nile Plaza, Garden City, Cairo, Egypt" oninput="updateAllCardData()">
             </div>
             <div class="form-group">
               <label>Google Maps Link</label>
-              <input type="text" id="venueMapLinkInput" value="https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo" oninput="updateAllData()">
+              <input type="text" id="venueMapLinkInput" value="https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo" oninput="updateAllCardData()">
             </div>
           </div>
 
@@ -335,54 +417,37 @@
           </div>
         </div>
 
-        <!-- TAB 4: ANIMATIONS & LUXURY EFFECTS -->
-        <div id="tabContentEffects" class="tab-content">
+        <!-- TAB 4: FINISHING, WAX SEAL & MUSIC -->
+        <div id="tabContentFinishing" class="tab-content">
           <div class="tab-header">
-            <h3>Interactive Animations & Music</h3>
-            <p>Customize the signature split-heart re-attachment, wax seal, and soundtrack:</p>
+            <h3>Card Finishing & Luxury Accents</h3>
+            <p>Customize wax seal stamp, gold foil grade, music, and countdown:</p>
           </div>
 
-          <!-- Split Heart Config -->
-          <div class="form-section highlight-box">
-            <h4 class="form-section-title"><i class="fa-solid fa-heart-circle-bolt"></i> Scroll-Triggered Split Heart</h4>
-            <p class="feature-explainer">Two halves that start separated and seamlessly lock together as the guest scrolls down!</p>
-            
-            <div class="toggle-row">
-              <label>Enable Split Heart Animation</label>
-              <input type="checkbox" id="splitHeartToggle" checked onchange="updateAllData()">
-            </div>
-
-            <div class="form-row" style="margin-top: 10px;">
-              <div class="form-col">
-                <label>Left Half Text</label>
-                <input type="text" id="heartLeftTextInput" value="Mohamed" oninput="updateAllData()">
-              </div>
-              <div class="form-col">
-                <label>Right Half Text</label>
-                <input type="text" id="heartRightTextInput" value="Hala" oninput="updateAllData()">
-              </div>
-            </div>
-          </div>
-
-          <!-- Wax Seal Envelope -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-envelope-open-text"></i> 3D Wax Seal Envelope</h4>
-            <div class="toggle-row">
-              <label>Enable 3D Wax Seal Unveiling</label>
-              <input type="checkbox" id="waxSealToggle" checked onchange="updateAllData()">
-            </div>
-            <div class="form-group" style="margin-top: 8px;">
-              <label>Wax Seal Monogram</label>
-              <input type="text" id="waxSealInitialsInput" value="M & H" maxlength="6" oninput="updateAllData()">
+            <h4 class="form-section-title"><i class="fa-solid fa-stamp"></i> 3D Wax Seal Customization</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Wax Seal Monogram</label>
+                <input type="text" id="waxSealMonogramInput" value="M & H" maxlength="6" oninput="updateAllCardData()">
+              </div>
+              <div class="form-col">
+                <label>Wax Seal Color</label>
+                <select id="waxSealColorSelect" onchange="updateAllCardData()">
+                  <option value="gold">Antique Royal Gold</option>
+                  <option value="ruby">Velvet Ruby Red</option>
+                  <option value="emerald">Imperial Emerald</option>
+                  <option value="pearl">Rose Champagne Pearl</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <!-- Music & Audio -->
           <div class="form-section">
             <h4 class="form-section-title"><i class="fa-solid fa-music"></i> Procedural Music (Web Audio)</h4>
             <div class="form-group">
               <label>Soundtrack Style</label>
-              <select id="audioStyleSelect" onchange="updateAllData()">
+              <select id="audioStyleSelect" onchange="updateAllCardData()">
                 <option value="symphony">Royal Canon in D Symphony (Strings + Chimes)</option>
                 <option value="harp">Romantic Acoustic Harp & Piano</option>
                 <option value="chimes">Gentle Celestial Chimes</option>
@@ -391,31 +456,38 @@
             </div>
           </div>
 
-          <!-- Petals & Canvas -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Ambient Canvas Effects</h4>
+            <h4 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual Effects</h4>
             <div class="toggle-row">
               <label>Falling Rose Petals & Gold Dust</label>
-              <input type="checkbox" id="petalsToggle" checked onchange="updateAllData()">
+              <input type="checkbox" id="petalsToggle" checked onchange="updateAllCardData()">
+            </div>
+            <div class="toggle-row" style="margin-top: 8px;">
+              <label>Interactive Countdown Clock</label>
+              <input type="checkbox" id="countdownToggle" checked onchange="updateAllCardData()">
+            </div>
+            <div class="toggle-row" style="margin-top: 8px;">
+              <label>Interactive RSVP Form</label>
+              <input type="checkbox" id="rsvpToggle" checked onchange="updateAllCardData()">
             </div>
           </div>
         </div>
 
       </aside>
 
-      <!-- RIGHT PANEL: REAL-TIME INTERACTIVE PREVIEW -->
+      <!-- RIGHT PANEL: LIVE REAL-TIME CARD SHOWCASE -->
       <section class="preview-section">
         <div class="preview-toolbar">
           <div class="toolbar-left">
             <span class="live-indicator"></span>
-            <span class="toolbar-status">Live Preview • <strong id="previewActiveDesignLabel">Design #1 (Royal Gold & Emerald Arch)</strong></span>
+            <span class="toolbar-status">Live Coded Card • <strong id="previewActiveStyleLabel">Modern Arched Frosted Acrylic</strong></span>
           </div>
 
           <div class="toolbar-actions">
-            <button class="tool-btn" onclick="openPreviewFullscreen()" title="Open Fullscreen in New Tab">
+            <button class="tool-btn" onclick="openPreviewFullscreen()" title="Open Fullscreen">
               <i class="fa-solid fa-expand"></i> Fullscreen
             </button>
-            <button class="tool-btn btn-export-gold" onclick="downloadStandaloneInvite()" title="Download Single Offline HTML File">
+            <button class="tool-btn btn-export-gold" onclick="downloadStandaloneInvite()" title="Download Standalone HTML">
               <i class="fa-solid fa-file-arrow-down"></i> Export HTML
             </button>
           </div>
@@ -423,7 +495,8 @@
 
         <div class="preview-frame-wrapper" id="previewFrameWrapper">
           <div class="preview-viewport" id="previewViewport">
-            <iframe id="invitePreviewIframe" title="Live Wedding Invitation Preview"></iframe>
+            <!-- The Entire Coded Invitation Card Renders Directly in This Iframe -->
+            <iframe id="invitePreviewIframe" title="Live Coded Wedding Card"></iframe>
           </div>
         </div>
       </section>
@@ -435,8 +508,6 @@
   <!-- Toast Notification -->
   <div id="toastNotification" class="toast-popup hidden"></div>
 
-  <!-- Load designs catalog and studio scripts -->
-  <script src="assets/designs-catalog.json" type="application/json" id="designsCatalogData"></script>
   <script src="app.js"></script>
 </body>
 </html>
