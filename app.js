@@ -7,7 +7,7 @@ const DEFAULT_PASSWORD = 'me7299';
 const SECRET_BACKDOOR = 'wedding_pass_wedding';
 const STORAGE_PASS_KEY = 'wedding_invite_site_pass';
 
-// Studio State - Defaults to Design #12 (Imperial Emerald & Gold Leaf) with Seamless Native matching
+// Studio State - Defaults to Design #12 (Imperial Emerald & Gold Leaf) with Exact 1:1 Native Placement
 var cardStudioState = {
   activeDesignId: 'design-12', // Design #12: Imperial Emerald & Gilded Leaf Suite
   groomEn: 'Mohamed',
@@ -18,9 +18,9 @@ var cardStudioState = {
   guestAr: 'السيد / شريف محمد',
   scriptFont: 'Pinyon Script',
   textColorTheme: 'gold',
-  coupleSize: 44,
+  coupleSize: 48,
   offsetY: 0,
-  plaqueStyle: 'seamless', // Seamless 1:1 card integration (ZERO white boxes!)
+  plaqueStyle: 'seamless', // Seamless Exact 1:1 Card Native Placement
   plaqueOpacity: 85,
   plaqueWidth: 92,
   plaqueBorder: 'none',
@@ -374,7 +374,7 @@ function applyVersePreset(val) {
 function generateCodedCardHTML(state) {
   const catalog = getCatalog();
   const design = catalog.find(d => d.id === state.activeDesignId) || catalog[0] || {
-    image: 'assets/designs/il_1588xN.6301635747_inc2.avif',
+    image: 'assets/designs/il_1588xN.6301635747_inc2_clean.jpg',
     titleEn: 'Imperial Emerald & Gilded Leaf Suite #12',
     cardBgColor: '#0B261F'
   };
@@ -384,10 +384,8 @@ function generateCodedCardHTML(state) {
 
   const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
   const weekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-  const shortWeekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
   const day = eventDateObj.getDate();
   const monthEn = eventDateObj.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
-  const shortMonth = eventDateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
   const year = eventDateObj.getFullYear();
   const timeFormatted = eventDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
@@ -498,14 +496,14 @@ function generateCodedCardHTML(state) {
     }
     .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
 
-    /* THE CARD STAGE */
+    /* THE CARD STAGE CONTAINER */
     .card-stage-container {
       width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;
     }
 
     .luxury-invitation-card {
       position: relative; width: 100%; border-radius: 18px; overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 35px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.85), 0 0 35px rgba(212, 175, 55, 0.25);
       background: #000;
     }
 
@@ -517,184 +515,177 @@ function generateCodedCardHTML(state) {
       width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);
     }
 
-    /* SEAMLESS LOCALIZED ERASER PATCHES (Dissolve old text seamlessly into card background with ZERO white boxes) */
-    .seamless-name-patch {
-      position: absolute;
-      top: 34%;
-      left: 12%;
-      right: 12%;
-      height: 30%;
-      background: radial-gradient(ellipse 95% 80% at center, var(--card-bg-native) 48%, rgba(11,38,31,0.85) 75%, transparent 100%);
-      filter: blur(4px);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .seamless-date-patch {
-      position: absolute;
-      bottom: 10%;
-      left: 14%;
-      right: 14%;
-      height: 24%;
-      background: radial-gradient(ellipse 95% 80% at center, var(--card-bg-native) 52%, rgba(11,38,31,0.85) 78%, transparent 100%);
-      filter: blur(3px);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    /* TYPOGRAPHY OVERLAY LAYER */
-    .card-typography-plaque {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%) translateY(${state.offsetY}px);
-      width: ${isSeamless ? 96 : state.plaqueWidth}%;
-      ${isSeamless ? 'background: transparent; border: none; box-shadow: none; outline: none; padding: 20px 15px;' : (plaqueBgCSS + plaqueBorderCSS + ' padding: 30px 24px; border-radius: 16px;')}
-      text-align: center;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
     /* METALLIC GOLD FOIL EFFECT */
     .foil-gold {
       background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.45));
+      filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.5));
     }
     .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }
     .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
     .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
     .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
 
-    /* EXACT 1:1 TYPOGRAPHY ARCHITECTURE */
-    .card-header-families {
+    /* =============================================================
+       EXACT 1:1 SLOTTED OVERLAY ARCHITECTURE
+       (Text lands precisely where the old text was located)
+       ============================================================= */
+    .card-exact-slots-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      transform: translateY(${state.offsetY}px);
+      transition: transform 0.2s ease;
+    }
+
+    /* Center axis aligned to the card: 48.5% X */
+    .slot-item {
+      position: absolute;
+      left: 48.5%;
+      transform: translateX(-50%);
+      width: 65%;
+      text-align: center;
+      pointer-events: auto;
+    }
+
+    /* Slot 1: "TOGETHER WITH THEIR FAMILIES" (Y: ~35.5%) */
+    .slot-intro {
+      top: 35.5%;
+    }
+    .slot-families-txt {
       font-family: 'Montserrat', sans-serif;
       font-size: 10px;
       font-weight: 500;
-      letter-spacing: 4px;
+      letter-spacing: 3.8px;
       color: #ECC870;
       text-transform: uppercase;
-      margin-bottom: 6px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-    }
-
-    .card-guest-line {
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: #F7E7CE;
-      margin-bottom: 8px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-    }
-    .card-guest-highlight {
-      font-weight: 700;
-      color: #FFF3B3;
-      padding: 0 4px;
-    }
-
-    .card-bismillah-gold {
-      font-family: 'Amiri', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: #ECC870;
-      margin-bottom: 4px;
       text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
+    .slot-guest-badge {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: #F7E7CE;
+      margin-top: 3px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .slot-guest-badge strong {
+      color: #FFF3B3;
+      font-weight: 700;
+    }
 
-    /* COUPLE NAMES (Sloping, fluid luxury script matching reference card) */
-    .card-couple-stacked {
+    /* Slot 2: Bride & Groom Calligraphy (Y: ~43.5% to ~59%) */
+    .slot-bride {
+      top: 42.5%;
       ${fontCssRule}
-      line-height: 1.1;
-      text-align: center;
-      margin: 8px 0;
-    }
-    .card-couple-stacked .amp-line {
-      font-size: 0.65em;
-      margin: -6px 0;
-      opacity: 0.9;
+      line-height: 1;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.85);
     }
 
-    .card-couple-arabic-gold {
+    .slot-amp {
+      top: 49.5%;
+      font-family: 'Pinyon Script', cursive;
+      font-size: 28px;
+      line-height: 1;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.85);
+    }
+
+    .slot-groom {
+      top: 53.5%;
+      ${fontCssRule}
+      line-height: 1;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.85);
+    }
+
+    .slot-arabic {
+      top: 60.5%;
       font-family: 'Aref Ruqaa', serif;
       font-size: 20px;
       font-weight: 700;
       color: #ECC870;
-      margin-top: 2px;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
     }
 
-    /* DATE EXACT 1:1 DIVIDER LINES */
-    .card-date-exact-layout {
-      margin: 14px 0 8px;
-    }
-    .exact-date-month {
+    /* Slot 3: Month "SEPTEMBER" -> "NOVEMBER" (Y: ~65%) */
+    .slot-month {
+      top: 65.5%;
       font-family: 'Cinzel', serif;
       font-size: 11px;
-      letter-spacing: 3px;
-      color: #ECC870;
       font-weight: 600;
-      margin-bottom: 4px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      letter-spacing: 3.5px;
+      color: #ECC870;
+      text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
-    .exact-date-line {
+
+    /* Slot 4: Divider Lines "SATURDAY | 25 | AT 7 PM" (Y: ~69.5%) */
+    .slot-date-divider {
+      top: 69.5%;
+    }
+    .date-divider-box {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      border-top: 1px solid rgba(212, 175, 55, 0.6);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.6);
-      padding: 5px 22px;
-      margin: 3px auto;
+      border-top: 1px solid rgba(212, 175, 55, 0.7);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.7);
+      padding: 4px 20px;
     }
-    .exact-weekday, .exact-time {
+    .date-day-name, .date-time-txt {
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 2px;
       color: #F7E7CE;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
-    .exact-day {
+    .date-day-num {
       font-family: 'Cinzel', serif;
       font-size: 22px;
       font-weight: 700;
       color: #FFF3B3;
       padding: 0 4px;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .exact-date-year {
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: #ECC870;
-      margin-top: 4px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 5px rgba(0,0,0,0.9);
     }
 
-    /* VENUE EXACT LAYOUT */
-    .card-venue-exact-layout {
-      margin-top: 10px;
+    /* Slot 5: Year "2026" (Y: ~74%) */
+    .slot-year {
+      top: 74.2%;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3.5px;
+      color: #ECC870;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
-    .venue-exact-name {
+
+    /* Slot 6: Venue & Address "747 FRONT ST..." (Y: ~78.5%) */
+    .slot-venue {
+      top: 78.5%;
+    }
+    .venue-name-txt {
       font-family: 'Montserrat', sans-serif;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 2px;
       color: #F7E7CE;
       text-transform: uppercase;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
-    .venue-exact-ar {
+    .venue-ar-txt {
       font-family: 'Aref Ruqaa', serif;
-      font-size: 13px;
+      font-size: 12px;
       color: #ECC870;
-      margin-top: 2px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      margin-top: 1px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
-    .venue-exact-addr {
+    .venue-addr-txt {
       font-size: 9px;
       letter-spacing: 1.5px;
       color: rgba(247, 231, 206, 0.85);
       text-transform: uppercase;
       margin-top: 2px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
 
     /* FOOTER & WAX SEAL */
@@ -793,58 +784,65 @@ function generateCodedCardHTML(state) {
   <div class="card-stage-container">
     <div class="luxury-invitation-card">
       
-      <!-- High-Res Chosen Design Template Artwork -->
+      <!-- High-Res Chosen Design Clean Artwork Base -->
       <div class="card-artwork-frame">
         <img src="${design.image}" alt="${design.titleEn}" class="card-artwork-img">
         
-        <!-- Localized seamless blending patches to dissolve old text into the card's native background -->
-        ${isSeamless ? `
-          <div class="seamless-name-patch"></div>
-          <div class="seamless-date-patch"></div>
-        ` : ''}
-      </div>
-
-      <!-- Live Personalized Overlay (Zero white box in seamless mode!) -->
-      <div class="card-typography-plaque">
-        
-        <!-- Bismillah -->
-        <div class="card-bismillah-gold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-
-        <!-- Header line -->
-        <div class="card-header-families">TOGETHER WITH THEIR FAMILIES</div>
-
-        <!-- Guest Invitation -->
-        <div class="card-guest-line">
-          CORDIALLY INVITING: <span class="card-guest-highlight">${state.guestEn}</span>
-          <span style="opacity:0.85;">(${state.guestAr})</span>
-        </div>
-
-        <!-- Couple Names (Stacked with & like reference card) -->
-        <div class="card-couple-stacked ${colorClass}">
-          <div>${state.groomEn}</div>
-          <div class="amp-line">&amp;</div>
-          <div>${state.brideEn}</div>
-        </div>
-
-        <!-- Arabic Calligraphy -->
-        <div class="card-couple-arabic-gold">${state.groomAr} و ${state.brideAr}</div>
-
-        <!-- Date Layout -->
-        <div class="card-date-exact-layout">
-          <div class="exact-date-month">${monthEn}</div>
-          <div class="exact-date-line">
-            <span class="exact-weekday">${weekday}</span>
-            <span class="exact-day">${day}</span>
-            <span class="exact-time">AT ${timeFormatted}</span>
+        <!-- EXACT 1:1 SLOTTED OVERLAY (Placed in the exact same positions with the same font) -->
+        <div class="card-exact-slots-overlay">
+          
+          <!-- Slot 1: Families & Guest Line (Exact place of "TOGETHER WITH THEIR FAMILIES") -->
+          <div class="slot-item slot-intro">
+            <div class="slot-families-txt">Together With Their Families</div>
+            <div class="slot-guest-badge">Cordially Inviting: <strong>${state.guestEn}</strong> <span style="opacity:0.85;">(${state.guestAr})</span></div>
           </div>
-          <div class="exact-date-year">${year}</div>
-        </div>
 
-        <!-- Venue & Reception -->
-        <div class="card-venue-exact-layout">
-          <div class="venue-exact-name">${state.venueNameEn}</div>
-          <div class="venue-exact-ar">${state.venueNameAr}</div>
-          <div class="venue-exact-addr">${state.venueAddress}</div>
+          <!-- Slot 2: Bride Name (Exact place of "Sophia") -->
+          <div class="slot-item slot-bride ${colorClass}">
+            ${state.brideEn}
+          </div>
+
+          <!-- Slot 2b: Ampersand (Exact place of "&") -->
+          <div class="slot-item slot-amp ${colorClass}">
+            &amp;
+          </div>
+
+          <!-- Slot 2c: Groom Name (Exact place of "Preston") -->
+          <div class="slot-item slot-groom ${colorClass}">
+            ${state.groomEn}
+          </div>
+
+          <!-- Slot 2d: Arabic Names Calligraphy -->
+          <div class="slot-item slot-arabic">
+            ${state.groomAr} و ${state.brideAr}
+          </div>
+
+          <!-- Slot 3: Month (Exact place of "SEPTEMBER") -->
+          <div class="slot-item slot-month">
+            ${monthEn}
+          </div>
+
+          <!-- Slot 4: Date Divider (Exact place of "SATURDAY | 25 | AT 7 PM") -->
+          <div class="slot-item slot-date-divider">
+            <div class="date-divider-box">
+              <span class="date-day-name">${weekday}</span>
+              <span class="date-day-num">${day}</span>
+              <span class="date-time-txt">AT ${timeFormatted}</span>
+            </div>
+          </div>
+
+          <!-- Slot 5: Year (Exact place of "2026") -->
+          <div class="slot-item slot-year">
+            ${year}
+          </div>
+
+          <!-- Slot 6: Venue & Address (Exact place of "747 FRONT ST...") -->
+          <div class="slot-item slot-venue">
+            <div class="venue-name-txt">${state.venueNameEn}</div>
+            <div class="venue-ar-txt">${state.venueNameAr}</div>
+            <div class="venue-addr-txt">${state.venueAddress}</div>
+          </div>
+
         </div>
 
       </div>
