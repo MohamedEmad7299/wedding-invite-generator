@@ -1,38 +1,1030 @@
 /**
- * Mohamed & Hala - Luxury Wedding Invite Generator Engine (Royal Edition)
- * Features:
- * - Password Gate with default 'me7299'
- * - Secret Backdoor 'wedding_pass_wedding' to change password without code edit
- * - Locked Couple Names: Mohamed & Hala
- * - Dynamic Guest Customization (Default: Mr / Sherief Mohamed)
- * - Ornate Arabic Calligraphy (Aref Ruqaa, Amiri) & Royal Serif (Cinzel Decorative, Cormorant Garamond, Great Vibes)
- * - Scroll-triggered 3D Split Heart Re-attachment animation with shockwave and filigree
- * - Procedural Web Audio API royal wedding orchestra soundtrack
- * - Standalone HTML file exporter
+ * Royal Wedding Invitation Studio & Generator Engine
+ * Featuring 75+ Luxury Reference Designs, Full Customization,
+ * Procedural Royal Audio Symphony, and Scroll-Triggered Split Heart Re-attachment.
  */
 
 const DEFAULT_PASSWORD = 'me7299';
 const SECRET_BACKDOOR = 'wedding_pass_wedding';
 const STORAGE_PASS_KEY = 'wedding_invite_site_pass';
 
-// Global Invite State
-const inviteState = {
+// The Complete 75 Reference Designs Catalog
+const DESIGNS_CATALOG = [
+  {
+    "id": "design-1",
+    "name": "Luxury Wedding Suite 1",
+    "baseName": "il_1588xN.4503322024_ixyp",
+    "image": "assets/designs/il_1588xN.4503322024_ixyp.webp",
+    "ext": ".webp",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Royal Gold & Emerald Arch (Design #1)",
+    "titleAr": "القوس الذهبي والزمردي الملكي (تصميم 1)"
+  },
+  {
+    "id": "design-2",
+    "name": "Luxury Wedding Suite 2",
+    "baseName": "il_1588xN.4761675705_1d4f",
+    "image": "assets/designs/il_1588xN.4761675705_1d4f.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deep Velvet Burgundy & Wax Seal (Design #2)",
+    "titleAr": "المخمل النبيتي الملكي مع ختم الشمع (تصميم 2)"
+  },
+  {
+    "id": "design-3",
+    "name": "Luxury Wedding Suite 3",
+    "baseName": "il_1588xN.5546939786_i1d7",
+    "image": "assets/designs/il_1588xN.5546939786_i1d7.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Frosted Acrylic Glass Elegance (Design #3)",
+    "titleAr": "الأكريليك الشفاف العصري الفاخر (تصميم 3)"
+  },
+  {
+    "id": "design-4",
+    "name": "Luxury Wedding Suite 4",
+    "baseName": "il_1588xN.5589604532_9jdj",
+    "image": "assets/designs/il_1588xN.5589604532_9jdj.avif",
+    "ext": ".avif",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Gilded Baroque Monogram Suite (Design #4)",
+    "titleAr": "طقم المونوغرام الباروكي المذهب (تصميم 4)"
+  },
+  {
+    "id": "design-5",
+    "name": "Luxury Wedding Suite 5",
+    "baseName": "il_1588xN.5617407443_4ffo",
+    "image": "assets/designs/il_1588xN.5617407443_4ffo.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Botanical Greenery & Rose Gold (Design #5)",
+    "titleAr": "أوراق الشجر والذهب الوردي الرومانسي (تصميم 5)"
+  },
+  {
+    "id": "design-6",
+    "name": "Luxury Wedding Suite 6",
+    "baseName": "il_1588xN.5737952742_pe7r",
+    "image": "assets/designs/il_1588xN.5737952742_pe7r.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Champagne Ivory Letterpress (Design #6)",
+    "titleAr": "الورق العاجي المطبوع بماء الذهب (تصميم 6)"
+  },
+  {
+    "id": "design-7",
+    "name": "Luxury Wedding Suite 7",
+    "baseName": "il_1588xN.5762329029_evfm",
+    "image": "assets/designs/il_1588xN.5762329029_evfm.avif",
+    "ext": ".avif",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Celestial Midnight Navy Gold (Design #7)",
+    "titleAr": "سماء الليل الكحلي المرصعة بالذهب (تصميم 7)"
+  },
+  {
+    "id": "design-8",
+    "name": "Luxury Wedding Suite 8",
+    "baseName": "il_1588xN.5841094761_bqlj",
+    "image": "assets/designs/il_1588xN.5841094761_bqlj.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deckle Edge Parchment & Silk (Design #8)",
+    "titleAr": "المخطوطة الملكية ذات الحواف الطبيعية (تصميم 8)"
+  },
+  {
+    "id": "design-9",
+    "name": "Luxury Wedding Suite 9",
+    "baseName": "il_1588xN.6083752917_g8vp",
+    "image": "assets/designs/il_1588xN.6083752917_g8vp.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Embossed Floral Frame Luxury (Design #9)",
+    "titleAr": "الإطار النباتي البارز الفاخر (تصميم 9)"
+  },
+  {
+    "id": "design-10",
+    "name": "Luxury Wedding Suite 10",
+    "baseName": "il_1588xN.6148534663_m05o",
+    "image": "assets/designs/il_1588xN.6148534663_m05o.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Modern Minimalist Arch Duo (Design #10)",
+    "titleAr": "الأقواس المودرن الفاخرة (تصميم 10)"
+  },
+  {
+    "id": "design-11",
+    "name": "Luxury Wedding Suite 11",
+    "baseName": "il_1588xN.6157957003_b9aw",
+    "image": "assets/designs/il_1588xN.6157957003_b9aw.avif",
+    "ext": ".avif",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Moroccan Arabesque Gold Lattice (Design #11)",
+    "titleAr": "الزخرفة الأندلسية المذهبة (تصميم 11)"
+  },
+  {
+    "id": "design-12",
+    "name": "Luxury Wedding Suite 12",
+    "baseName": "il_1588xN.6301635747_inc2",
+    "image": "assets/designs/il_1588xN.6301635747_inc2.avif",
+    "ext": ".avif",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Vintage Victorian Crest Suite (Design #12)",
+    "titleAr": "الشعار الملكي الكلاسيكي (تصميم 12)"
+  },
+  {
+    "id": "design-13",
+    "name": "Luxury Wedding Suite 13",
+    "baseName": "il_1588xN.6422523152_isqu",
+    "image": "assets/designs/il_1588xN.6422523152_isqu.jpg",
+    "ext": ".jpg",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Blush Rose Garden Romance (Design #13)",
+    "titleAr": "حديقة الورود الوردية الناعمة (تصميم 13)"
+  },
+  {
+    "id": "design-14",
+    "name": "Luxury Wedding Suite 14",
+    "baseName": "il_1588xN.6744109952_grgc",
+    "image": "assets/designs/il_1588xN.6744109952_grgc.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Black Tie Gilded Monogram (Design #14)",
+    "titleAr": "البدلة الرسمية السوداء والذهب (تصميم 14)"
+  },
+  {
+    "id": "design-15",
+    "name": "Luxury Wedding Suite 15",
+    "baseName": "il_1588xN.6862023168_nv0e",
+    "image": "assets/designs/il_1588xN.6862023168_nv0e.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Imperial Sultan Palace Suite (Design #15)",
+    "titleAr": "الجناح السلطاني الفاخر (تصميم 15)"
+  },
+  {
+    "id": "design-16",
+    "name": "Luxury Wedding Suite 16",
+    "baseName": "il_1588xN.6909677887_2627",
+    "image": "assets/designs/il_1588xN.6909677887_2627.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Royal Gold & Emerald Arch (Design #16)",
+    "titleAr": "القوس الذهبي والزمردي الملكي (تصميم 16)"
+  },
+  {
+    "id": "design-17",
+    "name": "Luxury Wedding Suite 17",
+    "baseName": "il_1588xN.6912048343_ky8r",
+    "image": "assets/designs/il_1588xN.6912048343_ky8r.avif",
+    "ext": ".avif",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Deep Velvet Burgundy & Wax Seal (Design #17)",
+    "titleAr": "المخمل النبيتي الملكي مع ختم الشمع (تصميم 17)"
+  },
+  {
+    "id": "design-18",
+    "name": "Luxury Wedding Suite 18",
+    "baseName": "il_1588xN.6929805816_7cb1",
+    "image": "assets/designs/il_1588xN.6929805816_7cb1.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Frosted Acrylic Glass Elegance (Design #18)",
+    "titleAr": "الأكريليك الشفاف العصري الفاخر (تصميم 18)"
+  },
+  {
+    "id": "design-19",
+    "name": "Luxury Wedding Suite 19",
+    "baseName": "il_1588xN.6952888587_7axz",
+    "image": "assets/designs/il_1588xN.6952888587_7axz.webp",
+    "ext": ".webp",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Gilded Baroque Monogram Suite (Design #19)",
+    "titleAr": "طقم المونوغرام الباروكي المذهب (تصميم 19)"
+  },
+  {
+    "id": "design-20",
+    "name": "Luxury Wedding Suite 20",
+    "baseName": "il_1588xN.6967401083_gv85",
+    "image": "assets/designs/il_1588xN.6967401083_gv85.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Botanical Greenery & Rose Gold (Design #20)",
+    "titleAr": "أوراق الشجر والذهب الوردي الرومانسي (تصميم 20)"
+  },
+  {
+    "id": "design-21",
+    "name": "Luxury Wedding Suite 21",
+    "baseName": "il_1588xN.7010065178_hd6f",
+    "image": "assets/designs/il_1588xN.7010065178_hd6f.avif",
+    "ext": ".avif",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Champagne Ivory Letterpress (Design #21)",
+    "titleAr": "الورق العاجي المطبوع بماء الذهب (تصميم 21)"
+  },
+  {
+    "id": "design-22",
+    "name": "Luxury Wedding Suite 22",
+    "baseName": "il_1588xN.7027533072_dx7j",
+    "image": "assets/designs/il_1588xN.7027533072_dx7j.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Celestial Midnight Navy Gold (Design #22)",
+    "titleAr": "سماء الليل الكحلي المرصعة بالذهب (تصميم 22)"
+  },
+  {
+    "id": "design-23",
+    "name": "Luxury Wedding Suite 23",
+    "baseName": "il_1588xN.7062322546_5hrx",
+    "image": "assets/designs/il_1588xN.7062322546_5hrx.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Deckle Edge Parchment & Silk (Design #23)",
+    "titleAr": "المخطوطة الملكية ذات الحواف الطبيعية (تصميم 23)"
+  },
+  {
+    "id": "design-24",
+    "name": "Luxury Wedding Suite 24",
+    "baseName": "il_1588xN.7065842415_lilo",
+    "image": "assets/designs/il_1588xN.7065842415_lilo.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Embossed Floral Frame Luxury (Design #24)",
+    "titleAr": "الإطار النباتي البارز الفاخر (تصميم 24)"
+  },
+  {
+    "id": "design-25",
+    "name": "Luxury Wedding Suite 25",
+    "baseName": "il_1588xN.7116567819_nw91",
+    "image": "assets/designs/il_1588xN.7116567819_nw91.webp",
+    "ext": ".webp",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Modern Minimalist Arch Duo (Design #25)",
+    "titleAr": "الأقواس المودرن الفاخرة (تصميم 25)"
+  },
+  {
+    "id": "design-26",
+    "name": "Luxury Wedding Suite 26",
+    "baseName": "il_1588xN.7132147070_5hvn",
+    "image": "assets/designs/il_1588xN.7132147070_5hvn.avif",
+    "ext": ".avif",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Moroccan Arabesque Gold Lattice (Design #26)",
+    "titleAr": "الزخرفة الأندلسية المذهبة (تصميم 26)"
+  },
+  {
+    "id": "design-27",
+    "name": "Luxury Wedding Suite 27",
+    "baseName": "il_1588xN.7132225824_b977",
+    "image": "assets/designs/il_1588xN.7132225824_b977.avif",
+    "ext": ".avif",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Vintage Victorian Crest Suite (Design #27)",
+    "titleAr": "الشعار الملكي الكلاسيكي (تصميم 27)"
+  },
+  {
+    "id": "design-28",
+    "name": "Luxury Wedding Suite 28",
+    "baseName": "il_1588xN.7136974302_jiho",
+    "image": "assets/designs/il_1588xN.7136974302_jiho.avif",
+    "ext": ".avif",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Blush Rose Garden Romance (Design #28)",
+    "titleAr": "حديقة الورود الوردية الناعمة (تصميم 28)"
+  },
+  {
+    "id": "design-29",
+    "name": "Luxury Wedding Suite 29",
+    "baseName": "il_1588xN.7139459263_8dkz",
+    "image": "assets/designs/il_1588xN.7139459263_8dkz.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Black Tie Gilded Monogram (Design #29)",
+    "titleAr": "البدلة الرسمية السوداء والذهب (تصميم 29)"
+  },
+  {
+    "id": "design-30",
+    "name": "Luxury Wedding Suite 30",
+    "baseName": "il_1588xN.7145464930_8pzp",
+    "image": "assets/designs/il_1588xN.7145464930_8pzp.jpg",
+    "ext": ".jpg",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Imperial Sultan Palace Suite (Design #30)",
+    "titleAr": "الجناح السلطاني الفاخر (تصميم 30)"
+  },
+  {
+    "id": "design-31",
+    "name": "Luxury Wedding Suite 31",
+    "baseName": "il_1588xN.7146982385_3i32",
+    "image": "assets/designs/il_1588xN.7146982385_3i32.avif",
+    "ext": ".avif",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Royal Gold & Emerald Arch (Design #31)",
+    "titleAr": "القوس الذهبي والزمردي الملكي (تصميم 31)"
+  },
+  {
+    "id": "design-32",
+    "name": "Luxury Wedding Suite 32",
+    "baseName": "il_1588xN.7156377642_6ozv",
+    "image": "assets/designs/il_1588xN.7156377642_6ozv.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deep Velvet Burgundy & Wax Seal (Design #32)",
+    "titleAr": "المخمل النبيتي الملكي مع ختم الشمع (تصميم 32)"
+  },
+  {
+    "id": "design-33",
+    "name": "Luxury Wedding Suite 33",
+    "baseName": "il_1588xN.7161360862_a4w5",
+    "image": "assets/designs/il_1588xN.7161360862_a4w5.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Frosted Acrylic Glass Elegance (Design #33)",
+    "titleAr": "الأكريليك الشفاف العصري الفاخر (تصميم 33)"
+  },
+  {
+    "id": "design-34",
+    "name": "Luxury Wedding Suite 34",
+    "baseName": "il_1588xN.7173654751_ksdr",
+    "image": "assets/designs/il_1588xN.7173654751_ksdr.avif",
+    "ext": ".avif",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Gilded Baroque Monogram Suite (Design #34)",
+    "titleAr": "طقم المونوغرام الباروكي المذهب (تصميم 34)"
+  },
+  {
+    "id": "design-35",
+    "name": "Luxury Wedding Suite 35",
+    "baseName": "il_1588xN.7182583369_htrj",
+    "image": "assets/designs/il_1588xN.7182583369_htrj.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Botanical Greenery & Rose Gold (Design #35)",
+    "titleAr": "أوراق الشجر والذهب الوردي الرومانسي (تصميم 35)"
+  },
+  {
+    "id": "design-36",
+    "name": "Luxury Wedding Suite 36",
+    "baseName": "il_1588xN.7188335147_qnk6",
+    "image": "assets/designs/il_1588xN.7188335147_qnk6.avif",
+    "ext": ".avif",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Champagne Ivory Letterpress (Design #36)",
+    "titleAr": "الورق العاجي المطبوع بماء الذهب (تصميم 36)"
+  },
+  {
+    "id": "design-37",
+    "name": "Luxury Wedding Suite 37",
+    "baseName": "il_1588xN.7220555050_27se",
+    "image": "assets/designs/il_1588xN.7220555050_27se.jpg",
+    "ext": ".jpg",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Celestial Midnight Navy Gold (Design #37)",
+    "titleAr": "سماء الليل الكحلي المرصعة بالذهب (تصميم 37)"
+  },
+  {
+    "id": "design-38",
+    "name": "Luxury Wedding Suite 38",
+    "baseName": "il_1588xN.7226088585_qi3v (1)",
+    "image": "assets/designs/il_1588xN.7226088585_qi3v (1).jpg",
+    "ext": ".jpg",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deckle Edge Parchment & Silk (Design #38)",
+    "titleAr": "المخطوطة الملكية ذات الحواف الطبيعية (تصميم 38)"
+  },
+  {
+    "id": "design-39",
+    "name": "Luxury Wedding Suite 39",
+    "baseName": "il_1588xN.7226088585_qi3v",
+    "image": "assets/designs/il_1588xN.7226088585_qi3v.jpg",
+    "ext": ".jpg",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Embossed Floral Frame Luxury (Design #39)",
+    "titleAr": "الإطار النباتي البارز الفاخر (تصميم 39)"
+  },
+  {
+    "id": "design-40",
+    "name": "Luxury Wedding Suite 40",
+    "baseName": "il_1588xN.7255818762_rcib",
+    "image": "assets/designs/il_1588xN.7255818762_rcib.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Modern Minimalist Arch Duo (Design #40)",
+    "titleAr": "الأقواس المودرن الفاخرة (تصميم 40)"
+  },
+  {
+    "id": "design-41",
+    "name": "Luxury Wedding Suite 41",
+    "baseName": "il_1588xN.7299485278_tj58",
+    "image": "assets/designs/il_1588xN.7299485278_tj58.jpg",
+    "ext": ".jpg",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Moroccan Arabesque Gold Lattice (Design #41)",
+    "titleAr": "الزخرفة الأندلسية المذهبة (تصميم 41)"
+  },
+  {
+    "id": "design-42",
+    "name": "Luxury Wedding Suite 42",
+    "baseName": "il_1588xN.7299574296_lbo7",
+    "image": "assets/designs/il_1588xN.7299574296_lbo7.jpg",
+    "ext": ".jpg",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Vintage Victorian Crest Suite (Design #42)",
+    "titleAr": "الشعار الملكي الكلاسيكي (تصميم 42)"
+  },
+  {
+    "id": "design-43",
+    "name": "Luxury Wedding Suite 43",
+    "baseName": "il_1588xN.7480105070_31t2",
+    "image": "assets/designs/il_1588xN.7480105070_31t2.webp",
+    "ext": ".webp",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Blush Rose Garden Romance (Design #43)",
+    "titleAr": "حديقة الورود الوردية الناعمة (تصميم 43)"
+  },
+  {
+    "id": "design-44",
+    "name": "Luxury Wedding Suite 44",
+    "baseName": "il_1588xN.7486746860_4a4e",
+    "image": "assets/designs/il_1588xN.7486746860_4a4e.avif",
+    "ext": ".avif",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Black Tie Gilded Monogram (Design #44)",
+    "titleAr": "البدلة الرسمية السوداء والذهب (تصميم 44)"
+  },
+  {
+    "id": "design-45",
+    "name": "Luxury Wedding Suite 45",
+    "baseName": "il_1588xN.7522039386_4jxg",
+    "image": "assets/designs/il_1588xN.7522039386_4jxg.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Imperial Sultan Palace Suite (Design #45)",
+    "titleAr": "الجناح السلطاني الفاخر (تصميم 45)"
+  },
+  {
+    "id": "design-46",
+    "name": "Luxury Wedding Suite 46",
+    "baseName": "il_1588xN.7551051512_s982",
+    "image": "assets/designs/il_1588xN.7551051512_s982.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Royal Gold & Emerald Arch (Design #46)",
+    "titleAr": "القوس الذهبي والزمردي الملكي (تصميم 46)"
+  },
+  {
+    "id": "design-47",
+    "name": "Luxury Wedding Suite 47",
+    "baseName": "il_1588xN.7556838673_oqz3",
+    "image": "assets/designs/il_1588xN.7556838673_oqz3.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Deep Velvet Burgundy & Wax Seal (Design #47)",
+    "titleAr": "المخمل النبيتي الملكي مع ختم الشمع (تصميم 47)"
+  },
+  {
+    "id": "design-48",
+    "name": "Luxury Wedding Suite 48",
+    "baseName": "il_1588xN.7572589732_po9u",
+    "image": "assets/designs/il_1588xN.7572589732_po9u.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Frosted Acrylic Glass Elegance (Design #48)",
+    "titleAr": "الأكريليك الشفاف العصري الفاخر (تصميم 48)"
+  },
+  {
+    "id": "design-49",
+    "name": "Luxury Wedding Suite 49",
+    "baseName": "il_1588xN.7699439873_deli",
+    "image": "assets/designs/il_1588xN.7699439873_deli.jpg",
+    "ext": ".jpg",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Gilded Baroque Monogram Suite (Design #49)",
+    "titleAr": "طقم المونوغرام الباروكي المذهب (تصميم 49)"
+  },
+  {
+    "id": "design-50",
+    "name": "Luxury Wedding Suite 50",
+    "baseName": "il_1588xN.7722093247_y6x0",
+    "image": "assets/designs/il_1588xN.7722093247_y6x0.webp",
+    "ext": ".webp",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Botanical Greenery & Rose Gold (Design #50)",
+    "titleAr": "أوراق الشجر والذهب الوردي الرومانسي (تصميم 50)"
+  },
+  {
+    "id": "design-51",
+    "name": "Luxury Wedding Suite 51",
+    "baseName": "il_1588xN.7766077795_chr8",
+    "image": "assets/designs/il_1588xN.7766077795_chr8.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Champagne Ivory Letterpress (Design #51)",
+    "titleAr": "الورق العاجي المطبوع بماء الذهب (تصميم 51)"
+  },
+  {
+    "id": "design-52",
+    "name": "Luxury Wedding Suite 52",
+    "baseName": "il_1588xN.7799777548_4jma",
+    "image": "assets/designs/il_1588xN.7799777548_4jma.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Celestial Midnight Navy Gold (Design #52)",
+    "titleAr": "سماء الليل الكحلي المرصعة بالذهب (تصميم 52)"
+  },
+  {
+    "id": "design-53",
+    "name": "Luxury Wedding Suite 53",
+    "baseName": "il_1588xN.8082108844_h7uj",
+    "image": "assets/designs/il_1588xN.8082108844_h7uj.jpg",
+    "ext": ".jpg",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Deckle Edge Parchment & Silk (Design #53)",
+    "titleAr": "المخطوطة الملكية ذات الحواف الطبيعية (تصميم 53)"
+  },
+  {
+    "id": "design-54",
+    "name": "Luxury Wedding Suite 54",
+    "baseName": "il_1588xN.8090651590_clh5",
+    "image": "assets/designs/il_1588xN.8090651590_clh5.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Embossed Floral Frame Luxury (Design #54)",
+    "titleAr": "الإطار النباتي البارز الفاخر (تصميم 54)"
+  },
+  {
+    "id": "design-55",
+    "name": "Luxury Wedding Suite 55",
+    "baseName": "il_1588xN.8094922218_ilk2",
+    "image": "assets/designs/il_1588xN.8094922218_ilk2.avif",
+    "ext": ".avif",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Modern Minimalist Arch Duo (Design #55)",
+    "titleAr": "الأقواس المودرن الفاخرة (تصميم 55)"
+  },
+  {
+    "id": "design-56",
+    "name": "Luxury Wedding Suite 56",
+    "baseName": "il_1588xN.8118240418_iayp",
+    "image": "assets/designs/il_1588xN.8118240418_iayp.jpg",
+    "ext": ".jpg",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Moroccan Arabesque Gold Lattice (Design #56)",
+    "titleAr": "الزخرفة الأندلسية المذهبة (تصميم 56)"
+  },
+  {
+    "id": "design-57",
+    "name": "Luxury Wedding Suite 57",
+    "baseName": "il_1588xN.8136893538_usxg",
+    "image": "assets/designs/il_1588xN.8136893538_usxg.jpg",
+    "ext": ".jpg",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Vintage Victorian Crest Suite (Design #57)",
+    "titleAr": "الشعار الملكي الكلاسيكي (تصميم 57)"
+  },
+  {
+    "id": "design-58",
+    "name": "Luxury Wedding Suite 58",
+    "baseName": "il_1588xN.8169364786_aduz",
+    "image": "assets/designs/il_1588xN.8169364786_aduz.webp",
+    "ext": ".webp",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Blush Rose Garden Romance (Design #58)",
+    "titleAr": "حديقة الورود الوردية الناعمة (تصميم 58)"
+  },
+  {
+    "id": "design-59",
+    "name": "Luxury Wedding Suite 59",
+    "baseName": "il_1588xN.8169369292_qvcw",
+    "image": "assets/designs/il_1588xN.8169369292_qvcw.webp",
+    "ext": ".webp",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Black Tie Gilded Monogram (Design #59)",
+    "titleAr": "البدلة الرسمية السوداء والذهب (تصميم 59)"
+  },
+  {
+    "id": "design-60",
+    "name": "Luxury Wedding Suite 60",
+    "baseName": "il_1588xN.8299854693_7v02",
+    "image": "assets/designs/il_1588xN.8299854693_7v02.avif",
+    "ext": ".avif",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Imperial Sultan Palace Suite (Design #60)",
+    "titleAr": "الجناح السلطاني الفاخر (تصميم 60)"
+  },
+  {
+    "id": "design-61",
+    "name": "Luxury Wedding Suite 61",
+    "baseName": "il_1588xN.8312773717_p4bt",
+    "image": "assets/designs/il_1588xN.8312773717_p4bt.avif",
+    "ext": ".avif",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Royal Gold & Emerald Arch (Design #61)",
+    "titleAr": "القوس الذهبي والزمردي الملكي (تصميم 61)"
+  },
+  {
+    "id": "design-62",
+    "name": "Luxury Wedding Suite 62",
+    "baseName": "il_1588xN.8315642560_94w2",
+    "image": "assets/designs/il_1588xN.8315642560_94w2.avif",
+    "ext": ".avif",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deep Velvet Burgundy & Wax Seal (Design #62)",
+    "titleAr": "المخمل النبيتي الملكي مع ختم الشمع (تصميم 62)"
+  },
+  {
+    "id": "design-63",
+    "name": "Luxury Wedding Suite 63",
+    "baseName": "il_1588xN.8346030782_axsw",
+    "image": "assets/designs/il_1588xN.8346030782_axsw.webp",
+    "ext": ".webp",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Frosted Acrylic Glass Elegance (Design #63)",
+    "titleAr": "الأكريليك الشفاف العصري الفاخر (تصميم 63)"
+  },
+  {
+    "id": "design-64",
+    "name": "Luxury Wedding Suite 64",
+    "baseName": "il_1588xN.8363551803_joxi",
+    "image": "assets/designs/il_1588xN.8363551803_joxi.jpg",
+    "ext": ".jpg",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Gilded Baroque Monogram Suite (Design #64)",
+    "titleAr": "طقم المونوغرام الباروكي المذهب (تصميم 64)"
+  },
+  {
+    "id": "design-65",
+    "name": "Luxury Wedding Suite 65",
+    "baseName": "il_1588xN.8398857216_rrpu",
+    "image": "assets/designs/il_1588xN.8398857216_rrpu.avif",
+    "ext": ".avif",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Botanical Greenery & Rose Gold (Design #65)",
+    "titleAr": "أوراق الشجر والذهب الوردي الرومانسي (تصميم 65)"
+  },
+  {
+    "id": "design-66",
+    "name": "Luxury Wedding Suite 66",
+    "baseName": "il_1588xN.8408115920_qqm2",
+    "image": "assets/designs/il_1588xN.8408115920_qqm2.avif",
+    "ext": ".avif",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Champagne Ivory Letterpress (Design #66)",
+    "titleAr": "الورق العاجي المطبوع بماء الذهب (تصميم 66)"
+  },
+  {
+    "id": "design-67",
+    "name": "Luxury Wedding Suite 67",
+    "baseName": "il_1588xN.8411452947_ekkl",
+    "image": "assets/designs/il_1588xN.8411452947_ekkl.avif",
+    "ext": ".avif",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Celestial Midnight Navy Gold (Design #67)",
+    "titleAr": "سماء الليل الكحلي المرصعة بالذهب (تصميم 67)"
+  },
+  {
+    "id": "design-68",
+    "name": "Luxury Wedding Suite 68",
+    "baseName": "il_1588xN.8456241247_mblo",
+    "image": "assets/designs/il_1588xN.8456241247_mblo.avif",
+    "ext": ".avif",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Deckle Edge Parchment & Silk (Design #68)",
+    "titleAr": "المخطوطة الملكية ذات الحواف الطبيعية (تصميم 68)"
+  },
+  {
+    "id": "design-69",
+    "name": "Luxury Wedding Suite 69",
+    "baseName": "il_1588xN.8456427282_mwi9 (1)",
+    "image": "assets/designs/il_1588xN.8456427282_mwi9 (1).avif",
+    "ext": ".avif",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Embossed Floral Frame Luxury (Design #69)",
+    "titleAr": "الإطار النباتي البارز الفاخر (تصميم 69)"
+  },
+  {
+    "id": "design-70",
+    "name": "Luxury Wedding Suite 70",
+    "baseName": "il_1588xN.8456427282_mwi9",
+    "image": "assets/designs/il_1588xN.8456427282_mwi9.avif",
+    "ext": ".avif",
+    "category": "floral",
+    "categoryNameEn": "Floral Botanical",
+    "categoryNameAr": "زهور وبوتانيكال",
+    "theme": "floral",
+    "titleEn": "Modern Minimalist Arch Duo (Design #70)",
+    "titleAr": "الأقواس المودرن الفاخرة (تصميم 70)"
+  },
+  {
+    "id": "design-71",
+    "name": "Luxury Wedding Suite 71",
+    "baseName": "il_1588xN.8469436719_djqn",
+    "image": "assets/designs/il_1588xN.8469436719_djqn.avif",
+    "ext": ".avif",
+    "category": "arch",
+    "categoryNameEn": "Modern Arch",
+    "categoryNameAr": "أقواس مودرن",
+    "theme": "arch",
+    "titleEn": "Moroccan Arabesque Gold Lattice (Design #71)",
+    "titleAr": "الزخرفة الأندلسية المذهبة (تصميم 71)"
+  },
+  {
+    "id": "design-72",
+    "name": "Luxury Wedding Suite 72",
+    "baseName": "il_1588xN.8477166995_2izm",
+    "image": "assets/designs/il_1588xN.8477166995_2izm.webp",
+    "ext": ".webp",
+    "category": "classic",
+    "categoryNameEn": "Classic Royal Ivory",
+    "categoryNameAr": "ملكي كلاسيكي عاجي",
+    "theme": "classic",
+    "titleEn": "Vintage Victorian Crest Suite (Design #72)",
+    "titleAr": "الشعار الملكي الكلاسيكي (تصميم 72)"
+  },
+  {
+    "id": "design-73",
+    "name": "Luxury Wedding Suite 73",
+    "baseName": "il_1588xN.8542621835_1oeg",
+    "image": "assets/designs/il_1588xN.8542621835_1oeg.webp",
+    "ext": ".webp",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "theme": "emerald",
+    "titleEn": "Blush Rose Garden Romance (Design #73)",
+    "titleAr": "حديقة الورود الوردية الناعمة (تصميم 73)"
+  },
+  {
+    "id": "design-74",
+    "name": "Luxury Wedding Suite 74",
+    "baseName": "il_1588xN.8603963855_fi3h",
+    "image": "assets/designs/il_1588xN.8603963855_fi3h.avif",
+    "ext": ".avif",
+    "category": "burgundy",
+    "categoryNameEn": "Velvet Burgundy",
+    "categoryNameAr": "نبيتي مخملي",
+    "theme": "burgundy",
+    "titleEn": "Black Tie Gilded Monogram (Design #74)",
+    "titleAr": "البدلة الرسمية السوداء والذهب (تصميم 74)"
+  },
+  {
+    "id": "design-75",
+    "name": "Luxury Wedding Suite 75",
+    "baseName": "il_1588xN.8695826357_cvsn",
+    "image": "assets/designs/il_1588xN.8695826357_cvsn.avif",
+    "ext": ".avif",
+    "category": "acrylic",
+    "categoryNameEn": "Frosted Acrylic",
+    "categoryNameAr": "أكريليك وزجاج شفاف",
+    "theme": "acrylic",
+    "titleEn": "Imperial Sultan Palace Suite (Design #75)",
+    "titleAr": "الجناح السلطاني الفاخر (تصميم 75)"
+  }
+];
+
+// Studio Customization State (ALL DATA IS USER-EDITABLE)
+const studioState = {
+  selectedDesignId: 'design-1',
   groomEn: 'Mohamed',
   groomAr: 'محمد',
   brideEn: 'Hala',
   brideAr: 'هالة',
-  guestName: 'Mr / Sherief Mohamed',
+  guestEn: 'Mr / Sherief Mohamed',
+  guestAr: 'السيد / شريف محمد',
+  verseText: 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً',
+  hostLine: 'Together with their families, joyfully invite you to celebrate the marriage of',
   weddingDate: '2026-11-20',
   weddingTime: '18:00',
-  venueName: 'The Royal Ballroom, Four Seasons Hotel',
-  venueLocation: 'Nile Plaza, Garden City, Cairo',
-  lang: 'bilingual', // bilingual | ar | en
+  venueNameEn: 'The Royal Ballroom, Four Seasons Hotel',
+  venueNameAr: 'قاعة الاحتفالات الملكية - فندق فور سيزونز',
+  venueAddress: 'Nile Plaza, Garden City, Cairo, Egypt',
+  venueMapLink: 'https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo',
+  itinerary: [
+    { time: '06:00 PM', desc: 'Guest Reception & Welcome Drinks' },
+    { time: '07:00 PM', desc: 'Grand Entrance & Royal Zaffa' },
+    { time: '08:30 PM', desc: 'Royal Dinner Banquet Feast' },
+    { time: '10:00 PM', desc: 'Cake Cutting & Celebration' }
+  ],
+  enableSplitHeart: true,
+  heartLeftText: 'Mohamed',
+  heartRightText: 'Hala',
+  enableWaxSeal: true,
+  waxSealMonogram: 'M & H',
+  audioStyle: 'symphony',
+  enablePetals: true,
+  lang: 'bilingual',
+  currentCategory: 'all',
+  searchQuery: ''
 };
 
 // ==========================================================================
-// 1. PASSWORD GATE & ADMIN BACKDOOR LOGIC
+// 1. PASSWORD GATE & ADMIN BACKDOOR
 // ==========================================================================
-
 function getStoredPassword() {
   return localStorage.getItem(STORAGE_PASS_KEY) || DEFAULT_PASSWORD;
 }
@@ -46,7 +1038,6 @@ function handleGateSubmit(event) {
 
   errorEl.textContent = '';
 
-  // 1. Secret Backdoor Check
   if (val === SECRET_BACKDOOR) {
     adminPanel.classList.remove('hidden');
     input.value = '';
@@ -54,7 +1045,6 @@ function handleGateSubmit(event) {
     return;
   }
 
-  // 2. Normal Password Check
   const currentPass = getStoredPassword();
   if (val === currentPass) {
     unlockPortal();
@@ -67,42 +1057,35 @@ function handleGateSubmit(event) {
 
 function unlockPortal() {
   sessionStorage.setItem('portal_unlocked', 'true');
-  
   if (typeof confetti === 'function') {
     confetti({
-      particleCount: 100,
-      spread: 80,
+      particleCount: 90,
+      spread: 75,
       origin: { y: 0.6 },
-      colors: ['#D4AF37', '#FCE39E', '#AA771C', '#FFF']
+      colors: ['#D4AF37', '#FFF8D4', '#B8860B']
     });
   }
 
-  const modal = document.getElementById('passwordGateModal');
-  const app = document.getElementById('appContainer');
-  
-  modal.classList.remove('active');
+  document.getElementById('passwordGateModal').classList.remove('active');
   document.body.classList.remove('locked-body');
-  app.classList.remove('hidden');
-  
-  renderPreview();
-  showToast('Welcome to Mohamed & Hala Royal Wedding Suite! 💍');
+  document.getElementById('appContainer').classList.remove('hidden');
+
+  initStudio();
+  showToast('Welcome to Royal Wedding Invitation Studio! 💍✨');
 }
 
 function saveNewPassword() {
   const newPassInput = document.getElementById('newPassInput');
   const newPass = newPassInput.value.trim();
   const msgEl = document.getElementById('adminSuccessMsg');
-
   if (!newPass) {
     alert('Please enter a valid password');
     return;
   }
-
   localStorage.setItem(STORAGE_PASS_KEY, newPass);
   msgEl.textContent = `Password successfully changed to: "${newPass}"!`;
   newPassInput.value = '';
   showToast('Password updated! You can now use your new password.');
-
   setTimeout(() => {
     msgEl.textContent = '';
     unlockPortal();
@@ -111,8 +1094,7 @@ function saveNewPassword() {
 
 function resetToDefaultPassword() {
   localStorage.setItem(STORAGE_PASS_KEY, DEFAULT_PASSWORD);
-  const msgEl = document.getElementById('adminSuccessMsg');
-  msgEl.textContent = `Password reset to default ("${DEFAULT_PASSWORD}")`;
+  document.getElementById('adminSuccessMsg').textContent = `Password reset to default ("${DEFAULT_PASSWORD}")`;
   showToast('Password reset to default (me7299)');
 }
 
@@ -131,7 +1113,7 @@ function togglePassVisibility(inputId, btn) {
 }
 
 function openPasswordChangeModal() {
-  const newPass = prompt('Enter new access password for the portal:');
+  const newPass = prompt('Enter new access password for the studio:');
   if (newPass && newPass.trim()) {
     localStorage.setItem(STORAGE_PASS_KEY, newPass.trim());
     showToast(`Password updated successfully to "${newPass.trim()}"`);
@@ -144,35 +1126,154 @@ function logout() {
 }
 
 // ==========================================================================
-// 2. GENERATOR CONTROLS & STATE UPDATES
+// 2. DESIGN GALLERY ENGINE (75 REFERENCE DESIGNS)
 // ==========================================================================
+function renderDesignsGrid() {
+  const grid = document.getElementById('designsGrid');
+  if (!grid) return;
 
-function updateGuestName(name) {
-  inviteState.guestName = name.trim() || 'Honored Guest';
-  document.getElementById('previewGuestLabel').textContent = inviteState.guestName;
+  const query = studioState.searchQuery.toLowerCase();
+  const category = studioState.currentCategory;
+
+  const filtered = DESIGNS_CATALOG.filter(item => {
+    const matchCat = category === 'all' || item.category === category;
+    const matchQuery = !query || 
+      item.titleEn.toLowerCase().includes(query) || 
+      item.titleAr.includes(query) || 
+      item.categoryNameEn.toLowerCase().includes(query);
+    return matchCat && matchQuery;
+  });
+
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+      No designs found matching "${query}". Try another keyword or clear filters!
+    </div>`;
+    return;
+  }
+
+  filtered.forEach(item => {
+    const isSelected = item.id === studioState.selectedDesignId;
+    const card = document.createElement('div');
+    card.className = `design-card ${isSelected ? 'selected' : ''}`;
+    card.onclick = () => selectDesign(item.id);
+
+    card.innerHTML = `
+      <div class="design-card-thumb-wrap">
+        <img class="design-card-img" src="${item.image}" alt="${item.titleEn}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\' viewBox=\'0 0 300 200\'><rect fill=\'%230A221D\' width=\'300\' height=\'200\'/><text fill=\'%23D4AF37\' x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\'>Design #${item.id}</text></svg>'">
+        <span class="design-badge-selected"><i class="fa-solid fa-check"></i> Selected</span>
+      </div>
+      <div class="design-card-info">
+        <span class="design-card-cat">${item.categoryNameEn}</span>
+        <strong class="design-card-title">${item.titleEn}</strong>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function selectDesign(id) {
+  studioState.selectedDesignId = id;
+  const design = DESIGNS_CATALOG.find(d => d.id === id) || DESIGNS_CATALOG[0];
+
+  document.getElementById('topbarActiveDesignName').textContent = design.titleEn;
+  document.getElementById('previewActiveDesignLabel').textContent = design.titleEn;
+
+  renderDesignsGrid();
+  renderPreview();
+  showToast(`✨ Selected Template: ${design.titleEn}`);
+}
+
+function setCategoryFilter(category) {
+  studioState.currentCategory = category;
+  document.querySelectorAll('.category-chips .chip').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${category}'`));
+  });
+  renderDesignsGrid();
+}
+
+function filterDesigns() {
+  studioState.searchQuery = document.getElementById('designSearchInput').value.trim();
+  renderDesignsGrid();
+}
+
+// ==========================================================================
+// 3. TAB NAVIGATION & FORM CONTROLS
+// ==========================================================================
+function switchSidebarTab(tabName) {
+  document.querySelectorAll('.sidebar-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+  if (tabName === 'designs') {
+    document.querySelectorAll('.sidebar-tabs .tab-btn')[0].classList.add('active');
+    document.getElementById('tabContentDesigns').classList.add('active');
+  } else if (tabName === 'names') {
+    document.querySelectorAll('.sidebar-tabs .tab-btn')[1].classList.add('active');
+    document.getElementById('tabContentNames').classList.add('active');
+  } else if (tabName === 'event') {
+    document.querySelectorAll('.sidebar-tabs .tab-btn')[2].classList.add('active');
+    document.getElementById('tabContentEvent').classList.add('active');
+  } else if (tabName === 'effects') {
+    document.querySelectorAll('.sidebar-tabs .tab-btn')[3].classList.add('active');
+    document.getElementById('tabContentEffects').classList.add('active');
+  }
+}
+
+function updateAllData() {
+  studioState.groomEn = document.getElementById('groomEnInput').value.trim() || 'Mohamed';
+  studioState.groomAr = document.getElementById('groomArInput').value.trim() || 'محمد';
+  studioState.brideEn = document.getElementById('brideEnInput').value.trim() || 'Hala';
+  studioState.brideAr = document.getElementById('brideArInput').value.trim() || 'هالة';
+  studioState.guestEn = document.getElementById('guestNameInput').value.trim() || 'Honored Guest';
+  studioState.guestAr = document.getElementById('guestNameArInput').value.trim() || 'الضيف الكريم';
+  studioState.verseText = document.getElementById('customVerseTextarea').value.trim();
+  studioState.hostLine = document.getElementById('hostLineInput').value.trim();
+  studioState.weddingDate = document.getElementById('eventDateInput').value;
+  studioState.weddingTime = document.getElementById('eventTimeInput').value;
+  studioState.venueNameEn = document.getElementById('venueNameEnInput').value.trim();
+  studioState.venueNameAr = document.getElementById('venueNameArInput').value.trim();
+  studioState.venueAddress = document.getElementById('venueAddressInput').value.trim();
+  studioState.venueMapLink = document.getElementById('venueMapLinkInput').value.trim();
+
+  // Read Itinerary items
+  const itinItems = [];
+  document.querySelectorAll('.itinerary-edit-item').forEach(item => {
+    const time = item.querySelector('.itin-time').value.trim();
+    const desc = item.querySelector('.itin-desc').value.trim();
+    if (time && desc) itinItems.push({ time, desc });
+  });
+  if (itinItems.length > 0) studioState.itinerary = itinItems;
+
+  // Animations & Audio
+  studioState.enableSplitHeart = document.getElementById('splitHeartToggle').checked;
+  studioState.heartLeftText = document.getElementById('heartLeftTextInput').value.trim() || studioState.groomEn;
+  studioState.heartRightText = document.getElementById('heartRightTextInput').value.trim() || studioState.brideEn;
+  studioState.enableWaxSeal = document.getElementById('waxSealToggle').checked;
+  studioState.waxSealMonogram = document.getElementById('waxSealInitialsInput').value.trim() || 'M & H';
+  studioState.audioStyle = document.getElementById('audioStyleSelect').value;
+  studioState.enablePetals = document.getElementById('petalsToggle').checked;
+
   renderPreview();
 }
 
-function setQuickGuest(name) {
-  document.getElementById('guestNameInput').value = name;
-  updateGuestName(name);
+function setGuestPreset(en, ar) {
+  document.getElementById('guestNameInput').value = en;
+  document.getElementById('guestNameArInput').value = ar;
+  updateAllData();
 }
 
-function updateEventDetails() {
-  inviteState.weddingDate = document.getElementById('weddingDateInput').value;
-  inviteState.weddingTime = document.getElementById('weddingTimeInput').value;
-  inviteState.venueName = document.getElementById('venueNameInput').value;
-  inviteState.venueLocation = document.getElementById('venueLocationInput').value;
-  renderPreview();
-}
-
-function setInitialLang(lang) {
-  inviteState.lang = lang;
-  document.querySelectorAll('.lang-choice-btn').forEach(btn => btn.classList.remove('active'));
-  if (lang === 'bilingual') document.getElementById('langChoiceBilingual').classList.add('active');
-  if (lang === 'ar') document.getElementById('langChoiceAr').classList.add('active');
-  if (lang === 'en') document.getElementById('langChoiceEn').classList.add('active');
-  renderPreview();
+function applyVersePreset(val) {
+  const textarea = document.getElementById('customVerseTextarea');
+  if (val === 'ayah1') {
+    textarea.value = '"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"';
+  } else if (val === 'ayah2') {
+    textarea.value = '"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"';
+  } else if (val === 'quote1') {
+    textarea.value = '"Two souls with but a single thought, two hearts that beat as one."';
+  }
+  updateAllData();
 }
 
 function setPreviewDevice(mode) {
@@ -192,30 +1293,36 @@ function setPreviewDevice(mode) {
 }
 
 // ==========================================================================
-// 3. MASTERPIECE ROYAL INVITATION TEMPLATE GENERATOR
+// 4. ROYAL INVITATION HTML TEMPLATE GENERATOR
 // ==========================================================================
-
 function generateInviteHTML(state) {
+  const design = DESIGNS_CATALOG.find(d => d.id === state.selectedDesignId) || DESIGNS_CATALOG[0];
   const isArabicFirst = state.lang === 'ar';
   const defaultDir = isArabicFirst ? 'rtl' : 'ltr';
 
-  const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}`);
-  const dateOptionsEn = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const dateFormattedEn = eventDateObj.toLocaleDateString('en-US', dateOptionsEn);
+  const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
+  const dateFormattedEn = eventDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  const itineraryHTML = state.itinerary.map(item => `
+    <div class="timeline-node">
+      <div class="timeline-node-icon"><i class="fa-solid fa-sparkles"></i></div>
+      <div class="timeline-content">
+        <span class="timeline-time-badge">${item.time}</span>
+        <h4>${item.desc}</h4>
+      </div>
+    </div>
+  `).join('');
 
   return `<!DOCTYPE html>
 <html lang="${isArabicFirst ? 'ar' : 'en'}" dir="${defaultDir}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohamed & Hala | Royal Wedding Invitation - ${state.guestName}</title>
+  <title>${state.groomEn} & ${state.brideEn} | Royal Wedding - ${state.guestEn}</title>
   
-  <!-- Premium Fonts: Cinzel Decorative, Cormorant Garamond, Great Vibes, Aref Ruqaa, Amiri, Reem Kufi -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
 
@@ -225,7 +1332,6 @@ function generateInviteHTML(state) {
       --gold-200: #FCE39E;
       --gold-300: #F3CA65;
       --gold-400: #D4AF37;
-      --gold-500: #B8860B;
       --gold-gradient: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
       --emerald-darkest: #040F0D;
       --emerald-gold-border: rgba(212, 175, 55, 0.35);
@@ -234,7 +1340,7 @@ function generateInviteHTML(state) {
       --font-script-en: 'Great Vibes', 'Alex Brush', cursive;
       --font-quran-ar: 'Amiri', serif;
       --font-calligraphy-ar: 'Aref Ruqaa', 'Amiri', serif;
-      --shadow-royal: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(212, 175, 55, 0.2);
+      --shadow-royal: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(212, 175, 55, 0.25);
       --transition-delicate: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -277,7 +1383,7 @@ function generateInviteHTML(state) {
       font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(12px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -287,8 +1393,7 @@ function generateInviteHTML(state) {
     .royal-pill-btn:hover {
       background: var(--gold-gradient);
       color: #0E241F;
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+      transform: translateY(-3px);
     }
 
     .royal-pill-btn.audio-playing {
@@ -311,7 +1416,7 @@ function generateInviteHTML(state) {
       50% { height: 14px; }
     }
 
-    /* 1. HERO ENVELOPE */
+    /* 1. HERO ENVELOPE & CHOSEN REFERENCE ART */
     .envelope-screen {
       min-height: 100vh;
       display: flex;
@@ -324,7 +1429,7 @@ function generateInviteHTML(state) {
 
     .envelope-container {
       width: 100%;
-      max-width: 640px;
+      max-width: 660px;
       position: relative;
       cursor: pointer;
       transition: transform 0.6s ease;
@@ -337,28 +1442,49 @@ function generateInviteHTML(state) {
       width: 100%;
       background: linear-gradient(145deg, #12332C 0%, #081B17 100%);
       border: 2px solid var(--gold-400);
-      border-radius: 20px;
+      border-radius: 24px;
       box-shadow: var(--shadow-royal);
       padding: 55px 40px;
       text-align: center;
       overflow: hidden;
     }
 
-    .filigree-corner {
-      position: absolute;
-      width: 65px;
-      height: 65px;
-      pointer-events: none;
-      opacity: 0.85;
+    .chosen-design-art-card {
+      width: 100%;
+      max-height: 380px;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      border: 1px solid var(--gold-400);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      position: relative;
     }
-    .filigree-top-left { top: 12px; left: 12px; }
-    .filigree-top-right { top: 12px; right: 12px; transform: scaleX(-1); }
-    .filigree-bottom-left { bottom: 12px; left: 12px; transform: scaleY(-1); }
-    .filigree-bottom-right { bottom: 12px; right: 12px; transform: scale(-1); }
+
+    .chosen-design-art-card img {
+      width: 100%;
+      height: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .chosen-design-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(8, 27, 23, 0.85);
+      border: 1px solid var(--gold-400);
+      color: var(--gold-200);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
 
     .bismillah-calligraphy {
       font-family: var(--font-quran-ar);
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 700;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
@@ -368,25 +1494,10 @@ function generateInviteHTML(state) {
 
     .quran-ayah {
       font-family: var(--font-calligraphy-ar);
-      font-size: 22px;
+      font-size: 21px;
       color: var(--gold-200);
       line-height: 2;
       text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-
-    .gold-separator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin: 20px 0;
-      color: var(--gold-400);
-    }
-    .gold-separator::before, .gold-separator::after {
-      content: '';
-      height: 1px;
-      flex: 1;
-      background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
     }
 
     .vip-invitation-badge {
@@ -399,7 +1510,7 @@ function generateInviteHTML(state) {
     }
 
     .vip-tag {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 3px;
       text-transform: uppercase;
@@ -434,7 +1545,7 @@ function generateInviteHTML(state) {
     .couple-item { display: flex; flex-direction: column; }
     .couple-item .name-en {
       font-family: var(--font-display-en);
-      font-size: 48px;
+      font-size: 46px;
       font-weight: 900;
       background: var(--gold-gradient);
       -webkit-background-clip: text;
@@ -443,7 +1554,7 @@ function generateInviteHTML(state) {
     }
     .couple-item .name-ar {
       font-family: var(--font-calligraphy-ar);
-      font-size: 38px;
+      font-size: 36px;
       color: var(--gold-200);
       margin-top: -4px;
     }
@@ -451,7 +1562,6 @@ function generateInviteHTML(state) {
       font-family: var(--font-script-en);
       font-size: 70px;
       color: var(--gold-400);
-      text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
       line-height: 1;
     }
 
@@ -480,7 +1590,7 @@ function generateInviteHTML(state) {
     }
     .open-invitation-hint {
       margin-top: 14px;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold-300);
@@ -516,7 +1626,6 @@ function generateInviteHTML(state) {
       color: var(--gold-200);
       margin-bottom: 8px;
     }
-    .heart-header p { font-size: 14px; color: #A1B5B1; }
 
     .heart-arena {
       position: relative;
@@ -560,13 +1669,6 @@ function generateInviteHTML(state) {
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
       line-height: 1;
     }
-    .heart-name-ar {
-      font-family: var(--font-calligraphy-ar);
-      font-size: 22px;
-      color: var(--gold-200);
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-    }
-
     .heart-shockwave {
       position: absolute;
       width: 250px;
@@ -665,10 +1767,6 @@ function generateInviteHTML(state) {
       font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
       color: var(--gold-300); margin-top: 10px; display: block;
     }
-    .dial-label-ar {
-      font-family: var(--font-calligraphy-ar);
-      font-size: 14px; color: #A1B5B1; display: block;
-    }
 
     /* 4. ITINERARY & VENUE */
     .itinerary-venue-section { padding: 90px 20px; max-width: 900px; margin: 0 auto; }
@@ -683,28 +1781,20 @@ function generateInviteHTML(state) {
     .timeline-schedule {
       display: flex; flex-direction: column; gap: 30px; position: relative; margin-top: 30px;
     }
-    .timeline-schedule::before {
-      content: ''; position: absolute; top: 10px; bottom: 10px; left: 28px; width: 2px;
-      background: linear-gradient(180deg, var(--gold-400), rgba(212, 175, 55, 0.2));
-    }
-    html[dir="rtl"] .timeline-schedule::before { left: auto; right: 28px; }
-
     .timeline-node { display: flex; align-items: flex-start; gap: 25px; }
     .timeline-node-icon {
-      width: 58px; height: 58px; border-radius: 50%;
+      width: 50px; height: 50px; border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #F3CA65, #B8860B);
       color: #081B17; display: flex; align-items: center; justify-content: center;
-      font-size: 22px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border: 2px solid #FFF8D4; z-index: 2;
+      font-size: 20px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border: 2px solid #FFF8D4;
     }
-    .timeline-content { flex: 1; padding-top: 6px; }
+    .timeline-content { flex: 1; padding-top: 4px; }
     .timeline-time-badge {
       display: inline-block; padding: 4px 12px; background: rgba(212, 175, 55, 0.15);
       border: 1px solid var(--gold-400); border-radius: 20px; color: var(--gold-200);
       font-size: 13px; font-weight: 700; margin-bottom: 6px;
     }
-    .timeline-content h4 { font-size: 20px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px; }
-    .timeline-content p { font-size: 14px; color: #A1B5B1; }
 
     .venue-card-grand {
       background: linear-gradient(145deg, #12332C 0%, #081B17 100%);
@@ -735,28 +1825,6 @@ function generateInviteHTML(state) {
     }
     .btn-maps:hover { transform: translateY(-3px); }
 
-    .vip-pass-card {
-      background: rgba(8, 27, 23, 0.9);
-      border: 1px dashed var(--gold-400);
-      border-radius: 20px;
-      padding: 30px;
-      margin-top: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .vip-pass-info { text-align: left; }
-    html[dir="rtl"] .vip-pass-info { text-align: right; }
-    .vip-pass-info h4 { font-size: 20px; color: var(--gold-200); }
-    .vip-pass-info p { font-size: 14px; color: #A1B5B1; margin-top: 4px; }
-    .dress-code-swatches { display: flex; gap: 10px; margin-top: 10px; }
-    .swatch {
-      width: 28px; height: 28px; border-radius: 50%; border: 2px solid #FFF;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-    }
-
     /* 5. RSVP */
     .rsvp-wrapper { padding: 90px 20px 120px; max-width: 650px; margin: 0 auto; }
     .rsvp-card-grand {
@@ -777,18 +1845,13 @@ function generateInviteHTML(state) {
     .form-group-royal input, .form-group-royal select, .form-group-royal textarea {
       width: 100%; padding: 14px 18px; background: rgba(6, 20, 17, 0.9);
       border: 1px solid var(--emerald-gold-border); border-radius: 12px; color: #FFFFFF;
-      font-family: inherit; font-size: 15px; outline: none; transition: var(--transition-delicate);
-    }
-    .form-group-royal input:focus, .form-group-royal select:focus, .form-group-royal textarea:focus {
-      border-color: var(--gold-400); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      font-family: inherit; font-size: 15px; outline: none;
     }
     .btn-rsvp-submit {
       background: var(--gold-gradient); color: #081B17; border: none; padding: 16px;
       border-radius: 40px; font-size: 17px; font-weight: 700; cursor: pointer;
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); transition: var(--transition-delicate);
-      display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; gap: 12px;
     }
-    .btn-rsvp-submit:hover { transform: translateY(-2px); }
     .rsvp-celebration-toast {
       margin-top: 20px; padding: 18px; border-radius: 14px;
       background: rgba(39, 174, 96, 0.2); border: 1px solid #27AE60; color: #A3E4D7;
@@ -823,9 +1886,8 @@ function generateInviteHTML(state) {
 
     @media (max-width: 650px) {
       .envelope-shell { padding: 40px 20px; }
-      .couple-item .name-en { font-size: 36px; }
+      .couple-item .name-en { font-size: 34px; }
       .couple-item .name-ar { font-size: 28px; }
-      .couple-ampersand { font-size: 45px; }
       .heart-arena { width: 300px; height: 280px; }
       .heart-half { width: 140px; height: 270px; }
       .countdown-dial { min-width: 75px; padding: 15px 8px; }
@@ -848,55 +1910,25 @@ function generateInviteHTML(state) {
 
   <canvas id="fxCanvas"></canvas>
 
-  <!-- 1. ENVELOPE -->
+  <!-- 1. ENVELOPE & REFERENCE DESIGN ARTWORK -->
   <section class="envelope-screen" id="envelopeScreen">
     <div class="envelope-container" onclick="openRoyalInvitation()">
       <div class="envelope-shell">
         
-        <svg class="filigree-corner filigree-top-left" viewBox="0 0 100 100">
-          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
-          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
-          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
-        </svg>
-        <svg class="filigree-corner filigree-top-right" viewBox="0 0 100 100">
-          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
-          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
-          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
-        </svg>
-        <svg class="filigree-corner filigree-bottom-left" viewBox="0 0 100 100">
-          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
-          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
-          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
-        </svg>
-        <svg class="filigree-corner filigree-bottom-right" viewBox="0 0 100 100">
-          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
-          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
-          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
-        </svg>
-
-        <svg style="position: absolute; width: 0; height: 0;">
-          <defs>
-            <linearGradient id="cornerGold" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FFF9E6"/>
-              <stop offset="50%" stop-color="#D4AF37"/>
-              <stop offset="100%" stop-color="#9E7412"/>
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <div class="quran-verse-card">
-          <div class="bismillah-calligraphy">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-          <p class="quran-ayah">
-            "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
-          </p>
+        <div class="chosen-design-art-card">
+          <img src="${design.image}" alt="${design.titleEn}">
+          <div class="chosen-design-badge"><i class="fa-solid fa-gem"></i> ${design.titleEn}</div>
         </div>
 
-        <div class="gold-separator"><span>❦</span></div>
+        <div class="bismillah-calligraphy">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <p class="quran-ayah">${state.verseText}</p>
+
+        <p style="color: #A1B5B1; font-size: 14px; margin-top: 15px;">${state.hostLine}</p>
 
         <div class="vip-invitation-badge">
           <span class="vip-tag"><i class="fa-solid fa-crown"></i> Royal VIP Invitation</span>
-          <div class="vip-guest-title">${state.guestName}</div>
-          <div class="vip-guest-arabic">مع خالص التحية والتقدير: ${state.guestName}</div>
+          <div class="vip-guest-title">${state.guestEn}</div>
+          <div class="vip-guest-arabic">${state.guestAr}</div>
         </div>
 
         <div class="grand-couple-hero">
@@ -915,7 +1947,7 @@ function generateInviteHTML(state) {
 
         <div class="wax-seal-wrapper">
           <div class="royal-wax-seal">
-            <span class="wax-seal-monogram">M & H</span>
+            <span class="wax-seal-monogram">${state.waxSealMonogram}</span>
           </div>
         </div>
         <div class="open-invitation-hint">
@@ -926,18 +1958,18 @@ function generateInviteHTML(state) {
     </div>
   </section>
 
-  <!-- 2. SPLIT HEART SECTION -->
+  <!-- 2. SCROLL-TRIGGERED SPLIT HEART SECTION -->
   <section class="heart-union-section" id="heartSection">
     <div class="heart-header">
       <h2>Two Souls United in Love</h2>
-      <div class="arabic-quote">"بارك الله لهما وبارك عليهما وجمع بينهما في خير"</div>
-      <p>Scroll gently to watch Mohamed & Hala's hearts join as one</p>
+      <div class="arabic-quote">"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"</div>
+      <p>Scroll gently to watch ${state.heartLeftText} & ${state.heartRightText}'s hearts join as one</p>
     </div>
 
     <div class="heart-arena" id="heartArena">
       <div class="heart-shockwave" id="heartShockwave"></div>
 
-      <!-- LEFT HALF: MOHAMED -->
+      <!-- LEFT HALF -->
       <div class="heart-half heart-half-left" id="heartHalfLeft">
         <svg class="heart-filigree-svg" viewBox="0 0 170 320">
           <defs>
@@ -956,18 +1988,15 @@ function generateInviteHTML(state) {
                 fill="url(#rubyShineLeft)" stroke="url(#goldFiligreeLeft)" stroke-width="4"/>
           <path d="M165,270 C140,220 30,160 25,105 C20,55 58,24 105,24 C135,24 155,42 165,65" 
                 fill="none" stroke="url(#goldFiligreeLeft)" stroke-width="2.5" stroke-dasharray="4,2"/>
-          <path d="M165,220 C145,180 55,140 50,105 C46,75 75,50 110,50" 
-                fill="none" stroke="url(#goldFiligreeLeft)" stroke-width="2"/>
           <path d="M110,6 L120,-8 L135,2 L150,-10 L165,6 Z" fill="url(#goldFiligreeLeft)"/>
         </svg>
 
         <div class="heart-name-badge">
-          <span class="heart-name-en">${state.groomEn}</span>
-          <span class="heart-name-ar">${state.groomAr}</span>
+          <span class="heart-name-en">${state.heartLeftText}</span>
         </div>
       </div>
 
-      <!-- RIGHT HALF: HALA -->
+      <!-- RIGHT HALF -->
       <div class="heart-half heart-half-right" id="heartHalfRight">
         <svg class="heart-filigree-svg" viewBox="0 0 170 320">
           <defs>
@@ -986,21 +2015,18 @@ function generateInviteHTML(state) {
                 fill="url(#rubyShineRight)" stroke="url(#goldFiligreeRight)" stroke-width="4"/>
           <path d="M5,270 C30,220 140,160 145,105 C150,55 112,24 65,24 C35,24 15,42 5,65" 
                 fill="none" stroke="url(#goldFiligreeRight)" stroke-width="2.5" stroke-dasharray="4,2"/>
-          <path d="M5,220 C25,180 115,140 120,105 C124,75 95,50 60,50" 
-                fill="none" stroke="url(#goldFiligreeRight)" stroke-width="2"/>
           <path d="M60,6 L50,-8 L35,2 L20,-10 L5,6 Z" fill="url(#goldFiligreeRight)"/>
         </svg>
 
         <div class="heart-name-badge">
-          <span class="heart-name-en">${state.brideEn}</span>
-          <span class="heart-name-ar">${state.brideAr}</span>
+          <span class="heart-name-en">${state.heartRightText}</span>
         </div>
       </div>
     </div>
 
     <div class="union-ribbon" id="unionRibbon">
       <i class="fa-solid fa-scroll"></i>
-      <span id="unionRibbonText">Scroll to bring Mohamed & Hala together...</span>
+      <span id="unionRibbonText">Scroll to bring hearts together...</span>
     </div>
   </section>
 
@@ -1012,23 +2038,19 @@ function generateInviteHTML(state) {
     <div class="countdown-flex">
       <div class="countdown-dial">
         <span class="dial-number" id="dialDays">00</span>
-        <span class="dial-label-en">Days</span>
-        <span class="dial-label-ar">أيام</span>
+        <span class="dial-label-en">Days / أيام</span>
       </div>
       <div class="countdown-dial">
         <span class="dial-number" id="dialHours">00</span>
-        <span class="dial-label-en">Hours</span>
-        <span class="dial-label-ar">ساعات</span>
+        <span class="dial-label-en">Hours / ساعات</span>
       </div>
       <div class="countdown-dial">
         <span class="dial-number" id="dialMinutes">00</span>
-        <span class="dial-label-en">Minutes</span>
-        <span class="dial-label-ar">دقائق</span>
+        <span class="dial-label-en">Minutes / دقائق</span>
       </div>
       <div class="countdown-dial">
         <span class="dial-number" id="dialSeconds">00</span>
-        <span class="dial-label-en">Seconds</span>
-        <span class="dial-label-ar">ثواني</span>
+        <span class="dial-label-en">Seconds / ثواني</span>
       </div>
     </div>
   </section>
@@ -1040,72 +2062,21 @@ function generateInviteHTML(state) {
       <div class="section-arabic-subtitle" style="text-align: center;">برنامج الحفل والمراسم</div>
 
       <div class="timeline-schedule">
-        <div class="timeline-node">
-          <div class="timeline-node-icon"><i class="fa-solid fa-door-open"></i></div>
-          <div class="timeline-content">
-            <span class="timeline-time-badge">06:00 PM</span>
-            <h4>Guest Reception & Harp Music (استقبال الضيوف)</h4>
-            <p>Welcoming our beloved guests with drinks & live royal harp performance</p>
-          </div>
-        </div>
-
-        <div class="timeline-node">
-          <div class="timeline-node-icon"><i class="fa-solid fa-heart"></i></div>
-          <div class="timeline-content">
-            <span class="timeline-time-badge">07:00 PM</span>
-            <h4>Grand Zaffa & Royal Entrance (زفة العروسين)</h4>
-            <p>Welcoming Mohamed & Hala to the Grand Ballroom with traditional fanfare</p>
-          </div>
-        </div>
-
-        <div class="timeline-node">
-          <div class="timeline-node-icon"><i class="fa-solid fa-utensils"></i></div>
-          <div class="timeline-content">
-            <span class="timeline-time-badge">08:30 PM</span>
-            <h4>Royal Dinner Banquet (مأدبة العشاء الفاخرة)</h4>
-            <p>An exquisite culinary feast prepared by royal executive chefs</p>
-          </div>
-        </div>
-
-        <div class="timeline-node">
-          <div class="timeline-node-icon"><i class="fa-solid fa-cake-candles"></i></div>
-          <div class="timeline-content">
-            <span class="timeline-time-badge">10:00 PM</span>
-            <h4>Cake Cutting & Celebration (تقطيع التورتة والاحتفال)</h4>
-            <p>Dancing, joyful memories, and honoring our guests</p>
-          </div>
-        </div>
+        ${itineraryHTML}
       </div>
     </div>
 
     <div class="venue-card-grand">
       <div class="venue-icon-big"><i class="fa-solid fa-landmark"></i></div>
-      <h3 class="venue-name-en">${state.venueName}</h3>
-      <h4 class="venue-name-ar">قاعة الاحتفالات الملكية - فندق فور سيزونز</h4>
-      <p class="venue-location-desc">${state.venueLocation} • Date: ${dateFormattedEn} at ${state.weddingTime}</p>
+      <h3 class="venue-name-en">${state.venueNameEn}</h3>
+      <h4 class="venue-name-ar">${state.venueNameAr}</h4>
+      <p class="venue-location-desc">${state.venueAddress} • Date: ${dateFormattedEn} at ${state.weddingTime}</p>
 
       <div class="venue-action-btns">
-        <a href="https://maps.google.com/?q=${encodeURIComponent(state.venueName + ' ' + state.venueLocation)}" target="_blank" class="btn-maps">
+        <a href="${state.venueMapLink}" target="_blank" class="btn-maps">
           <i class="fa-solid fa-location-arrow"></i>
           <span>Open in Google Maps / الاتجاهات</span>
         </a>
-      </div>
-
-      <div class="vip-pass-card">
-        <div class="vip-pass-info">
-          <h4><i class="fa-solid fa-user-tie"></i> Dress Code: Black Tie / Formal</h4>
-          <p>We invite you to wear our royal palette: Emerald, Champagne & Gold</p>
-          <div class="dress-code-swatches">
-            <div class="swatch" style="background: #081B17;" title="Deep Emerald"></div>
-            <div class="swatch" style="background: #D4AF37;" title="Royal Gold"></div>
-            <div class="swatch" style="background: #FAF7F2;" title="Champagne Ivory"></div>
-            <div class="swatch" style="background: #5C1D24;" title="Velvet Wine"></div>
-          </div>
-        </div>
-        <div class="vip-qr-badge" style="text-align: center;">
-          <i class="fa-solid fa-qrcode" style="font-size: 60px; color: var(--gold-400);"></i>
-          <span style="display: block; font-size: 11px; color: var(--gold-300); margin-top: 4px;">VIP ENTRY PASS</span>
-        </div>
       </div>
     </div>
   </section>
@@ -1115,12 +2086,12 @@ function generateInviteHTML(state) {
     <div class="rsvp-card-grand">
       <h3 class="section-ornate-title">RSVP / تأكيد الحضور</h3>
       <div class="section-arabic-subtitle">يسعدنا ويشرفنا حضوركم الكريم</div>
-      <p style="color: #A1B5B1; font-size: 14px;">Kindly confirm your attendance by November 10th</p>
+      <p style="color: #A1B5B1; font-size: 14px;">Kindly confirm your attendance</p>
 
       <form class="rsvp-form-grid" onsubmit="handleRoyalRSVP(event)">
         <div class="form-group-royal">
           <label>Honored Guest Name / اسم الضيف الكريم</label>
-          <input type="text" id="rsvpGuestInput" value="${state.guestName}" required>
+          <input type="text" id="rsvpGuestInput" value="${state.guestEn}" required>
         </div>
 
         <div class="form-group-royal">
@@ -1141,8 +2112,8 @@ function generateInviteHTML(state) {
         </div>
 
         <div class="form-group-royal">
-          <label>Special Blessing for Mohamed & Hala / كلمة طيبة للعروسين</label>
-          <textarea rows="3" placeholder="اكتب دعوة مباركة لمحمد وهالة..."></textarea>
+          <label>Special Blessing / كلمة طيبة للعروسين</label>
+          <textarea rows="3" placeholder="اكتب دعوة مباركة للعروسين..."></textarea>
         </div>
 
         <button type="submit" class="btn-rsvp-submit">
@@ -1158,13 +2129,12 @@ function generateInviteHTML(state) {
   </section>
 
   <footer class="royal-footer">
-    <div class="footer-seal">M & H</div>
-    <p>Mohamed & Hala Royal Wedding Celebration • زفاف محمد & هالة</p>
-    <p style="font-size: 12px; margin-top: 6px; color: #58726E;">Created with love & elegance for ${state.guestName}</p>
+    <div class="footer-seal">${state.waxSealMonogram}</div>
+    <p>${state.groomEn} & ${state.brideEn} Wedding Celebration</p>
+    <p style="font-size: 12px; margin-top: 6px; color: #58726E;">Created with love & elegance for ${state.guestEn}</p>
   </footer>
 
   <script>
-    // Audio Symphony
     let audioCtx = null;
     let isPlaying = false;
     let musicInterval = null;
@@ -1175,13 +2145,11 @@ function generateInviteHTML(state) {
       audioCtx = new AudioContext();
     }
 
-    const harmonicProgression = [
+    const chords = [
       { bass: 146.83, chord: [293.66, 369.99, 440.00, 587.33] },
       { bass: 110.00, chord: [220.00, 277.18, 329.63, 440.00] },
       { bass: 123.47, chord: [246.94, 293.66, 369.99, 493.88] },
-      { bass: 92.50,  chord: [185.00, 233.08, 277.18, 369.99] },
-      { bass: 98.00,  chord: [196.00, 246.94, 293.66, 392.00] },
-      { bass: 146.83, chord: [293.66, 369.99, 440.00, 587.33] }
+      { bass: 98.00,  chord: [196.00, 246.94, 293.66, 392.00] }
     ];
 
     function playTone(freq, startTime, duration, type = 'sine', volume = 0.05) {
@@ -1210,7 +2178,7 @@ function generateInviteHTML(state) {
       function nextBar() {
         if (!isPlaying) return;
         const now = audioCtx.currentTime;
-        const current = harmonicProgression[step % harmonicProgression.length];
+        const current = chords[step % chords.length];
         playTone(current.bass, now, 3.0, 'sine', 0.07);
         current.chord.forEach((freq, idx) => {
           playTone(freq, now + idx * 0.38, 2.2, 'triangle', 0.06);
@@ -1249,8 +2217,7 @@ function generateInviteHTML(state) {
 
     function toggleLanguageMode() {
       const html = document.documentElement;
-      const currentDir = html.getAttribute('dir');
-      const isArabic = currentDir === 'rtl';
+      const isArabic = html.getAttribute('dir') === 'rtl';
       if (isArabic) {
         html.setAttribute('dir', 'ltr');
         html.setAttribute('lang', 'en');
@@ -1270,6 +2237,7 @@ function generateInviteHTML(state) {
     let hasUnitedTriggered = false;
 
     function evaluateHeartScroll() {
+      if (!heartArena) return;
       const rect = heartArena.getBoundingClientRect();
       const windowH = window.innerHeight;
       const elementCenter = rect.top + rect.height / 2;
@@ -1290,22 +2258,17 @@ function generateInviteHTML(state) {
       if (progress >= 0.94) {
         heartArena.classList.add('united');
         unionRibbon.classList.add('united');
-        unionRibbon.innerHTML = '<i class="fa-solid fa-heart" style="color: #e74c3c;"></i> Mohamed & Hala United Forever • بارك الله لهما وجمع بينهما في خير';
+        unionRibbon.innerHTML = '<i class="fa-solid fa-heart" style="color: #e74c3c;"></i> United Forever • بارك الله لهما وجمع بينهما في خير';
         if (!hasUnitedTriggered) {
           hasUnitedTriggered = true;
           if (typeof confetti === 'function') {
-            confetti({
-              particleCount: 100,
-              spread: 90,
-              origin: { y: 0.5 },
-              colors: ['#D4AF37', '#FFF8D4', '#B82538', '#E3A857']
-            });
+            confetti({ particleCount: 100, spread: 90, origin: { y: 0.5 }, colors: ['#D4AF37', '#FFF8D4', '#B82538'] });
           }
         }
       } else {
         heartArena.classList.remove('united');
         unionRibbon.classList.remove('united');
-        unionRibbon.innerHTML = '<i class="fa-solid fa-scroll"></i> Scroll to bring Mohamed & Hala together...';
+        unionRibbon.innerHTML = '<i class="fa-solid fa-scroll"></i> Scroll to bring hearts together...';
         hasUnitedTriggered = false;
       }
     }
@@ -1315,7 +2278,7 @@ function generateInviteHTML(state) {
     evaluateHeartScroll();
 
     // Countdown
-    const weddingTargetTime = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();
+    const weddingTargetTime = new Date('\${state.weddingDate}T\${state.weddingTime}:00').getTime();
     function refreshCountdown() {
       const now = new Date().getTime();
       const diff = weddingTargetTime - now;
@@ -1341,7 +2304,7 @@ function generateInviteHTML(state) {
       }
     }
 
-    // Canvas
+    // Canvas Dust
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
@@ -1382,13 +2345,13 @@ function generateInviteHTML(state) {
 }
 
 // ==========================================================================
-// 4. LIVE PREVIEW ENGINE
+// 5. LIVE PREVIEW ENGINE
 // ==========================================================================
-
 function renderPreview() {
   const iframe = document.getElementById('invitePreviewIframe');
-  const generatedHtml = generateInviteHTML(inviteState);
-  
+  if (!iframe) return;
+  const generatedHtml = generateInviteHTML(studioState);
+
   const doc = iframe.contentWindow || iframe.contentDocument;
   if (doc.document) {
     doc.document.open();
@@ -1400,15 +2363,14 @@ function renderPreview() {
 }
 
 // ==========================================================================
-// 5. EXPORT & DOWNLOAD ACTIONS
+// 6. EXPORT ACTIONS
 // ==========================================================================
-
 function downloadStandaloneInvite() {
-  const htmlContent = generateInviteHTML(inviteState);
+  const htmlContent = generateInviteHTML(studioState);
   const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
-  const sanitizedGuest = inviteState.guestName.replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g, '_');
-  const filename = `Mohamed_and_Hala_Royal_Invite_${sanitizedGuest}.html`;
+  const sanitizedNames = `${studioState.groomEn}_and_${studioState.brideEn}_${studioState.guestEn}`.replace(/[^a-zA-Z0-9_؀-ۿ]/g, '_');
+  const filename = `Wedding_Invitation_${sanitizedNames}.html`;
 
   const a = document.createElement('a');
   a.href = url;
@@ -1418,104 +2380,58 @@ function downloadStandaloneInvite() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  showToast(`✅ Successfully downloaded ${filename}!`);
+  showToast(`✅ Downloaded standalone invitation: ${filename}!`);
 }
 
 function copyPersonalizedLink() {
   const currentUrl = new URL(window.location.href);
-  currentUrl.searchParams.set('guest', inviteState.guestName);
+  currentUrl.searchParams.set('groom', studioState.groomEn);
+  currentUrl.searchParams.set('bride', studioState.brideEn);
+  currentUrl.searchParams.set('guest', studioState.guestEn);
+  currentUrl.searchParams.set('design', studioState.selectedDesignId);
   currentUrl.searchParams.set('view', 'invite');
-  
+
   navigator.clipboard.writeText(currentUrl.toString()).then(() => {
-    showToast(`🔗 Copied VIP Invite link for "${inviteState.guestName}"!`);
+    showToast(`🔗 Copied VIP Invite link for "${studioState.guestEn}"!`);
   }).catch(() => {
     prompt('Copy VIP Invite Link:', currentUrl.toString());
   });
 }
 
 function openPreviewFullscreen() {
-  const htmlContent = generateInviteHTML(inviteState);
+  const htmlContent = generateInviteHTML(studioState);
   const win = window.open('', '_blank');
   win.document.open();
   win.document.write(htmlContent);
   win.document.close();
 }
 
-// ==========================================================================
-// 6. BATCH GUEST GENERATOR
-// ==========================================================================
-
-function openBatchModal() {
-  document.getElementById('batchModal').classList.remove('hidden');
-}
-
-function closeBatchModal() {
-  document.getElementById('batchModal').classList.add('hidden');
-}
-
-function generateBatchLinks() {
-  const textarea = document.getElementById('batchGuestsTextarea');
-  const lines = textarea.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-  
-  if (lines.length === 0) {
-    alert('Please enter at least one guest name');
-    return;
-  }
-
-  const resultsContainer = document.getElementById('batchResultsContainer');
-  const listEl = document.getElementById('batchLinksList');
-  listEl.innerHTML = '';
-
-  const baseUrl = new URL(window.location.href);
-  baseUrl.searchParams.set('view', 'invite');
-
-  lines.forEach(name => {
-    baseUrl.searchParams.set('guest', name);
-    const link = baseUrl.toString();
-
-    const row = document.createElement('div');
-    row.className = 'batch-item-link';
-    row.innerHTML = `
-      <span><strong>${name}</strong></span>
-      <button style="background: var(--gold-primary); border: none; padding: 4px 10px; border-radius: 4px; color: #112; cursor: pointer; font-size: 11px;"
-              onclick="navigator.clipboard.writeText('${link}').then(() => showToast('Copied link for ${name}!'))">
-        Copy Link
-      </button>
-    `;
-    listEl.appendChild(row);
-  });
-
-  resultsContainer.classList.remove('hidden');
-}
-
 function showToast(msg) {
   const toast = document.getElementById('toastNotification');
+  if (!toast) return;
   toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--gold-primary);"></i> ${msg}`;
   toast.classList.remove('hidden');
-  
-  setTimeout(() => {
-    toast.classList.add('hidden');
-  }, 4000);
+  setTimeout(() => toast.classList.add('hidden'), 4000);
 }
 
 // ==========================================================================
-// 7. INITIALIZATION & QUERY PARAMETER SUPPORT
+// 7. INITIALIZATION
 // ==========================================================================
+function initStudio() {
+  renderDesignsGrid();
+  renderPreview();
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
-  
-  if (params.has('guest')) {
-    const passedGuest = params.get('guest');
-    inviteState.guestName = passedGuest;
-    const input = document.getElementById('guestNameInput');
-    if (input) input.value = passedGuest;
-    const label = document.getElementById('previewGuestLabel');
-    if (label) label.textContent = passedGuest;
-  }
+
+  if (params.has('groom')) studioState.groomEn = params.get('groom');
+  if (params.has('bride')) studioState.brideEn = params.get('bride');
+  if (params.has('guest')) studioState.guestEn = params.get('guest');
+  if (params.has('design')) studioState.selectedDesignId = params.get('design');
 
   if (params.get('view') === 'invite') {
-    document.body.innerHTML = generateInviteHTML(inviteState);
+    document.body.innerHTML = generateInviteHTML(studioState);
     return;
   }
 

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohamed & Hala | Luxury Wedding Invite Generator</title>
+  <title>Royal Wedding Invite Studio & Generator | 75+ Luxury Designs</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome Icons -->
+  <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Canvas Confetti -->
@@ -21,24 +21,23 @@
 <body class="locked-body">
 
   <!-- ============================================ -->
-  <!-- 1. LUXURY PASSWORD GATE & ADMIN BACKDOOR      -->
+  <!-- 1. PASSWORD GATE & SECRET ADMIN BACKDOOR     -->
   <!-- ============================================ -->
   <div id="passwordGateModal" class="gate-overlay active">
     <div class="gate-card">
       <div class="gate-seal">
         <div class="wax-seal-icon">
-          <span>M & H</span>
+          <span>VIP</span>
         </div>
       </div>
       
-      <h2 class="gate-title">Mohamed & Hala</h2>
-      <p class="gate-arabic-title">حفل زفاف محمد وهالة</p>
+      <h2 class="gate-title">Wedding Invitation Studio</h2>
+      <p class="gate-arabic-title">استوديو تصميم دعوات الزفاف الملكية</p>
       <div class="gate-divider"><span>❦</span></div>
       
-      <p class="gate-subtitle">Please enter your invitation portal access key</p>
-      <p class="gate-subtitle-ar">يرجى إدخال رمز الدخول الخاص بالبوابة</p>
+      <p class="gate-subtitle">Please enter your studio access key</p>
+      <p class="gate-subtitle-ar">يرجى إدخال رمز الدخول الخاص بالاستوديو</p>
 
-      <!-- Standard Unlock Form -->
       <form id="gateForm" onsubmit="handleGateSubmit(event)" class="gate-form">
         <div class="input-group">
           <i class="fa-solid fa-key input-icon"></i>
@@ -51,12 +50,12 @@
         <div id="gateError" class="gate-error-msg"></div>
 
         <button type="submit" class="gate-btn">
-          <span>Unlock Portal</span>
+          <span>Open Studio Portal</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </form>
 
-      <!-- Secret Admin Panel (Revealed if typed wedding_pass_wedding) -->
+      <!-- Secret Admin Panel (Triggered by 'wedding_pass_wedding') -->
       <div id="adminSecretPanel" class="admin-panel hidden">
         <div class="admin-badge">
           <i class="fa-solid fa-shield-halved"></i> Master Admin Mode
@@ -83,25 +82,30 @@
       </div>
 
       <div class="gate-footer">
-        <small>© Mohamed & Hala Wedding Celebration | VIP Access</small>
+        <small>© Royal Wedding Studio Suite • VIP Access</small>
       </div>
     </div>
   </div>
 
 
   <!-- ============================================ -->
-  <!-- 2. MAIN GENERATOR DASHBOARD                  -->
+  <!-- 2. MAIN GENERATOR DASHBOARD (STUDIO)         -->
   <!-- ============================================ -->
   <div id="appContainer" class="app-container hidden">
     
-    <!-- Top Bar -->
+    <!-- Topbar -->
     <header class="app-topbar">
       <div class="topbar-brand">
-        <div class="brand-monogram">M & H</div>
+        <div class="brand-monogram"><i class="fa-solid fa-gem"></i></div>
         <div class="brand-info">
-          <h1>Wedding Invite Generator</h1>
-          <span>محمد & هالة • Luxury Bilingual Suite</span>
+          <h1>Wedding Invitation Studio</h1>
+          <span>75+ Reference Luxury Designs • Full Customization Suite</span>
         </div>
+      </div>
+
+      <div class="topbar-active-design">
+        <span class="active-design-label">Selected Design:</span>
+        <strong id="topbarActiveDesignName">Royal Gold & Emerald Arch (#1)</strong>
       </div>
 
       <div class="topbar-controls">
@@ -111,8 +115,14 @@
         <button class="topbar-btn preview-mode-btn" id="btnModeMobile" onclick="setPreviewDevice('mobile')" title="Mobile View">
           <i class="fa-solid fa-mobile-screen"></i>
         </button>
+        <button class="topbar-btn action-download-top" onclick="downloadStandaloneInvite()" title="Download Standalone HTML">
+          <i class="fa-solid fa-download"></i> <span>Download HTML</span>
+        </button>
+        <button class="topbar-btn action-share-top" onclick="copyPersonalizedLink()" title="Copy VIP Share Link">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
         <button class="topbar-btn change-pass-btn" onclick="openPasswordChangeModal()" title="Change Access Password">
-          <i class="fa-solid fa-lock"></i> Password
+          <i class="fa-solid fa-lock"></i>
         </button>
         <button class="topbar-btn logout-btn" onclick="logout()" title="Lock Portal">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -120,146 +130,300 @@
       </div>
     </header>
 
-    <!-- Main Workspace Split -->
+    <!-- Main Layout -->
     <main class="app-layout">
       
-      <!-- LEFT COLUMN: CONTROLS & GUEST INPUT -->
+      <!-- LEFT SIDEBAR: TABBED STUDIO CONTROLS -->
       <aside class="generator-sidebar">
-        <div class="sidebar-header">
-          <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Customize Invite</h2>
-          <p>Instant real-time invitation generator for every guest</p>
+        
+        <!-- Navigation Tabs -->
+        <nav class="sidebar-tabs">
+          <button class="tab-btn active" onclick="switchSidebarTab('designs')">
+            <i class="fa-solid fa-palette"></i>
+            <span>Designs (75)</span>
+          </button>
+          <button class="tab-btn" onclick="switchSidebarTab('names')">
+            <i class="fa-solid fa-user-pen"></i>
+            <span>Names & Text</span>
+          </button>
+          <button class="tab-btn" onclick="switchSidebarTab('event')">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Date & Venue</span>
+          </button>
+          <button class="tab-btn" onclick="switchSidebarTab('effects')">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>Animations</span>
+          </button>
+        </nav>
+
+        <!-- TAB 1: 75 REFERENCE DESIGNS GALLERY -->
+        <div id="tabContentDesigns" class="tab-content active">
+          
+          <div class="tab-header">
+            <h3>Choose From 75+ Luxury Designs</h3>
+            <p>Pick any reference template from your collection to instantly transform your wedding invitation:</p>
+          </div>
+
+          <!-- Search & Filter Bar -->
+          <div class="gallery-controls">
+            <div class="gallery-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="designSearchInput" placeholder="Search designs (e.g. emerald, acrylic, floral)..." oninput="filterDesigns()">
+            </div>
+            
+            <div class="category-chips">
+              <button class="chip active" onclick="setCategoryFilter('all')">All (75)</button>
+              <button class="chip" onclick="setCategoryFilter('emerald')">Emerald & Gold</button>
+              <button class="chip" onclick="setCategoryFilter('burgundy')">Velvet Burgundy</button>
+              <button class="chip" onclick="setCategoryFilter('acrylic')">Frosted Acrylic</button>
+              <button class="chip" onclick="setCategoryFilter('floral')">Floral</button>
+              <button class="chip" onclick="setCategoryFilter('arch')">Modern Arch</button>
+              <button class="chip" onclick="setCategoryFilter('classic')">Classic Ivory</button>
+            </div>
+          </div>
+
+          <!-- The Visual 75-Design Grid -->
+          <div id="designsGrid" class="designs-grid">
+            <!-- Dynamically populated with 75 design cards -->
+          </div>
+
         </div>
 
-        <div class="sidebar-content">
-          
-          <!-- Couple Profile (LOCKED AS REQUESTED) -->
-          <div class="setting-card couple-locked-card">
-            <div class="card-label">
-              <i class="fa-solid fa-lock"></i> Couple Names (Fixed)
-            </div>
-            <div class="couple-locked-display">
-              <div class="couple-pill">
-                <span class="role">Groom / العريس</span>
-                <strong class="name">Mohamed (محمد)</strong>
-              </div>
-              <div class="heart-symbol"><i class="fa-solid fa-heart"></i></div>
-              <div class="couple-pill">
-                <span class="role">Bride / العروسة</span>
-                <strong class="name">Hala (هالة)</strong>
-              </div>
-            </div>
-            <small class="locked-note">Names are fixed to Mohamed & Hala as specified.</small>
+        <!-- TAB 2: COUPLE, GUEST & BLESSINGS (ALL EDITABLE) -->
+        <div id="tabContentNames" class="tab-content">
+          <div class="tab-header">
+            <h3>Names, Guest & Personalization</h3>
+            <p>Everything is fully editable. Customize couple names, guest title, and greetings:</p>
           </div>
 
-          <!-- GUEST NAME INPUT (THE CORE FIELD) -->
-          <div class="setting-card highlight-card">
-            <label for="guestNameInput" class="card-label">
-              <i class="fa-solid fa-user-tag"></i> Invited Guest Name (اسم الضيف)
-            </label>
-            <div class="input-with-icon">
-              <i class="fa-solid fa-id-card"></i>
-              <input type="text" id="guestNameInput" value="Mr / Sherief Mohamed" 
-                     placeholder="e.g. Mr / Sherief Mohamed or د / أحمد علي"
-                     oninput="updateGuestName(this.value)">
-            </div>
-            
-            <div class="quick-guest-tags">
-              <span class="quick-tag-label">Presets:</span>
-              <button type="button" class="quick-tag" onclick="setQuickGuest('Mr / Sherief Mohamed')">Mr / Sherief Mohamed</button>
-              <button type="button" class="quick-tag" onclick="setQuickGuest('السيد / شريف محمد')">السيد / شريف محمد</button>
-              <button type="button" class="quick-tag" onclick="setQuickGuest('Eng / Sherief Mohamed & Family')">Eng / Sherief & Family</button>
-            </div>
-          </div>
-
-          <!-- EVENT DETAILS -->
-          <div class="setting-card">
-            <div class="card-label"><i class="fa-solid fa-calendar-days"></i> Wedding Date & Venue</div>
-            
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-ring"></i> The Groom (العريس)</h4>
             <div class="form-row">
               <div class="form-col">
-                <label>Date / التاريخ</label>
-                <input type="date" id="weddingDateInput" value="2026-11-20" onchange="updateEventDetails()">
+                <label>Groom Name (English)</label>
+                <input type="text" id="groomEnInput" value="Mohamed" oninput="updateAllData()">
               </div>
               <div class="form-col">
-                <label>Time / الوقت</label>
-                <input type="time" id="weddingTimeInput" value="18:00" onchange="updateEventDetails()">
+                <label>اسم العريس (عربي)</label>
+                <input type="text" id="groomArInput" value="محمد" dir="rtl" oninput="updateAllData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-heart"></i> The Bride (العروسة)</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Bride Name (English)</label>
+                <input type="text" id="brideEnInput" value="Hala" oninput="updateAllData()">
+              </div>
+              <div class="form-col">
+                <label>اسم العروسة (عربي)</label>
+                <input type="text" id="brideArInput" value="هالة" dir="rtl" oninput="updateAllData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section highlight-box">
+            <h4 class="form-section-title"><i class="fa-solid fa-user-tag"></i> Invited Guest (اسم الضيف)</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Guest Name (English / Main)</label>
+                <input type="text" id="guestNameInput" value="Mr / Sherief Mohamed" oninput="updateAllData()">
+              </div>
+              <div class="form-col">
+                <label>اسم الضيف (عربي)</label>
+                <input type="text" id="guestNameArInput" value="السيد / شريف محمد" dir="rtl" oninput="updateAllData()">
               </div>
             </div>
 
+            <div class="guest-quick-tags">
+              <span>Quick Presets:</span>
+              <button type="button" onclick="setGuestPreset('Mr / Sherief Mohamed', 'السيد / شريف محمد')">Mr / Sherief Mohamed</button>
+              <button type="button" onclick="setGuestPreset('Eng / Ahmed & Family', 'المهندس / أحمد وعائلته')">Eng / Ahmed & Family</button>
+              <button type="button" onclick="setGuestPreset('Dr / Mahmoud Aly', 'الدكتور / محمود علي')">Dr / Mahmoud Aly</button>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-feather"></i> Opening Blessing & Verses</h4>
+            
             <div class="form-group">
-              <label>Venue / قاعة الحفل</label>
-              <input type="text" id="venueNameInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateEventDetails()">
+              <label>Quranic Ayah / Opening Verse</label>
+              <select id="versePresetSelect" onchange="applyVersePreset(this.value)">
+                <option value="ayah1">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</option>
+                <option value="ayah2">"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"</option>
+                <option value="quote1">"Two souls with but a single thought, two hearts that beat as one."</option>
+                <option value="custom">-- Custom Text (اكتب نصاً مخصصاً) --</option>
+              </select>
             </div>
 
             <div class="form-group">
-              <label>Location / المدينة</label>
-              <input type="text" id="venueLocationInput" value="Nile Plaza, Garden City, Cairo" oninput="updateEventDetails()">
+              <label>Custom Verse / Greeting Line</label>
+              <textarea id="customVerseTextarea" rows="2" oninput="updateAllData()">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</textarea>
             </div>
-          </div>
 
-          <!-- LANGUAGE DISPLAY PREFERENCE -->
-          <div class="setting-card">
-            <div class="card-label"><i class="fa-solid fa-language"></i> Default Language in Invite</div>
-            <div class="lang-toggle-group">
-              <button type="button" class="lang-choice-btn active" id="langChoiceBilingual" onclick="setInitialLang('bilingual')">
-                <i class="fa-solid fa-earth-americas"></i> Bilingual (AR / EN)
-              </button>
-              <button type="button" class="lang-choice-btn" id="langChoiceAr" onclick="setInitialLang('ar')">
-                عربي (Arabic First)
-              </button>
-              <button type="button" class="lang-choice-btn" id="langChoiceEn" onclick="setInitialLang('en')">
-                English First
-              </button>
+            <div class="form-group">
+              <label>Host Families Invitation Line</label>
+              <input type="text" id="hostLineInput" value="Together with their families, joyfully invite you to celebrate the marriage of" oninput="updateAllData()">
             </div>
-          </div>
-
-          <!-- ACTION BUTTONS: DOWNLOAD HTML, COPY LINK, FULLSCREEN -->
-          <div class="action-buttons-container">
-            <button class="btn-primary-action" onclick="downloadStandaloneInvite()">
-              <i class="fa-solid fa-download"></i>
-              <div class="btn-text-wrap">
-                <strong>Download Standalone HTML</strong>
-                <small>Ready-to-share single offline file for this guest</small>
-              </div>
-            </button>
-
-            <button class="btn-secondary-action" onclick="copyPersonalizedLink()">
-              <i class="fa-solid fa-link"></i>
-              <span>Copy VIP Share Link</span>
-            </button>
-
-            <button class="btn-tertiary-action" onclick="openPreviewFullscreen()">
-              <i class="fa-solid fa-expand"></i>
-              <span>Open Invite Fullscreen</span>
-            </button>
-          </div>
-
-          <!-- BATCH GENERATOR MODAL TRIGGER -->
-          <div class="batch-section">
-            <button type="button" class="btn-batch" onclick="openBatchModal()">
-              <i class="fa-solid fa-users"></i> Batch Guest Invites Generator
-            </button>
           </div>
 
         </div>
+
+        <!-- TAB 3: DATE, VENUE & PROGRAM -->
+        <div id="tabContentEvent" class="tab-content">
+          <div class="tab-header">
+            <h3>Date, Venue & Itinerary</h3>
+            <p>Specify the wedding schedule, address, and interactive Google Maps navigation:</p>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-clock"></i> Date & Time</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Wedding Date</label>
+                <input type="date" id="eventDateInput" value="2026-11-20" onchange="updateAllData()">
+              </div>
+              <div class="form-col">
+                <label>Ceremony Time</label>
+                <input type="time" id="eventTimeInput" value="18:00" onchange="updateAllData()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Venue & Location</h4>
+            <div class="form-group">
+              <label>Venue Name (English)</label>
+              <input type="text" id="venueNameEnInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateAllData()">
+            </div>
+            <div class="form-group">
+              <label>اسم القاعة (عربي)</label>
+              <input type="text" id="venueNameArInput" value="قاعة الاحتفالات الملكية - فندق فور سيزونز" dir="rtl" oninput="updateAllData()">
+            </div>
+            <div class="form-group">
+              <label>Full Address / City</label>
+              <input type="text" id="venueAddressInput" value="Nile Plaza, Garden City, Cairo, Egypt" oninput="updateAllData()">
+            </div>
+            <div class="form-group">
+              <label>Google Maps Link</label>
+              <input type="text" id="venueMapLinkInput" value="https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo" oninput="updateAllData()">
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-list-check"></i> Event Schedule & Itinerary</h4>
+            <div class="itinerary-edit-list">
+              <div class="itinerary-edit-item">
+                <input type="text" class="itin-time" value="06:00 PM" placeholder="Time">
+                <input type="text" class="itin-desc" value="Guest Reception & Welcome Drinks" placeholder="Event">
+              </div>
+              <div class="itinerary-edit-item">
+                <input type="text" class="itin-time" value="07:00 PM" placeholder="Time">
+                <input type="text" class="itin-desc" value="Grand Entrance & Royal Zaffa" placeholder="Event">
+              </div>
+              <div class="itinerary-edit-item">
+                <input type="text" class="itin-time" value="08:30 PM" placeholder="Time">
+                <input type="text" class="itin-desc" value="Royal Dinner Banquet Feast" placeholder="Event">
+              </div>
+              <div class="itinerary-edit-item">
+                <input type="text" class="itin-time" value="10:00 PM" placeholder="Time">
+                <input type="text" class="itin-desc" value="Cake Cutting & Celebration" placeholder="Event">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: ANIMATIONS & LUXURY EFFECTS -->
+        <div id="tabContentEffects" class="tab-content">
+          <div class="tab-header">
+            <h3>Interactive Animations & Music</h3>
+            <p>Customize the signature split-heart re-attachment, wax seal, and soundtrack:</p>
+          </div>
+
+          <!-- Split Heart Config -->
+          <div class="form-section highlight-box">
+            <h4 class="form-section-title"><i class="fa-solid fa-heart-circle-bolt"></i> Scroll-Triggered Split Heart</h4>
+            <p class="feature-explainer">Two halves that start separated and seamlessly lock together as the guest scrolls down!</p>
+            
+            <div class="toggle-row">
+              <label>Enable Split Heart Animation</label>
+              <input type="checkbox" id="splitHeartToggle" checked onchange="updateAllData()">
+            </div>
+
+            <div class="form-row" style="margin-top: 10px;">
+              <div class="form-col">
+                <label>Left Half Text</label>
+                <input type="text" id="heartLeftTextInput" value="Mohamed" oninput="updateAllData()">
+              </div>
+              <div class="form-col">
+                <label>Right Half Text</label>
+                <input type="text" id="heartRightTextInput" value="Hala" oninput="updateAllData()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Wax Seal Envelope -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-envelope-open-text"></i> 3D Wax Seal Envelope</h4>
+            <div class="toggle-row">
+              <label>Enable 3D Wax Seal Unveiling</label>
+              <input type="checkbox" id="waxSealToggle" checked onchange="updateAllData()">
+            </div>
+            <div class="form-group" style="margin-top: 8px;">
+              <label>Wax Seal Monogram</label>
+              <input type="text" id="waxSealInitialsInput" value="M & H" maxlength="6" oninput="updateAllData()">
+            </div>
+          </div>
+
+          <!-- Music & Audio -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-music"></i> Procedural Music (Web Audio)</h4>
+            <div class="form-group">
+              <label>Soundtrack Style</label>
+              <select id="audioStyleSelect" onchange="updateAllData()">
+                <option value="symphony">Royal Canon in D Symphony (Strings + Chimes)</option>
+                <option value="harp">Romantic Acoustic Harp & Piano</option>
+                <option value="chimes">Gentle Celestial Chimes</option>
+                <option value="none">No Audio (Silent)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Petals & Canvas -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Ambient Canvas Effects</h4>
+            <div class="toggle-row">
+              <label>Falling Rose Petals & Gold Dust</label>
+              <input type="checkbox" id="petalsToggle" checked onchange="updateAllData()">
+            </div>
+          </div>
+        </div>
+
       </aside>
 
-      <!-- RIGHT COLUMN: LIVE INTERACTIVE PREVIEW -->
+      <!-- RIGHT PANEL: REAL-TIME INTERACTIVE PREVIEW -->
       <section class="preview-section">
         <div class="preview-toolbar">
           <div class="toolbar-left">
-            <span class="live-dot"></span>
-            <span class="toolbar-title">Live Preview for: <strong id="previewGuestLabel">Mr / Sherief Mohamed</strong></span>
+            <span class="live-indicator"></span>
+            <span class="toolbar-status">Live Preview • <strong id="previewActiveDesignLabel">Design #1 (Royal Gold & Emerald Arch)</strong></span>
           </div>
-          <div class="toolbar-right">
-            <span class="preview-tip"><i class="fa-solid fa-mouse-pointer"></i> Scroll down inside to test the Split Heart animation!</span>
+
+          <div class="toolbar-actions">
+            <button class="tool-btn" onclick="openPreviewFullscreen()" title="Open Fullscreen in New Tab">
+              <i class="fa-solid fa-expand"></i> Fullscreen
+            </button>
+            <button class="tool-btn btn-export-gold" onclick="downloadStandaloneInvite()" title="Download Single Offline HTML File">
+              <i class="fa-solid fa-file-arrow-down"></i> Export HTML
+            </button>
           </div>
         </div>
 
         <div class="preview-frame-wrapper" id="previewFrameWrapper">
           <div class="preview-viewport" id="previewViewport">
-            <!-- The Live Interactive Wedding Invitation Template is Rendered Inside this Frame -->
-            <iframe id="invitePreviewIframe" title="Wedding Invitation Preview"></iframe>
+            <iframe id="invitePreviewIframe" title="Live Wedding Invitation Preview"></iframe>
           </div>
         </div>
       </section>
@@ -268,33 +432,11 @@
 
   </div>
 
-  <!-- ============================================ -->
-  <!-- 3. BATCH GENERATOR MODAL                     -->
-  <!-- ============================================ -->
-  <div id="batchModal" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-users"></i> Bulk Guest Invite Links</h3>
-        <button class="modal-close" onclick="closeBatchModal()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="modal-body">
-        <p>Enter guest names (one per line). The generator will create customized links for each:</p>
-        <textarea id="batchGuestsTextarea" rows="6" placeholder="Mr / Sherief Mohamed&#10;Eng / Ahmed Aly&#10;Dr / Mona Hassan&#10;السيد / محمود إبراهيم"></textarea>
-        <button class="btn-batch-generate" onclick="generateBatchLinks()">
-          <i class="fa-solid fa-bolt"></i> Generate Links List
-        </button>
-
-        <div id="batchResultsContainer" class="batch-results hidden">
-          <h4>Generated VIP Invite Links:</h4>
-          <div id="batchLinksList" class="batch-links-list"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
+  <!-- Toast Notification -->
   <div id="toastNotification" class="toast-popup hidden"></div>
 
+  <!-- Load designs catalog and studio scripts -->
+  <script src="assets/designs-catalog.json" type="application/json" id="designsCatalogData"></script>
   <script src="app.js"></script>
 </body>
 </html>
