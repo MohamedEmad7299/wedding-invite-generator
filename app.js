@@ -371,6 +371,8 @@ function applyVersePreset(val) {
 // ==========================================================================
 // 5. MASTER CODED INVITATION CARD ARCHITECTURE GENERATOR
 // ==========================================================================
+const CARD_HTML_TEMPLATE = "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>__GROOM_EN__ &amp; __BRIDE_EN__ | Wedding Invitation - __GUEST_EN__</title>\n  \n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n  <link href=\"https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Italianno&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reem+Kufi:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n  <script src=\"https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js\"></script>\n\n  <style>\n    :root {\n      --gold-primary: #D4AF37;\n      --gold-light: #F7E7CE;\n      --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%);\n      --seal-bg: __SEAL_BG__;\n      --seal-border: __SEAL_BORDER__;\n      --card-bg-native: __CARD_BG__;\n      --card-bg-rgb: __CARD_BG_RGB__;\n    }\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    html { scroll-behavior: smooth; }\n\n    body {\n      background: #040E0C;\n      color: #E8ECEB;\n      font-family: 'Montserrat', sans-serif;\n      min-height: 100vh;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: flex-start;\n      padding: 30px 16px 80px;\n      overflow-x: hidden;\n      background-image: \n        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),\n        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);\n    }\n\n    #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }\n\n    /* Top Action Bar */\n    .top-action-bar {\n      position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px;\n    }\n    .top-action-btn {\n      background: rgba(8, 27, 23, 0.85); border: 1px solid var(--gold-primary);\n      color: #FFF9E6; padding: 7px 14px; border-radius: 25px; font-size: 11px;\n      font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);\n      box-shadow: 0 4px 15px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;\n      transition: all 0.3s;\n    }\n    .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }\n\n    /* THE CARD STAGE CONTAINER */\n    .card-stage-container {\n      width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;\n    }\n\n    .luxury-invitation-card {\n      position: relative; width: 100%; border-radius: 18px; overflow: hidden;\n      box-shadow: 0 30px 80px rgba(0,0,0,0.85), 0 0 35px rgba(212, 175, 55, 0.25);\n      background: #000;\n    }\n\n    /* CARD ARTWORK FRAME */\n    .card-artwork-frame {\n      position: relative; width: 100%; display: block;\n    }\n    .card-artwork-img {\n      width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);\n    }\n\n    /* METALLIC GOLD FOIL EFFECT */\n    .foil-gold {\n      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%) !important;\n      -webkit-background-clip: text !important;\n      -webkit-text-fill-color: transparent !important;\n      filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.5));\n    }\n    .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }\n    .foil-black { color: #111111 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }\n    .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }\n    .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }\n    .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }\n    .foil-rosegold {\n      background: linear-gradient(135deg, #FADBD8 0%, #F5B7B1 50%, #D98880 100%) !important;\n      -webkit-background-clip: text !important;\n      -webkit-text-fill-color: transparent !important;\n    }\n\n    /* =============================================================\n       EXACT 1:1 NON-COLLIDING TYPOGRAPHY ARCHITECTURE\n       ============================================================= */\n    .card-exact-slots-overlay {\n      position: absolute;\n      inset: 0;\n      z-index: 10;\n      pointer-events: none;\n      transform: translateY(__OFFSET_Y__px);\n      transition: transform 0.2s ease;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n    }\n\n    /* Seamless localized inpainting blend patch */\n    .card-text-backdrop-patch {\n      position: absolute;\n      top: 29%;\n      bottom: 12%;\n      left: 14%;\n      right: 14%;\n      background: radial-gradient(ellipse 95% 85% at center, var(--card-bg-native) 42%, rgba(var(--card-bg-rgb), 0.88) 72%, transparent 100%);\n      filter: blur(10px);\n      z-index: 1;\n      pointer-events: none;\n      opacity: __PATCH_OPACITY__;\n    }\n\n    /* Dedicated vertical flex flow stack: IMPOSSIBLE TO COLLIDE */\n    .card-typography-stack {\n      position: absolute;\n      top: 31%;\n      bottom: 12%;\n      left: 12%;\n      right: 12%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: space-between;\n      text-align: center;\n      pointer-events: auto;\n      z-index: 2;\n      line-height: 1.4 !important;\n      __PLAQUE_STYLE_RULES__\n    }\n\n    .card-block {\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      pointer-events: auto;\n    }\n\n    /* Block 1: Intro & Guest */\n    .card-intro-block {\n      gap: 3px;\n    }\n    .slot-families-txt {\n      font-family: 'Montserrat', sans-serif;\n      font-size: 10px;\n      font-weight: 500;\n      letter-spacing: 3.5px;\n      color: #ECC870;\n      text-transform: uppercase;\n      line-height: 1.3;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n    .slot-guest-badge {\n      font-size: 10.5px;\n      letter-spacing: 1.5px;\n      color: #F7E7CE;\n      line-height: 1.4;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      gap: 2px;\n      margin-top: 2px;\n    }\n    .slot-guest-badge strong {\n      color: #FFF3B3;\n      font-weight: 700;\n    }\n    .guest-arabic-pill {\n      font-family: 'Aref Ruqaa', serif;\n      font-size: 12px;\n      color: #ECC870;\n      opacity: 0.9;\n    }\n\n    /* Block 2: Couple Calligraphy & Arabic */\n    .card-couple-block {\n      gap: 2px;\n      margin: 4px 0;\n    }\n    .couple-names-wrap {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      gap: 0px;\n      line-height: 1.15;\n    }\n    .couple-bride-name, .couple-groom-name {\n      line-height: 1.15;\n      text-shadow: 0 2px 6px rgba(0,0,0,0.85);\n    }\n    .couple-amp-symbol {\n      font-family: 'Pinyon Script', cursive;\n      font-size: 26px;\n      line-height: 0.9;\n      margin: -2px 0;\n      text-shadow: 0 2px 5px rgba(0,0,0,0.85);\n    }\n    .couple-arabic-calligraphy {\n      font-family: 'Aref Ruqaa', serif;\n      font-size: 20px;\n      font-weight: 700;\n      color: #ECC870;\n      margin-top: 4px;\n      line-height: 1.3;\n      text-shadow: 0 2px 6px rgba(0,0,0,0.9);\n    }\n\n    /* Block 3: Date & Divider */\n    .card-date-block {\n      gap: 3px;\n    }\n    .date-month-txt, .date-year-txt {\n      font-family: 'Cinzel', serif;\n      font-size: 11px;\n      font-weight: 600;\n      letter-spacing: 3.5px;\n      color: #ECC870;\n      text-transform: uppercase;\n      line-height: 1.2;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n    .date-divider-box {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      gap: 12px;\n      border-top: 1px solid rgba(212, 175, 55, 0.7);\n      border-bottom: 1px solid rgba(212, 175, 55, 0.7);\n      padding: 4px 18px;\n      margin: 2px 0;\n      line-height: 1.2;\n    }\n    .date-day-name, .date-time-txt {\n      font-size: 10px;\n      font-weight: 600;\n      letter-spacing: 2px;\n      color: #F7E7CE;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n    .date-day-num {\n      font-family: 'Cinzel', serif;\n      font-size: 22px;\n      font-weight: 700;\n      color: #FFF3B3;\n      padding: 0 4px;\n      text-shadow: 0 1px 5px rgba(0,0,0,0.9);\n    }\n\n    /* Block 4: Venue & Address */\n    .card-venue-block {\n      gap: 2px;\n    }\n    .venue-name-txt {\n      font-family: 'Montserrat', sans-serif;\n      font-size: 10px;\n      font-weight: 600;\n      letter-spacing: 2px;\n      color: #F7E7CE;\n      text-transform: uppercase;\n      line-height: 1.3;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n    .venue-ar-txt {\n      font-family: 'Aref Ruqaa', serif;\n      font-size: 12px;\n      color: #ECC870;\n      line-height: 1.3;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n    .venue-addr-txt {\n      font-size: 9px;\n      letter-spacing: 1.5px;\n      color: rgba(247, 231, 206, 0.85);\n      text-transform: uppercase;\n      line-height: 1.3;\n      text-shadow: 0 1px 4px rgba(0,0,0,0.9);\n    }\n\n    /* FOOTER & WAX SEAL */\n    .card-interactive-footer {\n      width: 100%; max-width: 540px; margin: 0 auto; display: flex; flex-direction: column;\n      align-items: center; gap: 16px;\n    }\n\n    .wax-seal-wrapper {\n      position: relative; display: flex; flex-direction: column; align-items: center;\n      cursor: pointer; margin-top: -30px; z-index: 50; transition: transform 0.3s;\n    }\n    .wax-seal-wrapper:hover { transform: scale(1.08); }\n    .wax-seal-disc {\n      width: 68px; height: 68px; border-radius: 50%;\n      background: var(--seal-bg); border: 3px solid var(--seal-border);\n      box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.4);\n      display: flex; align-items: center; justify-content: center;\n      font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 900;\n      color: #FFF9E6; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);\n    }\n    .wax-seal-hint {\n      margin-top: 6px; font-size: 10px; color: var(--gold-primary); font-weight: 600;\n      background: rgba(8, 27, 23, 0.85); padding: 3px 10px; border-radius: 12px;\n      border: 1px solid rgba(212, 175, 55, 0.4);\n    }\n\n    .card-actions-row {\n      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%;\n    }\n    .card-btn {\n      background: var(--gold-foil); color: #081B17; border: none; border-radius: 25px;\n      padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer;\n      display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);\n      transition: all 0.3s;\n    }\n    .card-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }\n    .card-btn-outline {\n      background: rgba(14, 41, 35, 0.8); border: 1px solid var(--gold-primary);\n      color: #FFF9E6; border-radius: 25px; padding: 10px 20px; font-size: 13px;\n      font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;\n      transition: all 0.3s;\n    }\n    .card-btn-outline:hover { background: rgba(212, 175, 55, 0.2); }\n\n    /* COUNTDOWN BADGE */\n    .countdown-widget {\n      background: rgba(8, 27, 23, 0.9); border: 1px solid rgba(212, 175, 55, 0.4);\n      border-radius: 16px; padding: 12px 20px; display: flex; gap: 16px; text-align: center;\n      box-shadow: 0 8px 25px rgba(0,0,0,0.5);\n    }\n    .countdown-unit { display: flex; flex-direction: column; align-items: center; }\n    .countdown-num { font-size: 20px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }\n    .countdown-lbl { font-size: 9px; color: #8FAEA8; text-transform: uppercase; letter-spacing: 1px; }\n\n    /* RSVP MODAL */\n    .rsvp-modal {\n      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);\n      z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;\n    }\n    .rsvp-modal.active { display: flex; }\n    .rsvp-card {\n      width: 100%; max-width: 440px; background: #0A221D; border: 2px solid var(--gold-primary);\n      border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);\n      position: relative;\n    }\n    .rsvp-close {\n      position: absolute; top: 16px; right: 16px; background: none; border: none;\n      color: #8FAEA8; font-size: 18px; cursor: pointer;\n    }\n    .rsvp-title { font-family: 'Cinzel Decorative', serif; font-size: 20px; color: #FFF9E6; margin-bottom: 6px; }\n    .rsvp-desc { font-size: 13px; color: #8FAEA8; margin-bottom: 20px; }\n    .rsvp-actions { display: flex; flex-direction: column; gap: 10px; }\n    .rsvp-btn-yes {\n      background: var(--gold-foil); color: #081B17; border: none; border-radius: 12px;\n      padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;\n    }\n    .rsvp-btn-yes:hover { filter: brightness(1.1); transform: translateY(-1px); }\n  </style>\n</head>\n<body>\n\n  <!-- Floating Audio & Map Controls -->\n  <div class=\"top-action-bar\">\n    <button class=\"top-action-btn\" onclick=\"toggleRoyalMusic()\" id=\"btnMusicPlay\">\n      <i class=\"fa-solid fa-music\"></i> <span id=\"lblMusic\">Royal Music</span>\n    </button>\n    <a href=\"__VENUE_MAP_LINK__\" target=\"_blank\" class=\"top-action-btn\">\n      <i class=\"fa-solid fa-map-location-dot\"></i> <span>Directions</span>\n    </a>\n  </div>\n\n  <canvas id=\"fxCanvas\"></canvas>\n\n  <!-- THE INVITATION CARD -->\n  <div class=\"card-stage-container\">\n    <div class=\"luxury-invitation-card\">\n      \n      <!-- High-Res Chosen Design Clean Artwork Base -->\n      <div class=\"card-artwork-frame\">\n        <img src=\"__DESIGN_IMAGE__\" alt=\"__DESIGN_TITLE__\" class=\"card-artwork-img\">\n        \n        <!-- EXACT 1:1 NON-COLLIDING OVERLAY -->\n        <div class=\"card-exact-slots-overlay\">\n          \n          <!-- Seamless Localized Backdrop Blend Patch -->\n          <div class=\"card-text-backdrop-patch\"></div>\n\n          <!-- Dedicated Vertical Non-Colliding Typography Stack -->\n          <div class=\"card-typography-stack\">\n            \n            <!-- 1. Intro & Guest Block -->\n            <div class=\"card-block card-intro-block\">\n              <div class=\"slot-families-txt\">Together With Their Families</div>\n              <div class=\"slot-guest-badge\">\n                <span>Cordially Inviting: <strong>__GUEST_EN__</strong></span>\n                <span class=\"guest-arabic-pill\">__GUEST_AR__</span>\n              </div>\n            </div>\n\n            <!-- 2. Couple Names & Arabic Calligraphy -->\n            <div class=\"card-block card-couple-block\">\n              <div class=\"couple-names-wrap __COLOR_CLASS__\">\n                <div class=\"couple-bride-name\" style=\"__FONT_CSS_RULE__\">__BRIDE_EN__</div>\n                <div class=\"couple-amp-symbol\">&amp;</div>\n                <div class=\"couple-groom-name\" style=\"__FONT_CSS_RULE__\">__GROOM_EN__</div>\n              </div>\n              <div class=\"couple-arabic-calligraphy\">__GROOM_AR__ و __BRIDE_AR__</div>\n            </div>\n\n            <!-- 3. Event Date & Time Block -->\n            <div class=\"card-block card-date-block\">\n              <div class=\"date-month-txt\">__MONTH_EN__</div>\n              <div class=\"date-divider-box\">\n                <span class=\"date-day-name\">__WEEKDAY__</span>\n                <span class=\"date-day-num\">__DAY__</span>\n                <span class=\"date-time-txt\">AT __TIME_FORMATTED__</span>\n              </div>\n              <div class=\"date-year-txt\">__YEAR__</div>\n            </div>\n\n            <!-- 4. Venue & Address Block -->\n            <div class=\"card-block card-venue-block\">\n              <div class=\"venue-name-txt\">__VENUE_NAME_EN__</div>\n              <div class=\"venue-ar-txt\">__VENUE_NAME_AR__</div>\n              <div class=\"venue-addr-txt\">__VENUE_ADDRESS__</div>\n            </div>\n\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n    <!-- Interactive Wax Seal & RSVP Footer -->\n    <div class=\"card-interactive-footer\">\n      <div class=\"wax-seal-wrapper\" onclick=\"handleWaxSealClick()\">\n        <div class=\"wax-seal-disc\">__WAX_SEAL_MONOGRAM__</div>\n        <div class=\"wax-seal-hint\"><i class=\"fa-solid fa-wand-magic-sparkles\"></i> Tap Royal Seal</div>\n      </div>\n\n      <div class=\"card-actions-row\">\n        __RSVP_BUTTON_HTML__\n        <button class=\"card-btn-outline\" onclick=\"addToCalendar()\">\n          <i class=\"fa-regular fa-calendar-plus\"></i> Add to Calendar\n        </button>\n      </div>\n\n      __COUNTDOWN_HTML__\n    </div>\n  </div>\n\n  <!-- RSVP MODAL -->\n  <div class=\"rsvp-modal\" id=\"rsvpModal\">\n    <div class=\"rsvp-card\">\n      <button class=\"rsvp-close\" onclick=\"closeRSVPModal()\"><i class=\"fa-solid fa-xmark\"></i></button>\n      <div class=\"rsvp-title\">Royal RSVP Confirmation</div>\n      <div class=\"rsvp-desc\">Honored to have you celebrate with us. Will you be attending?</div>\n      <div class=\"rsvp-actions\">\n        <button class=\"rsvp-btn-yes\" onclick=\"submitRSVP('Attending with Joy')\">Joyfully Accepts</button>\n        <button class=\"card-btn-outline\" onclick=\"submitRSVP('Regretfully Declines')\" style=\"justify-content:center;\">Regretfully Declines</button>\n      </div>\n    </div>\n  </div>\n\n  <script>\n    // 1. Procedural Royal Wedding Symphony (Web Audio API - No MP3 needed)\n    let audioCtx = null;\n    let isPlayingMusic = false;\n    let musicInterval = null;\n\n    function playRoyalMelody() {\n      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();\n      if (audioCtx.state === 'suspended') audioCtx.resume();\n\n      const canonNotes = [\n        293.66, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00,\n        587.33, 440.00, 493.88, 369.99, 392.00, 293.66, 392.00, 440.00\n      ];\n      let noteIdx = 0;\n\n      function triggerNextNote() {\n        if (!isPlayingMusic) return;\n        const freq = canonNotes[noteIdx % canonNotes.length];\n        noteIdx++;\n\n        const osc = audioCtx.createOscillator();\n        const gain = audioCtx.createGain();\n        osc.type = 'triangle';\n        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);\n\n        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);\n        gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.1);\n        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);\n\n        osc.connect(gain);\n        gain.connect(audioCtx.destination);\n\n        osc.start();\n        osc.stop(audioCtx.currentTime + 1.3);\n      }\n\n      isPlayingMusic = true;\n      document.getElementById('lblMusic').textContent = 'Pause Music';\n      musicInterval = setInterval(triggerNextNote, 600);\n      triggerNextNote();\n    }\n\n    function toggleRoyalMusic() {\n      if (isPlayingMusic) {\n        isPlayingMusic = false;\n        clearInterval(musicInterval);\n        document.getElementById('lblMusic').textContent = 'Play Music';\n      } else {\n        playRoyalMelody();\n      }\n    }\n\n    function handleWaxSealClick() {\n      if (typeof confetti === 'function') {\n        confetti({\n          particleCount: 100,\n          spread: 80,\n          origin: { y: 0.6 },\n          colors: ['#D4AF37', '#FFF3B3', '#AA771C']\n        });\n      }\n      if (!isPlayingMusic) playRoyalMelody();\n    }\n\n    // 2. Falling Golden Petals FX\n    ${state.enablePetals ? `\n      (function() {\n        const canvas = document.getElementById('fxCanvas');\n        if (!canvas) return;\n        const ctx = canvas.getContext('2d');\n        let width = canvas.width = window.innerWidth;\n        let height = canvas.height = window.innerHeight;\n\n        window.addEventListener('resize', () => {\n          width = canvas.width = window.innerWidth;\n          height = canvas.height = window.innerHeight;\n        });\n\n        const petals = [];\n        for (let i = 0; i < 35; i++) {\n          petals.push({\n            x: Math.random() * width,\n            y: Math.random() * height,\n            size: Math.random() * 5 + 3,\n            speedY: Math.random() * 1 + 0.5,\n            speedX: Math.random() * 0.8 - 0.4,\n            rotation: Math.random() * 360,\n            rotSpeed: Math.random() * 2 - 1,\n            color: ['#D4AF37', '#ECC870', '#FFF3B3', '#FADBD8'][Math.floor(Math.random() * 4)],\n            opacity: Math.random() * 0.6 + 0.3\n          });\n        }\n\n        function draw() {\n          ctx.clearRect(0, 0, width, height);\n          petals.forEach(p => {\n            p.y += p.speedY;\n            p.x += p.speedX;\n            p.rotation += p.rotSpeed;\n\n            if (p.y > height) { p.y = -10; p.x = Math.random() * width; }\n            if (p.x > width) p.x = 0;\n            if (p.x < 0) p.x = width;\n\n            ctx.save();\n            ctx.translate(p.x, p.y);\n            ctx.rotate(p.rotation * Math.PI / 180);\n            ctx.globalAlpha = p.opacity;\n            ctx.fillStyle = p.color;\n            ctx.beginPath();\n            ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);\n            ctx.fill();\n            ctx.restore();\n          });\n          requestAnimationFrame(draw);\n        }\n        draw();\n      })();\n    ` : ''}\n\n    // 3. Live Countdown\n    ${state.enableCountdown ? `\n      (function() {\n        const target = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();\n        function updateCd() {\n          const now = Date.now();\n          const diff = target - now;\n          if (diff <= 0) {\n            document.getElementById('countdownWidget').innerHTML = '<div style=\"color:var(--gold-primary); font-weight:700;\">Celebrating Today! 💍✨</div>';\n            return;\n          }\n          const d = Math.floor(diff / (1000 * 60 * 60 * 24));\n          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));\n          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));\n          const s = Math.floor((diff % (1000 * 60)) / 1000);\n\n          const elD = document.getElementById('cdDays');\n          if (elD) elD.textContent = d;\n          const elH = document.getElementById('cdHours');\n          if (elH) elH.textContent = h;\n          const elM = document.getElementById('cdMins');\n          if (elM) elM.textContent = m;\n          const elS = document.getElementById('cdSecs');\n          if (elS) elS.textContent = s;\n        }\n        setInterval(updateCd, 1000);\n        updateCd();\n      })();\n    ` : ''}\n\n    // 4. RSVP Handling\n    function openRSVPModal() { document.getElementById('rsvpModal').classList.add('active'); }\n    function closeRSVPModal() { document.getElementById('rsvpModal').classList.remove('active'); }\n    function submitRSVP(response) {\n      if (typeof confetti === 'function') {\n        confetti({ particleCount: 120, spread: 90, origin: { y: 0.5 } });\n      }\n      alert('Thank you! Your RSVP response (' + response + ') has been recorded. 💍');\n      closeRSVPModal();\n    }\n\n    // 5. Add to Calendar\n    function addToCalendar() {\n      const title = encodeURIComponent('${state.groomEn} & ${state.brideEn} Wedding');\n      const details = encodeURIComponent('Celebrating the marriage of ${state.groomEn} & ${state.brideEn}. Guest: ${state.guestEn}');\n      const location = encodeURIComponent('${state.venueNameEn}, ${state.venueAddress}');\n      const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + title + '&details=' + details + '&location=' + location;\n      window.open(gcalUrl, '_blank');\n    }\n  <\\/script>\n</body>\n</html>`;\n}\n\n// ==========================================================================\n// 6. PREVIEW STAGE RENDERING\n// ==========================================================================\nfunction renderCardPreview() {\n  const container = document.getElementById('previewViewportContainer');\n  const titleDisplay = document.getElementById('activeDesignTitleDisplay');\n  const catalog = getCatalog();\n  const activeDesign = catalog.find(d => d.id === cardStudioState.activeDesignId) || catalog[0];\n\n  if (titleDisplay && activeDesign) {\n    titleDisplay.textContent = `Active: ${activeDesign.titleEn} (#${activeDesign.index})`;\n  }\n\n  if (!container) return;\n\n  const html = generateCodedCardHTML(cardStudioState);\n\n  // Render iframe for 100% css isolation and faithful preview\n  let iframe = container.querySelector('iframe.card-preview-iframe');\n  if (!iframe) {\n    iframe = document.createElement('iframe');\n    iframe.className = 'card-preview-iframe';\n    iframe.style.width = '100%';\n    iframe.style.height = '880px';\n    iframe.style.border = 'none';\n    iframe.style.borderRadius = '20px';\n    iframe.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.7)';\n    container.innerHTML = '';\n    container.appendChild(iframe);\n  }\n\n  iframe.srcdoc = html;\n}\n\n// ==========================================================================\n// 7. EXPORT, PRINT & VIP SHARE\n// ==========================================================================\nfunction downloadStandaloneInvite() {\n  const html = generateCodedCardHTML(cardStudioState);\n  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });\n  const url = URL.createObjectURL(blob);\n  const a = document.createElement('a');\n  a.href = url;\n  a.download = `Wedding_Invitation_${cardStudioState.groomEn}_and_${cardStudioState.brideEn}_(${cardStudioState.guestEn.replace(/[^a-zA-Z0-9]/g, '_')}).html`;\n  document.body.appendChild(a);\n  a.click();\n  document.body.removeChild(a);\n  URL.revokeObjectURL(url);\n  showToast('Downloaded standalone wedding invitation card! 💌');\n}\n\nfunction printCard() {\n  const html = generateCodedCardHTML(cardStudioState);\n  const printWindow = window.open('', '_blank');\n  printWindow.document.write(html);\n  printWindow.document.close();\n  printWindow.focus();\n  setTimeout(() => {\n    printWindow.print();\n  }, 600);\n}\n\nfunction copyPersonalizedLink() {\n  const url = new URL(window.location.href);\n  url.searchParams.set('design', cardStudioState.activeDesignId);\n  url.searchParams.set('guest', cardStudioState.guestEn);\n  url.searchParams.set('guestAr', cardStudioState.guestAr);\n  url.searchParams.set('groom', cardStudioState.groomEn);\n  url.searchParams.set('bride', cardStudioState.brideEn);\n\n  navigator.clipboard.writeText(url.toString()).then(() => {\n    showToast('VIP personalized invitation link copied to clipboard! 📋');\n  }).catch(() => {\n    prompt('Copy your VIP personalized link:', url.toString());\n  });\n}\n\nfunction readUrlParams() {\n  const params = new URLSearchParams(window.location.search);\n  if (params.has('design')) cardStudioState.activeDesignId = params.get('design');\n  if (params.has('guest')) {\n    cardStudioState.guestEn = params.get('guest');\n    document.getElementById('guestNameInput').value = cardStudioState.guestEn;\n  }\n  if (params.has('guestAr')) {\n    cardStudioState.guestAr = params.get('guestAr');\n    document.getElementById('guestNameArInput').value = cardStudioState.guestAr;\n  }\n  if (params.has('groom')) {\n    cardStudioState.groomEn = params.get('groom');\n    document.getElementById('groomEnInput').value = cardStudioState.groomEn;\n  }\n  if (params.has('bride')) {\n    cardStudioState.brideEn = params.get('bride');\n    document.getElementById('brideEnInput').value = cardStudioState.brideEn;\n  }\n}\n\nfunction showToast(msg) {\n  const toast = document.getElementById('toastNotification');\n  if (!toast) return;\n  toast.textContent = msg;\n  toast.classList.add('active');\n  setTimeout(() => toast.classList.remove('active'), 3500);\n}\n\n// Auto unlock if previously unlocked in this session\ndocument.addEventListener('DOMContentLoaded', () => {\n  try {\n    if (sessionStorage.getItem('portal_unlocked') === 'true') {\n      document.getElementById('passwordGateModal').classList.remove('active');\n      document.body.classList.remove('locked-body');\n      document.getElementById('appContainer').classList.remove('hidden');\n      initStudioApp();\n    }\n  } catch(e) {}\n})</script>\n</body>\n</html>\n";
+
 function generateCodedCardHTML(state) {
   const catalog = getCatalog();
   const design = catalog.find(d => d.id === state.activeDesignId) || catalog[0] || {
@@ -382,12 +384,22 @@ function generateCodedCardHTML(state) {
   const isSeamless = (state.plaqueStyle === 'seamless' || !state.plaqueStyle);
   const cardBg = design.cardBgColor || '#0B261F';
 
-  const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
-  const weekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-  const day = eventDateObj.getDate();
-  const monthEn = eventDateObj.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
-  const year = eventDateObj.getFullYear();
-  const timeFormatted = eventDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  function hexToRgb(hex) {
+    hex = (hex || '#0B261F').replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+    const num = parseInt(hex, 16);
+    return [ (num >> 16) & 255, (num >> 8) & 255, num & 255 ].join(', ');
+  }
+  const cardBgRgb = hexToRgb(cardBg);
+
+  const rawDate = state.eventDate || state.weddingDate || '2026-11-20';
+  const rawTime = state.eventTime || state.weddingTime || '18:00';
+  const eventDateObj = new Date(rawDate + 'T' + rawTime + ':00');
+  const weekday = isNaN(eventDateObj) ? 'FRIDAY' : eventDateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+  const day = isNaN(eventDateObj) ? 20 : eventDateObj.getDate();
+  const monthEn = isNaN(eventDateObj) ? 'NOVEMBER' : eventDateObj.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+  const year = isNaN(eventDateObj) ? 2026 : eventDateObj.getFullYear();
+  const timeFormatted = isNaN(eventDateObj) ? '6:00 PM' : eventDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
   // Wax seal gradient & border
   let sealBg = 'radial-gradient(circle at 35% 30%, #F5CE68, #B8860B 65%, #6E4E04)';
@@ -404,17 +416,20 @@ function generateCodedCardHTML(state) {
   }
 
   // Non-seamless Plaque settings
-  const op = state.plaqueOpacity / 100;
-  let plaqueBgCSS = 'background: transparent; backdrop-filter: none; box-shadow: none; border: none;';
-  let plaqueBorderCSS = '';
+  const op = (state.plaqueOpacity || 85) / 100;
+  let plaqueStyleRules = '';
   if (!isSeamless) {
-    if (state.plaqueStyle === 'frosted') plaqueBgCSS = `background: rgba(255, 255, 255, ${op}); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);`;
-    else if (state.plaqueStyle === 'parchment') plaqueBgCSS = `background: rgba(253, 248, 238, ${op}); backdrop-filter: blur(10px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);`;
-    else if (state.plaqueStyle === 'dark') plaqueBgCSS = `background: rgba(10, 14, 12, ${op}); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);`;
+    let plaqueBgCSS = '';
+    if (state.plaqueStyle === 'frosted') plaqueBgCSS = 'background: rgba(255, 255, 255, ' + op + '); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);';
+    else if (state.plaqueStyle === 'parchment') plaqueBgCSS = 'background: rgba(253, 248, 238, ' + op + '); backdrop-filter: blur(10px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);';
+    else if (state.plaqueStyle === 'dark') plaqueBgCSS = 'background: rgba(10, 14, 12, ' + op + '); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);';
     
+    let plaqueBorderCSS = '';
     if (state.plaqueBorder === 'gold-thin') plaqueBorderCSS = 'border: 1px solid rgba(212, 175, 55, 0.7); outline: 1px solid rgba(212, 175, 55, 0.3); outline-offset: 4px;';
     else if (state.plaqueBorder === 'gold-double') plaqueBorderCSS = 'border: 3px double rgba(212, 175, 55, 0.9);';
     else if (state.plaqueBorder === 'gold-dashed') plaqueBorderCSS = 'border: 1px dashed rgba(212, 175, 55, 0.8);';
+
+    plaqueStyleRules = plaqueBgCSS + ' ' + plaqueBorderCSS + ' border-radius: 16px; padding: 18px 12px;';
   }
 
   // Text Color / Foil styling
@@ -427,675 +442,54 @@ function generateCodedCardHTML(state) {
   else if (state.textColorTheme === 'rosegold') colorClass = 'foil-rosegold';
 
   // Script Font styling
-  let fontCssRule = `font-family: '${state.scriptFont}', cursive; font-size: ${state.coupleSize}px; font-weight: 400;`;
+  let fontCssRule = "font-family: '" + state.scriptFont + "', cursive; font-size: " + state.coupleSize + "px; font-weight: 400;";
   if (state.scriptFont === 'Playfair Display') {
-    fontCssRule = `font-family: 'Playfair Display', serif; font-style: italic; font-size: ${Math.round(state.coupleSize * 0.9)}px; font-weight: 600;`;
+    fontCssRule = "font-family: 'Playfair Display', serif; font-style: italic; font-size: " + Math.round(state.coupleSize * 0.9) + "px; font-weight: 600;";
   } else if (state.scriptFont === 'Cormorant Garamond') {
-    fontCssRule = `font-family: 'Cormorant Garamond', serif; font-size: ${Math.round(state.coupleSize * 0.9)}px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;`;
+    fontCssRule = "font-family: 'Cormorant Garamond', serif; font-size: " + Math.round(state.coupleSize * 0.9) + "px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;";
   } else if (state.scriptFont === 'Cinzel') {
-    fontCssRule = `font-family: 'Cinzel', serif; font-size: ${Math.round(state.coupleSize * 0.8)}px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;`;
+    fontCssRule = "font-family: 'Cinzel', serif; font-size: " + Math.round(state.coupleSize * 0.8) + "px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;";
   } else if (state.scriptFont === 'Aref Ruqaa') {
-    fontCssRule = `font-family: 'Aref Ruqaa', serif; font-size: ${Math.round(state.coupleSize * 0.95)}px; font-weight: 700;`;
+    fontCssRule = "font-family: 'Aref Ruqaa', serif; font-size: " + Math.round(state.coupleSize * 0.95) + "px; font-weight: 700;";
   } else if (state.scriptFont === 'Amiri') {
-    fontCssRule = `font-family: 'Amiri', serif; font-size: ${state.coupleSize}px; font-weight: 700;`;
+    fontCssRule = "font-family: 'Amiri', serif; font-size: " + state.coupleSize + "px; font-weight: 700;";
   }
 
-  return `<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${state.groomEn} & ${state.brideEn} | Wedding Invitation - ${state.guestEn}</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Italianno&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
-
-  <style>
-    :root {
-      --gold-primary: #D4AF37;
-      --gold-light: #F7E7CE;
-      --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%);
-      --seal-bg: ${sealBg};
-      --seal-border: ${sealBorder};
-      --card-bg-native: ${cardBg};
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: #040E0C;
-      color: #E8ECEB;
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 30px 16px 80px;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
-    }
-
-    #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
-
-    /* Top Action Bar */
-    .top-action-bar {
-      position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px;
-    }
-    .top-action-btn {
-      background: rgba(8, 27, 23, 0.85); border: 1px solid var(--gold-primary);
-      color: #FFF9E6; padding: 7px 14px; border-radius: 25px; font-size: 11px;
-      font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;
-      transition: all 0.3s;
-    }
-    .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
-
-    /* THE CARD STAGE CONTAINER */
-    .card-stage-container {
-      width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;
-    }
-
-    .luxury-invitation-card {
-      position: relative; width: 100%; border-radius: 18px; overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.85), 0 0 35px rgba(212, 175, 55, 0.25);
-      background: #000;
-    }
-
-    /* CARD ARTWORK FRAME */
-    .card-artwork-frame {
-      position: relative; width: 100%; display: block; line-height: 0;
-    }
-    .card-artwork-img {
-      width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);
-    }
-
-    /* METALLIC GOLD FOIL EFFECT */
-    .foil-gold {
-      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.5));
-    }
-    .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }
-    .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
-    .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
-    .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
-
-    /* =============================================================
-       EXACT 1:1 SLOTTED OVERLAY ARCHITECTURE
-       (Text lands precisely where the old text was located)
-       ============================================================= */
-    .card-exact-slots-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 10;
-      pointer-events: none;
-      transform: translateY(${state.offsetY}px);
-      transition: transform 0.2s ease;
-    }
-
-    /* Center axis aligned to the card: 48.5% X */
-    .slot-item {
-      position: absolute;
-      left: 48.5%;
-      transform: translateX(-50%);
-      width: 65%;
-      text-align: center;
-      pointer-events: auto;
-    }
-
-    /* Slot 1: "TOGETHER WITH THEIR FAMILIES" (Y: ~35.5%) */
-    .slot-intro {
-      top: 35.5%;
-    }
-    .slot-families-txt {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 3.8px;
-      color: #ECC870;
-      text-transform: uppercase;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .slot-guest-badge {
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      color: #F7E7CE;
-      margin-top: 3px;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .slot-guest-badge strong {
-      color: #FFF3B3;
-      font-weight: 700;
-    }
-
-    /* Slot 2: Bride & Groom Calligraphy (Y: ~43.5% to ~59%) */
-    .slot-bride {
-      top: 42.5%;
-      ${fontCssRule}
-      line-height: 1;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.85);
-    }
-
-    .slot-amp {
-      top: 49.5%;
-      font-family: 'Pinyon Script', cursive;
-      font-size: 28px;
-      line-height: 1;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.85);
-    }
-
-    .slot-groom {
-      top: 53.5%;
-      ${fontCssRule}
-      line-height: 1;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.85);
-    }
-
-    .slot-arabic {
-      top: 60.5%;
-      font-family: 'Aref Ruqaa', serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: #ECC870;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-    }
-
-    /* Slot 3: Month "SEPTEMBER" -> "NOVEMBER" (Y: ~65%) */
-    .slot-month {
-      top: 65.5%;
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3.5px;
-      color: #ECC870;
-      text-transform: uppercase;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-
-    /* Slot 4: Divider Lines "SATURDAY | 25 | AT 7 PM" (Y: ~69.5%) */
-    .slot-date-divider {
-      top: 69.5%;
-    }
-    .date-divider-box {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      border-top: 1px solid rgba(212, 175, 55, 0.7);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.7);
-      padding: 4px 20px;
-    }
-    .date-day-name, .date-time-txt {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: #F7E7CE;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .date-day-num {
-      font-family: 'Cinzel', serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: #FFF3B3;
-      padding: 0 4px;
-      text-shadow: 0 1px 5px rgba(0,0,0,0.9);
-    }
-
-    /* Slot 5: Year "2026" (Y: ~74%) */
-    .slot-year {
-      top: 74.2%;
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3.5px;
-      color: #ECC870;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-
-    /* Slot 6: Venue & Address "747 FRONT ST..." (Y: ~78.5%) */
-    .slot-venue {
-      top: 78.5%;
-    }
-    .venue-name-txt {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: #F7E7CE;
-      text-transform: uppercase;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .venue-ar-txt {
-      font-family: 'Aref Ruqaa', serif;
-      font-size: 12px;
-      color: #ECC870;
-      margin-top: 1px;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-    .venue-addr-txt {
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      color: rgba(247, 231, 206, 0.85);
-      text-transform: uppercase;
-      margin-top: 2px;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    }
-
-    /* FOOTER & WAX SEAL */
-    .card-interactive-footer {
-      width: 100%; max-width: 540px; margin: 0 auto; display: flex; flex-direction: column;
-      align-items: center; gap: 16px;
-    }
-
-    .wax-seal-wrapper {
-      position: relative; display: flex; flex-direction: column; align-items: center;
-      cursor: pointer; margin-top: -30px; z-index: 50; transition: transform 0.3s;
-    }
-    .wax-seal-wrapper:hover { transform: scale(1.08); }
-    .wax-seal-disc {
-      width: 68px; height: 68px; border-radius: 50%;
-      background: var(--seal-bg); border: 3px solid var(--seal-border);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.4);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 900;
-      color: #FFF9E6; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-    }
-    .wax-seal-hint {
-      margin-top: 6px; font-size: 10px; color: var(--gold-primary); font-weight: 600;
-      background: rgba(8, 27, 23, 0.85); padding: 3px 10px; border-radius: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-    }
-
-    .card-actions-row {
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%;
-    }
-    .card-btn {
-      background: var(--gold-foil); color: #081B17; border: none; border-radius: 25px;
-      padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer;
-      display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-      transition: all 0.3s;
-    }
-    .card-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-    .card-btn-outline {
-      background: rgba(14, 41, 35, 0.8); border: 1px solid var(--gold-primary);
-      color: #FFF9E6; border-radius: 25px; padding: 10px 20px; font-size: 13px;
-      font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
-      transition: all 0.3s;
-    }
-    .card-btn-outline:hover { background: rgba(212, 175, 55, 0.2); }
-
-    /* COUNTDOWN BADGE */
-    .countdown-widget {
-      background: rgba(8, 27, 23, 0.9); border: 1px solid rgba(212, 175, 55, 0.4);
-      border-radius: 16px; padding: 12px 20px; display: flex; gap: 16px; text-align: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    }
-    .countdown-unit { display: flex; flex-direction: column; align-items: center; }
-    .countdown-num { font-size: 20px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
-    .countdown-lbl { font-size: 9px; color: #8FAEA8; text-transform: uppercase; letter-spacing: 1px; }
-
-    /* RSVP MODAL */
-    .rsvp-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
-      z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .rsvp-modal.active { display: flex; }
-    .rsvp-card {
-      width: 100%; max-width: 440px; background: #0A221D; border: 2px solid var(--gold-primary);
-      border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-      position: relative;
-    }
-    .rsvp-close {
-      position: absolute; top: 16px; right: 16px; background: none; border: none;
-      color: #8FAEA8; font-size: 18px; cursor: pointer;
-    }
-    .rsvp-title { font-family: 'Cinzel Decorative', serif; font-size: 20px; color: #FFF9E6; margin-bottom: 6px; }
-    .rsvp-desc { font-size: 13px; color: #8FAEA8; margin-bottom: 20px; }
-    .rsvp-actions { display: flex; flex-direction: column; gap: 10px; }
-    .rsvp-btn-yes {
-      background: var(--gold-foil); color: #081B17; border: none; border-radius: 12px;
-      padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
-    }
-    .rsvp-btn-yes:hover { filter: brightness(1.1); transform: translateY(-1px); }
-  </style>
-</head>
-<body>
-
-  <!-- Floating Audio & Map Controls -->
-  <div class="top-action-bar">
-    <button class="top-action-btn" onclick="toggleRoyalMusic()" id="btnMusicPlay">
-      <i class="fa-solid fa-music"></i> <span id="lblMusic">Royal Music</span>
-    </button>
-    <a href="${state.venueMapLink}" target="_blank" class="top-action-btn">
-      <i class="fa-solid fa-map-location-dot"></i> <span>Directions</span>
-    </a>
-  </div>
-
-  <canvas id="fxCanvas"></canvas>
-
-  <!-- THE INVITATION CARD -->
-  <div class="card-stage-container">
-    <div class="luxury-invitation-card">
-      
-      <!-- High-Res Chosen Design Clean Artwork Base -->
-      <div class="card-artwork-frame">
-        <img src="${design.image}" alt="${design.titleEn}" class="card-artwork-img">
-        
-        <!-- EXACT 1:1 SLOTTED OVERLAY (Placed in the exact same positions with the same font) -->
-        <div class="card-exact-slots-overlay">
-          
-          <!-- Slot 1: Families & Guest Line (Exact place of "TOGETHER WITH THEIR FAMILIES") -->
-          <div class="slot-item slot-intro">
-            <div class="slot-families-txt">Together With Their Families</div>
-            <div class="slot-guest-badge">Cordially Inviting: <strong>${state.guestEn}</strong> <span style="opacity:0.85;">(${state.guestAr})</span></div>
-          </div>
-
-          <!-- Slot 2: Bride Name (Exact place of "Sophia") -->
-          <div class="slot-item slot-bride ${colorClass}">
-            ${state.brideEn}
-          </div>
-
-          <!-- Slot 2b: Ampersand (Exact place of "&") -->
-          <div class="slot-item slot-amp ${colorClass}">
-            &amp;
-          </div>
-
-          <!-- Slot 2c: Groom Name (Exact place of "Preston") -->
-          <div class="slot-item slot-groom ${colorClass}">
-            ${state.groomEn}
-          </div>
-
-          <!-- Slot 2d: Arabic Names Calligraphy -->
-          <div class="slot-item slot-arabic">
-            ${state.groomAr} و ${state.brideAr}
-          </div>
-
-          <!-- Slot 3: Month (Exact place of "SEPTEMBER") -->
-          <div class="slot-item slot-month">
-            ${monthEn}
-          </div>
-
-          <!-- Slot 4: Date Divider (Exact place of "SATURDAY | 25 | AT 7 PM") -->
-          <div class="slot-item slot-date-divider">
-            <div class="date-divider-box">
-              <span class="date-day-name">${weekday}</span>
-              <span class="date-day-num">${day}</span>
-              <span class="date-time-txt">AT ${timeFormatted}</span>
-            </div>
-          </div>
-
-          <!-- Slot 5: Year (Exact place of "2026") -->
-          <div class="slot-item slot-year">
-            ${year}
-          </div>
-
-          <!-- Slot 6: Venue & Address (Exact place of "747 FRONT ST...") -->
-          <div class="slot-item slot-venue">
-            <div class="venue-name-txt">${state.venueNameEn}</div>
-            <div class="venue-ar-txt">${state.venueNameAr}</div>
-            <div class="venue-addr-txt">${state.venueAddress}</div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Interactive Wax Seal & Action Footer -->
-  <div class="card-interactive-footer">
-    
-    <!-- 3D Wax Seal Stamp -->
-    <div class="wax-seal-wrapper" onclick="handleWaxSealClick()">
-      <div class="wax-seal-disc">
-        <span>${state.waxSealMonogram}</span>
-      </div>
-      <div class="wax-seal-hint">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Tap Seal to Celebrate
-      </div>
-    </div>
-
-    <!-- Live Countdown Timer -->
-    ${state.enableCountdown ? `
-      <div class="countdown-widget" id="countdownWidget">
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cdDays">--</span>
-          <span class="countdown-lbl">Days</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cdHours">--</span>
-          <span class="countdown-lbl">Hours</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cdMins">--</span>
-          <span class="countdown-lbl">Mins</span>
-        </div>
-        <div class="countdown-unit">
-          <span class="countdown-num" id="cdSecs">--</span>
-          <span class="countdown-lbl">Secs</span>
-        </div>
-      </div>
-    ` : ''}
-
-    <!-- Action Buttons -->
-    <div class="card-actions-row">
-      ${state.enableRSVP ? `
-        <button class="card-btn" onclick="openRSVPModal()">
-          <i class="fa-solid fa-heart"></i> Confirm Attendance (RSVP)
-        </button>
-      ` : ''}
-      <button class="card-btn-outline" onclick="addToCalendar()">
-        <i class="fa-solid fa-calendar-plus"></i> Add to Calendar
-      </button>
-    </div>
-
-  </div>
-
-  <!-- RSVP MODAL -->
-  <div class="rsvp-modal" id="rsvpModal">
-    <div class="rsvp-card">
-      <button class="rsvp-close" onclick="closeRSVPModal()"><i class="fa-solid fa-xmark"></i></button>
-      <div class="rsvp-title">Wedding RSVP</div>
-      <p class="rsvp-desc">We look forward to celebrating with you, <strong>${state.guestEn}</strong>!</p>
-      
-      <div class="rsvp-actions">
-        <button class="rsvp-btn-yes" onclick="submitRSVP('Attending with Joy!')">
-          <i class="fa-solid fa-check"></i> Accept with Pleasure (Joyfully Attend)
-        </button>
-        <button class="card-btn-outline" style="width:100%; justify-content:center;" onclick="submitRSVP('Regretfully Decline')">
-          <i class="fa-solid fa-envelope"></i> Regretfully Decline
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Audio & Petals Engine Scripts -->
-  <script>
-    // 1. Procedural Royal Wedding Symphony (Web Audio API - No MP3 needed)
-    let audioCtx = null;
-    let isPlayingMusic = false;
-    let musicInterval = null;
-
-    function playRoyalMelody() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      const canonNotes = [
-        293.66, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00,
-        587.33, 440.00, 493.88, 369.99, 392.00, 293.66, 392.00, 440.00
-      ];
-      let noteIdx = 0;
-
-      function triggerNextNote() {
-        if (!isPlayingMusic) return;
-        const freq = canonNotes[noteIdx % canonNotes.length];
-        noteIdx++;
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1.3);
-      }
-
-      isPlayingMusic = true;
-      document.getElementById('lblMusic').textContent = 'Pause Music';
-      musicInterval = setInterval(triggerNextNote, 600);
-      triggerNextNote();
-    }
-
-    function toggleRoyalMusic() {
-      if (isPlayingMusic) {
-        isPlayingMusic = false;
-        clearInterval(musicInterval);
-        document.getElementById('lblMusic').textContent = 'Play Music';
-      } else {
-        playRoyalMelody();
-      }
-    }
-
-    function handleWaxSealClick() {
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#D4AF37', '#FFF3B3', '#AA771C']
-        });
-      }
-      if (!isPlayingMusic) playRoyalMelody();
-    }
-
-    // 2. Falling Golden Petals FX
-    ${state.enablePetals ? `
-      (function() {
-        const canvas = document.getElementById('fxCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-          width = canvas.width = window.innerWidth;
-          height = canvas.height = window.innerHeight;
-        });
-
-        const petals = [];
-        for (let i = 0; i < 35; i++) {
-          petals.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 5 + 3,
-            speedY: Math.random() * 1 + 0.5,
-            speedX: Math.random() * 0.8 - 0.4,
-            rotation: Math.random() * 360,
-            rotSpeed: Math.random() * 2 - 1,
-            color: ['#D4AF37', '#ECC870', '#FFF3B3', '#FADBD8'][Math.floor(Math.random() * 4)],
-            opacity: Math.random() * 0.6 + 0.3
-          });
-        }
-
-        function draw() {
-          ctx.clearRect(0, 0, width, height);
-          petals.forEach(p => {
-            p.y += p.speedY;
-            p.x += p.speedX;
-            p.rotation += p.rotSpeed;
-
-            if (p.y > height) { p.y = -10; p.x = Math.random() * width; }
-            if (p.x > width) p.x = 0;
-            if (p.x < 0) p.x = width;
-
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rotation * Math.PI / 180);
-            ctx.globalAlpha = p.opacity;
-            ctx.fillStyle = p.color;
-            ctx.beginPath();
-            ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          });
-          requestAnimationFrame(draw);
-        }
-        draw();
-      })();
-    ` : ''}
-
-    // 3. Live Countdown
-    ${state.enableCountdown ? `
-      (function() {
-        const target = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();
-        function updateCd() {
-          const now = Date.now();
-          const diff = target - now;
-          if (diff <= 0) {
-            document.getElementById('countdownWidget').innerHTML = '<div style="color:var(--gold-primary); font-weight:700;">Celebrating Today! 💍✨</div>';
-            return;
-          }
-          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-          const elD = document.getElementById('cdDays');
-          if (elD) elD.textContent = d;
-          const elH = document.getElementById('cdHours');
-          if (elH) elH.textContent = h;
-          const elM = document.getElementById('cdMins');
-          if (elM) elM.textContent = m;
-          const elS = document.getElementById('cdSecs');
-          if (elS) elS.textContent = s;
-        }
-        setInterval(updateCd, 1000);
-        updateCd();
-      })();
-    ` : ''}
-
-    // 4. RSVP Handling
-    function openRSVPModal() { document.getElementById('rsvpModal').classList.add('active'); }
-    function closeRSVPModal() { document.getElementById('rsvpModal').classList.remove('active'); }
-    function submitRSVP(response) {
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 120, spread: 90, origin: { y: 0.5 } });
-      }
-      alert('Thank you! Your RSVP response (' + response + ') has been recorded. 💍');
-      closeRSVPModal();
-    }
-
-    // 5. Add to Calendar
-    function addToCalendar() {
-      const title = encodeURIComponent('${state.groomEn} & ${state.brideEn} Wedding');
-      const details = encodeURIComponent('Celebrating the marriage of ${state.groomEn} & ${state.brideEn}. Guest: ${state.guestEn}');
-      const location = encodeURIComponent('${state.venueNameEn}, ${state.venueAddress}');
-      const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + title + '&details=' + details + '&location=' + location;
-      window.open(gcalUrl, '_blank');
-    }
-  <\/script>
-</body>
-</html>`;
+  const rsvpBtnHtml = state.enableRSVP ? '<button class="card-btn" onclick="openRSVPModal()"><i class="fa-solid fa-heart"></i> Confirm Attendance (RSVP)</button>' : '';
+  const countdownHtml = state.enableCountdown ? '<div class="countdown-widget" id="weddingCountdown"><div class="countdown-unit"><span class="countdown-num" id="cdDays">00</span><span class="countdown-lbl">Days</span></div><div class="countdown-unit"><span class="countdown-num" id="cdHours">00</span><span class="countdown-lbl">Hours</span></div><div class="countdown-unit"><span class="countdown-num" id="cdMins">00</span><span class="countdown-lbl">Mins</span></div><div class="countdown-unit"><span class="countdown-num" id="cdSecs">00</span><span class="countdown-lbl">Secs</span></div></div>' : '';
+
+  return CARD_HTML_TEMPLATE
+    .replace(/__GROOM_EN__/g, state.groomEn || 'Mohamed')
+    .replace(/__BRIDE_EN__/g, state.brideEn || 'Hala')
+    .replace(/__GUEST_EN__/g, state.guestEn || 'Honored Guest')
+    .replace(/__GUEST_AR__/g, state.guestAr || '')
+    .replace(/__GROOM_AR__/g, state.groomAr || 'محمد')
+    .replace(/__BRIDE_AR__/g, state.brideAr || 'هالة')
+    .replace(/__SEAL_BG__/g, sealBg)
+    .replace(/__SEAL_BORDER__/g, sealBorder)
+    .replace(/__CARD_BG__/g, cardBg)
+    .replace(/__CARD_BG_RGB__/g, cardBgRgb)
+    .replace(/__OFFSET_Y__/g, state.offsetY || 0)
+    .replace(/__PATCH_OPACITY__/g, isSeamless ? '0.94' : '0')
+    .replace(/__PLAQUE_STYLE_RULES__/g, plaqueStyleRules)
+    .replace(/__COLOR_CLASS__/g, colorClass)
+    .replace(/__FONT_CSS_RULE__/g, fontCssRule)
+    .replace(/__MONTH_EN__/g, monthEn)
+    .replace(/__WEEKDAY__/g, weekday)
+    .replace(/__DAY__/g, day)
+    .replace(/__TIME_FORMATTED__/g, timeFormatted)
+    .replace(/__YEAR__/g, year)
+    .replace(/__VENUE_NAME_EN__/g, state.venueNameEn || '')
+    .replace(/__VENUE_NAME_AR__/g, state.venueNameAr || '')
+    .replace(/__VENUE_ADDRESS__/g, state.venueAddress || '')
+    .replace(/__VENUE_MAP_LINK__/g, state.venueMapLink || '#')
+    .replace(/__WAX_SEAL_MONOGRAM__/g, state.waxSealMonogram || 'M & H')
+    .replace(/__RSVP_BUTTON_HTML__/g, rsvpBtnHtml)
+    .replace(/__COUNTDOWN_HTML__/g, countdownHtml)
+    .replace(/__DESIGN_IMAGE__/g, design.image)
+    .replace(/__DESIGN_TITLE__/g, design.titleEn);
 }
 
-// ==========================================================================
-// 6. PREVIEW STAGE RENDERING
-// ==========================================================================
 function renderCardPreview() {
   const container = document.getElementById('previewViewportContainer');
   const titleDisplay = document.getElementById('activeDesignTitleDisplay');

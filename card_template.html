@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>__GROOM_EN__ &amp; __BRIDE_EN__ | Wedding Invitation - __GUEST_EN__</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Italianno&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --gold-primary: #D4AF37;
+      --gold-light: #F7E7CE;
+      --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%);
+      --seal-bg: __SEAL_BG__;
+      --seal-border: __SEAL_BORDER__;
+      --card-bg-native: __CARD_BG__;
+      --card-bg-rgb: __CARD_BG_RGB__;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #040E0C;
+      color: #E8ECEB;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 30px 16px 80px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+    }
+
+    #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
+
+    /* Top Action Bar */
+    .top-action-bar {
+      position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px;
+    }
+    .top-action-btn {
+      background: rgba(8, 27, 23, 0.85); border: 1px solid var(--gold-primary);
+      color: #FFF9E6; padding: 7px 14px; border-radius: 25px; font-size: 11px;
+      font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;
+      transition: all 0.3s;
+    }
+    .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
+
+    /* THE CARD STAGE CONTAINER */
+    .card-stage-container {
+      width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;
+    }
+
+    .luxury-invitation-card {
+      position: relative; width: 100%; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.85), 0 0 35px rgba(212, 175, 55, 0.25);
+      background: #000;
+    }
+
+    /* CARD ARTWORK FRAME */
+    .card-artwork-frame {
+      position: relative; width: 100%; display: block;
+    }
+    .card-artwork-img {
+      width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);
+    }
+
+    /* METALLIC GOLD FOIL EFFECT */
+    .foil-gold {
+      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      filter: drop-shadow(0 2px 5px rgba(212, 175, 55, 0.5));
+    }
+    .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }
+    .foil-black { color: #111111 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-rosegold {
+      background: linear-gradient(135deg, #FADBD8 0%, #F5B7B1 50%, #D98880 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    /* =============================================================
+       EXACT 1:1 NON-COLLIDING TYPOGRAPHY ARCHITECTURE
+       ============================================================= */
+    .card-exact-slots-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      transform: translateY(__OFFSET_Y__px);
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Seamless localized inpainting blend patch */
+    .card-text-backdrop-patch {
+      position: absolute;
+      top: 29%;
+      bottom: 12%;
+      left: 14%;
+      right: 14%;
+      background: radial-gradient(ellipse 95% 85% at center, var(--card-bg-native) 42%, rgba(var(--card-bg-rgb), 0.88) 72%, transparent 100%);
+      filter: blur(10px);
+      z-index: 1;
+      pointer-events: none;
+      opacity: __PATCH_OPACITY__;
+    }
+
+    /* Dedicated vertical flex flow stack: IMPOSSIBLE TO COLLIDE */
+    .card-typography-stack {
+      position: absolute;
+      top: 31%;
+      bottom: 12%;
+      left: 12%;
+      right: 12%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      pointer-events: auto;
+      z-index: 2;
+      line-height: 1.4 !important;
+      __PLAQUE_STYLE_RULES__
+    }
+
+    .card-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+    }
+
+    /* Block 1: Intro & Guest */
+    .card-intro-block {
+      gap: 3px;
+    }
+    .slot-families-txt {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3.5px;
+      color: #ECC870;
+      text-transform: uppercase;
+      line-height: 1.3;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .slot-guest-badge {
+      font-size: 10.5px;
+      letter-spacing: 1.5px;
+      color: #F7E7CE;
+      line-height: 1.4;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-top: 2px;
+    }
+    .slot-guest-badge strong {
+      color: #FFF3B3;
+      font-weight: 700;
+    }
+    .guest-arabic-pill {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 12px;
+      color: #ECC870;
+      opacity: 0.9;
+    }
+
+    /* Block 2: Couple Calligraphy & Arabic */
+    .card-couple-block {
+      gap: 2px;
+      margin: 4px 0;
+    }
+    .couple-names-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0px;
+      line-height: 1.15;
+    }
+    .couple-bride-name, .couple-groom-name {
+      line-height: 1.15;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.85);
+    }
+    .couple-amp-symbol {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 26px;
+      line-height: 0.9;
+      margin: -2px 0;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.85);
+    }
+    .couple-arabic-calligraphy {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #ECC870;
+      margin-top: 4px;
+      line-height: 1.3;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    }
+
+    /* Block 3: Date & Divider */
+    .card-date-block {
+      gap: 3px;
+    }
+    .date-month-txt, .date-year-txt {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3.5px;
+      color: #ECC870;
+      text-transform: uppercase;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .date-divider-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border-top: 1px solid rgba(212, 175, 55, 0.7);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.7);
+      padding: 4px 18px;
+      margin: 2px 0;
+      line-height: 1.2;
+    }
+    .date-day-name, .date-time-txt {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #F7E7CE;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .date-day-num {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFF3B3;
+      padding: 0 4px;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.9);
+    }
+
+    /* Block 4: Venue & Address */
+    .card-venue-block {
+      gap: 2px;
+    }
+    .venue-name-txt {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #F7E7CE;
+      text-transform: uppercase;
+      line-height: 1.3;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .venue-ar-txt {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 12px;
+      color: #ECC870;
+      line-height: 1.3;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .venue-addr-txt {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: rgba(247, 231, 206, 0.85);
+      text-transform: uppercase;
+      line-height: 1.3;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+
+    /* FOOTER & WAX SEAL */
+    .card-interactive-footer {
+      width: 100%; max-width: 540px; margin: 0 auto; display: flex; flex-direction: column;
+      align-items: center; gap: 16px;
+    }
+
+    .wax-seal-wrapper {
+      position: relative; display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; margin-top: -30px; z-index: 50; transition: transform 0.3s;
+    }
+    .wax-seal-wrapper:hover { transform: scale(1.08); }
+    .wax-seal-disc {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--seal-bg); border: 3px solid var(--seal-border);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 900;
+      color: #FFF9E6; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    }
+    .wax-seal-hint {
+      margin-top: 6px; font-size: 10px; color: var(--gold-primary); font-weight: 600;
+      background: rgba(8, 27, 23, 0.85); padding: 3px 10px; border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .card-actions-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%;
+    }
+    .card-btn {
+      background: var(--gold-foil); color: #081B17; border: none; border-radius: 25px;
+      padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s;
+    }
+    .card-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .card-btn-outline {
+      background: rgba(14, 41, 35, 0.8); border: 1px solid var(--gold-primary);
+      color: #FFF9E6; border-radius: 25px; padding: 10px 20px; font-size: 13px;
+      font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s;
+    }
+    .card-btn-outline:hover { background: rgba(212, 175, 55, 0.2); }
+
+    /* COUNTDOWN BADGE */
+    .countdown-widget {
+      background: rgba(8, 27, 23, 0.9); border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 16px; padding: 12px 20px; display: flex; gap: 16px; text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+    .countdown-unit { display: flex; flex-direction: column; align-items: center; }
+    .countdown-num { font-size: 20px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
+    .countdown-lbl { font-size: 9px; color: #8FAEA8; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* RSVP MODAL */
+    .rsvp-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+      z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .rsvp-modal.active { display: flex; }
+    .rsvp-card {
+      width: 100%; max-width: 440px; background: #0A221D; border: 2px solid var(--gold-primary);
+      border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .rsvp-close {
+      position: absolute; top: 16px; right: 16px; background: none; border: none;
+      color: #8FAEA8; font-size: 18px; cursor: pointer;
+    }
+    .rsvp-title { font-family: 'Cinzel Decorative', serif; font-size: 20px; color: #FFF9E6; margin-bottom: 6px; }
+    .rsvp-desc { font-size: 13px; color: #8FAEA8; margin-bottom: 20px; }
+    .rsvp-actions { display: flex; flex-direction: column; gap: 10px; }
+    .rsvp-btn-yes {
+      background: var(--gold-foil); color: #081B17; border: none; border-radius: 12px;
+      padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .rsvp-btn-yes:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Audio & Map Controls -->
+  <div class="top-action-bar">
+    <button class="top-action-btn" onclick="toggleRoyalMusic()" id="btnMusicPlay">
+      <i class="fa-solid fa-music"></i> <span id="lblMusic">Royal Music</span>
+    </button>
+    <a href="__VENUE_MAP_LINK__" target="_blank" class="top-action-btn">
+      <i class="fa-solid fa-map-location-dot"></i> <span>Directions</span>
+    </a>
+  </div>
+
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- THE INVITATION CARD -->
+  <div class="card-stage-container">
+    <div class="luxury-invitation-card">
+      
+      <!-- High-Res Chosen Design Clean Artwork Base -->
+      <div class="card-artwork-frame">
+        <img src="__DESIGN_IMAGE__" alt="__DESIGN_TITLE__" class="card-artwork-img">
+        
+        <!-- EXACT 1:1 NON-COLLIDING OVERLAY -->
+        <div class="card-exact-slots-overlay">
+          
+          <!-- Seamless Localized Backdrop Blend Patch -->
+          <div class="card-text-backdrop-patch"></div>
+
+          <!-- Dedicated Vertical Non-Colliding Typography Stack -->
+          <div class="card-typography-stack">
+            
+            <!-- 1. Intro & Guest Block -->
+            <div class="card-block card-intro-block">
+              <div class="slot-families-txt">Together With Their Families</div>
+              <div class="slot-guest-badge">
+                <span>Cordially Inviting: <strong>__GUEST_EN__</strong></span>
+                <span class="guest-arabic-pill">__GUEST_AR__</span>
+              </div>
+            </div>
+
+            <!-- 2. Couple Names & Arabic Calligraphy -->
+            <div class="card-block card-couple-block">
+              <div class="couple-names-wrap __COLOR_CLASS__">
+                <div class="couple-bride-name" style="__FONT_CSS_RULE__">__BRIDE_EN__</div>
+                <div class="couple-amp-symbol">&amp;</div>
+                <div class="couple-groom-name" style="__FONT_CSS_RULE__">__GROOM_EN__</div>
+              </div>
+              <div class="couple-arabic-calligraphy">__GROOM_AR__ و __BRIDE_AR__</div>
+            </div>
+
+            <!-- 3. Event Date & Time Block -->
+            <div class="card-block card-date-block">
+              <div class="date-month-txt">__MONTH_EN__</div>
+              <div class="date-divider-box">
+                <span class="date-day-name">__WEEKDAY__</span>
+                <span class="date-day-num">__DAY__</span>
+                <span class="date-time-txt">AT __TIME_FORMATTED__</span>
+              </div>
+              <div class="date-year-txt">__YEAR__</div>
+            </div>
+
+            <!-- 4. Venue & Address Block -->
+            <div class="card-block card-venue-block">
+              <div class="venue-name-txt">__VENUE_NAME_EN__</div>
+              <div class="venue-ar-txt">__VENUE_NAME_AR__</div>
+              <div class="venue-addr-txt">__VENUE_ADDRESS__</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Interactive Wax Seal & RSVP Footer -->
+    <div class="card-interactive-footer">
+      <div class="wax-seal-wrapper" onclick="handleWaxSealClick()">
+        <div class="wax-seal-disc">__WAX_SEAL_MONOGRAM__</div>
+        <div class="wax-seal-hint"><i class="fa-solid fa-wand-magic-sparkles"></i> Tap Royal Seal</div>
+      </div>
+
+      <div class="card-actions-row">
+        __RSVP_BUTTON_HTML__
+        <button class="card-btn-outline" onclick="addToCalendar()">
+          <i class="fa-regular fa-calendar-plus"></i> Add to Calendar
+        </button>
+      </div>
+
+      __COUNTDOWN_HTML__
+    </div>
+  </div>
+
+  <!-- RSVP MODAL -->
+  <div class="rsvp-modal" id="rsvpModal">
+    <div class="rsvp-card">
+      <button class="rsvp-close" onclick="closeRSVPModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="rsvp-title">Royal RSVP Confirmation</div>
+      <div class="rsvp-desc">Honored to have you celebrate with us. Will you be attending?</div>
+      <div class="rsvp-actions">
+        <button class="rsvp-btn-yes" onclick="submitRSVP('Attending with Joy')">Joyfully Accepts</button>
+        <button class="card-btn-outline" onclick="submitRSVP('Regretfully Declines')" style="justify-content:center;">Regretfully Declines</button>
+      </div>
+    </div>
+  </div>
+
+  <script>__INTERACTIVE_SCRIPTS__</script>
+</body>
+</html>
