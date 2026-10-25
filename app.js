@@ -1,13 +1,13 @@
 /**
- * Mohamed & Hala - Luxury Wedding Invite Generator Engine
+ * Mohamed & Hala - Luxury Wedding Invite Generator Engine (Royal Edition)
  * Features:
  * - Password Gate with default 'me7299'
  * - Secret Backdoor 'wedding_pass_wedding' to change password without code edit
  * - Locked Couple Names: Mohamed & Hala
  * - Dynamic Guest Customization (Default: Mr / Sherief Mohamed)
- * - Bilingual Arabic / English luxury wedding invite template
- * - Scroll-triggered Split Heart Re-attachment animation
- * - Procedural Web Audio API romantic wedding piano soundtrack
+ * - Ornate Arabic Calligraphy (Aref Ruqaa, Amiri) & Royal Serif (Cinzel Decorative, Cormorant Garamond, Great Vibes)
+ * - Scroll-triggered 3D Split Heart Re-attachment animation with shockwave and filigree
+ * - Procedural Web Audio API royal wedding orchestra soundtrack
  * - Standalone HTML file exporter
  */
 
@@ -57,10 +57,8 @@ function handleGateSubmit(event) {
   // 2. Normal Password Check
   const currentPass = getStoredPassword();
   if (val === currentPass) {
-    // Correct password!
     unlockPortal();
   } else {
-    // Incorrect password
     errorEl.textContent = 'Incorrect access key. Please try again.';
     input.classList.add('shake');
     setTimeout(() => input.classList.remove('shake'), 500);
@@ -70,13 +68,12 @@ function handleGateSubmit(event) {
 function unlockPortal() {
   sessionStorage.setItem('portal_unlocked', 'true');
   
-  // Confetti celebration
   if (typeof confetti === 'function') {
     confetti({
-      particleCount: 80,
-      spread: 70,
+      particleCount: 100,
+      spread: 80,
       origin: { y: 0.6 },
-      colors: ['#D4AF37', '#F7E7CE', '#AA771C']
+      colors: ['#D4AF37', '#FCE39E', '#AA771C', '#FFF']
     });
   }
 
@@ -87,9 +84,8 @@ function unlockPortal() {
   document.body.classList.remove('locked-body');
   app.classList.remove('hidden');
   
-  // Render Initial Preview
   renderPreview();
-  showToast('Welcome to Mohamed & Hala Wedding Invite Generator! 💍');
+  showToast('Welcome to Mohamed & Hala Royal Wedding Suite! 💍');
 }
 
 function saveNewPassword() {
@@ -196,1157 +192,1190 @@ function setPreviewDevice(mode) {
 }
 
 // ==========================================================================
-// 3. WEDDING INVITATION HTML TEMPLATE GENERATOR
+// 3. MASTERPIECE ROYAL INVITATION TEMPLATE GENERATOR
 // ==========================================================================
 
 function generateInviteHTML(state) {
   const isArabicFirst = state.lang === 'ar';
-  const isEnglishFirst = state.lang === 'en';
   const defaultDir = isArabicFirst ? 'rtl' : 'ltr';
 
-  // Format date display
   const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}`);
   const dateOptionsEn = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const dateFormattedEn = eventDateObj.toLocaleDateString('en-US', dateOptionsEn);
-  
-  const dateOptionsAr = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const dateFormattedAr = eventDateObj.toLocaleDateString('ar-EG', dateOptionsAr);
 
   return `<!DOCTYPE html>
 <html lang="${isArabicFirst ? 'ar' : 'en'}" dir="${defaultDir}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Invitation | Mohamed & Hala - ${state.guestName}</title>
+  <title>Mohamed & Hala | Royal Wedding Invitation - ${state.guestName}</title>
   
-  <!-- Google Fonts: Amiri (Arabic Calligraphy), Cormorant Garamond, Alex Brush -->
+  <!-- Premium Fonts: Cinzel Decorative, Cormorant Garamond, Great Vibes, Aref Ruqaa, Amiri, Reem Kufi -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
 
   <style>
     :root {
-      --gold-primary: #D4AF37;
-      --gold-light: #F7E7CE;
-      --gold-dark: #996515;
-      --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-      --emerald-dark: #0A1C19;
-      --emerald-surface: #102B26;
-      --cream-bg: #FAF7F2;
-      --cream-card: #FFFFFF;
-      --text-dark: #2C2621;
-      --text-gold: #966C1E;
-      --rose-accent: #E3A857;
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-arabic: 'Amiri', 'Traditional Arabic', serif;
-      --font-cursive: 'Alex Brush', cursive;
+      --gold-100: #FFF9E6;
+      --gold-200: #FCE39E;
+      --gold-300: #F3CA65;
+      --gold-400: #D4AF37;
+      --gold-500: #B8860B;
+      --gold-gradient: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
+      --emerald-darkest: #040F0D;
+      --emerald-gold-border: rgba(212, 175, 55, 0.35);
+      --font-display-en: 'Cinzel Decorative', 'Cormorant Garamond', serif;
+      --font-serif-en: 'Cormorant Garamond', Georgia, serif;
+      --font-script-en: 'Great Vibes', 'Alex Brush', cursive;
+      --font-quran-ar: 'Amiri', serif;
+      --font-calligraphy-ar: 'Aref Ruqaa', 'Amiri', serif;
+      --shadow-royal: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(212, 175, 55, 0.2);
+      --transition-delicate: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--cream-bg);
-      color: var(--text-dark);
-      font-family: var(--font-serif);
+      background-color: var(--emerald-darkest);
+      color: #E8ECEB;
+      font-family: var(--font-serif-en);
       overflow-x: hidden;
-      line-height: 1.6;
+      line-height: 1.7;
       background-image: 
-        radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 85% 90%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 10% 15%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 85%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(14, 41, 35, 0.8) 0%, var(--emerald-darkest) 100%);
+      background-attachment: fixed;
     }
 
-    /* Floating Canvas for Rose Petals & Sparkles */
-    #fxCanvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 100;
-    }
+    #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
 
-    /* Floating Audio & Language Bar */
-    .floating-nav {
+    .royal-floating-bar {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 24px;
+      right: 24px;
       z-index: 999;
       display: flex;
-      gap: 10px;
+      gap: 12px;
     }
 
-    html[dir="rtl"] .floating-nav {
-      right: auto;
-      left: 20px;
-    }
+    html[dir="rtl"] .royal-floating-bar { right: auto; left: 24px; }
 
-    .nav-pill-btn {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-dark);
-      padding: 8px 16px;
-      border-radius: 30px;
+    .royal-pill-btn {
+      background: rgba(8, 27, 23, 0.85);
+      border: 1px solid var(--gold-400);
+      color: var(--gold-200);
+      padding: 10px 20px;
+      border-radius: 40px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      display: flex;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(212, 175, 55, 0.25);
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
+      gap: 10px;
+      transition: var(--transition-delicate);
     }
 
-    .nav-pill-btn:hover {
+    .royal-pill-btn:hover {
       background: var(--gold-gradient);
-      color: #172421;
-      transform: translateY(-2px);
+      color: #0E241F;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
     }
 
-    .nav-pill-btn.playing {
-      background: var(--gold-primary);
-      color: white;
-      animation: pulse 1.5s infinite;
+    .royal-pill-btn.audio-playing {
+      background: rgba(212, 175, 55, 0.25);
+      border-color: #FFF;
+      color: #FFF;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
     }
 
-    /* 1. HERO & WAX SEAL OPENING ENVELOPE */
-    .hero-envelope-section {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      position: relative;
-      text-align: center;
+    .audio-wave { display: inline-flex; align-items: center; gap: 3px; height: 14px; }
+    .audio-wave span {
+      width: 3px; height: 100%; background: currentColor; border-radius: 2px;
+      animation: waveBar 1.2s infinite ease-in-out;
+    }
+    .audio-wave span:nth-child(2) { animation-delay: 0.2s; }
+    .audio-wave span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes waveBar {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
     }
 
-    .envelope-box {
-      width: 100%;
-      max-width: 580px;
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 20px;
-      padding: 50px 35px;
-      box-shadow: 0 25px 60px rgba(153, 101, 21, 0.12), 0 0 30px rgba(212, 175, 55, 0.1);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.5s ease;
-    }
-
-    .envelope-box::before {
-      content: '';
-      position: absolute;
-      inset: 8px;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 14px;
-      pointer-events: none;
-    }
-
-    .quran-verse {
-      font-family: var(--font-arabic);
-      font-size: 20px;
-      color: var(--gold-dark);
-      margin-bottom: 25px;
-      line-height: 2;
-    }
-
-    .bismillah {
-      font-family: var(--font-arabic);
-      font-size: 26px;
-      color: var(--gold-dark);
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-
-    .vip-badge-wrapper {
-      margin: 25px auto;
-      display: inline-block;
-      padding: 6px 20px;
-      border-top: 1px solid var(--gold-primary);
-      border-bottom: 1px solid var(--gold-primary);
-    }
-
-    .vip-label {
-      font-size: 13px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-gold);
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .vip-guest-name {
-      font-size: 26px;
-      font-weight: 700;
-      color: #1a1a1a;
-      letter-spacing: 1px;
-    }
-
-    .couple-grand-names {
-      margin: 30px 0;
-    }
-
-    .couple-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .name-block {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .name-en {
-      font-size: 44px;
-      font-weight: 700;
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
-    }
-
-    .name-ar {
-      font-family: var(--font-arabic);
-      font-size: 32px;
-      color: var(--gold-dark);
-      margin-top: -6px;
-    }
-
-    .ampersand {
-      font-family: var(--font-cursive);
-      font-size: 55px;
-      color: var(--gold-primary);
-      line-height: 1;
-    }
-
-    .wax-seal-button {
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #e6a739, #a36511 80%, #633c04);
-      margin: 30px auto 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 30px rgba(100, 60, 4, 0.35), inset 0 2px 4px rgba(255,255,255,0.4);
-      border: 3px solid #fce39e;
-      cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .wax-seal-button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 35px rgba(100, 60, 4, 0.5);
-    }
-
-    .wax-seal-button span {
-      font-family: var(--font-cursive);
-      font-size: 30px;
-      color: #fff9e6;
-      font-weight: bold;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    }
-
-    .open-prompt {
-      font-size: 13px;
-      letter-spacing: 1px;
-      color: var(--text-gold);
-      margin-top: 8px;
-      animation: bounce 2s infinite;
-    }
-
-    /* 2. THE SPLIT HEART RE-ATTACHMENT SECTION (SCROLL TRIGGERED) */
-    .split-heart-section {
+    /* 1. HERO ENVELOPE */
+    .envelope-screen {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      position: relative;
-      background: #FFFFFF;
-      overflow: hidden;
-      border-top: 1px solid rgba(212, 175, 55, 0.15);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      perspective: 1200px;
     }
 
-    .heart-section-title {
+    .envelope-container {
+      width: 100%;
+      max-width: 640px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.6s ease;
+    }
+
+    .envelope-container:hover { transform: translateY(-5px); }
+
+    .envelope-shell {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(145deg, #12332C 0%, #081B17 100%);
+      border: 2px solid var(--gold-400);
+      border-radius: 20px;
+      box-shadow: var(--shadow-royal);
+      padding: 55px 40px;
       text-align: center;
-      margin-bottom: 40px;
+      overflow: hidden;
     }
 
-    .heart-section-title h2 {
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--gold-dark);
+    .filigree-corner {
+      position: absolute;
+      width: 65px;
+      height: 65px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .filigree-top-left { top: 12px; left: 12px; }
+    .filigree-top-right { top: 12px; right: 12px; transform: scaleX(-1); }
+    .filigree-bottom-left { bottom: 12px; left: 12px; transform: scaleY(-1); }
+    .filigree-bottom-right { bottom: 12px; right: 12px; transform: scale(-1); }
+
+    .bismillah-calligraphy {
+      font-family: var(--font-quran-ar);
+      font-size: 32px;
+      font-weight: 700;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .quran-ayah {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 22px;
+      color: var(--gold-200);
+      line-height: 2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .gold-separator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 20px 0;
+      color: var(--gold-400);
+    }
+    .gold-separator::before, .gold-separator::after {
+      content: '';
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+    }
+
+    .vip-invitation-badge {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid var(--gold-400);
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin: 25px 0;
+      box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+
+    .vip-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-300);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .vip-guest-title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #FFFFFF;
       letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
     }
 
-    .heart-section-title p {
-      font-size: 16px;
-      color: #666;
-      margin-top: 5px;
+    .vip-guest-arabic {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 24px;
+      color: var(--gold-200);
+      margin-top: 4px;
     }
 
-    /* Split Heart Stage */
-    .heart-stage-container {
+    .grand-couple-hero { margin: 30px 0; }
+    .couple-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    .couple-item { display: flex; flex-direction: column; }
+    .couple-item .name-en {
+      font-family: var(--font-display-en);
+      font-size: 48px;
+      font-weight: 900;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    .couple-item .name-ar {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 38px;
+      color: var(--gold-200);
+      margin-top: -4px;
+    }
+    .couple-ampersand {
+      font-family: var(--font-script-en);
+      font-size: 70px;
+      color: var(--gold-400);
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      line-height: 1;
+    }
+
+    .wax-seal-wrapper { margin: 35px auto 10px; position: relative; display: inline-block; }
+    .royal-wax-seal {
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #F5CE68, #B8860B 65%, #6E4E04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid #FDF0AA;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 3px 6px rgba(255, 255, 255, 0.6), 0 0 30px rgba(212, 175, 55, 0.4);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: pulseGlow 3s infinite;
+    }
+    .royal-wax-seal:hover { transform: scale(1.1) rotate(5deg); }
+    .wax-seal-monogram {
+      font-family: var(--font-script-en);
+      font-size: 34px;
+      font-weight: 700;
+      color: #FFFDF0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    .open-invitation-hint {
+      margin-top: 14px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-300);
+      animation: bounceHint 2s infinite;
+    }
+
+    /* 2. SPLIT HEART SECTION */
+    .heart-union-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
       position: relative;
-      width: 320px;
-      height: 300px;
+      background: radial-gradient(circle at center, rgba(14, 41, 35, 0.6) 0%, rgba(4, 15, 13, 0.95) 100%);
+      border-top: 1px solid var(--emerald-gold-border);
+      border-bottom: 1px solid var(--emerald-gold-border);
+      overflow: hidden;
+    }
+    .heart-header { text-align: center; margin-bottom: 50px; max-width: 600px; }
+    .heart-header h2 {
+      font-family: var(--font-display-en);
+      font-size: 38px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .heart-header .arabic-quote {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 26px;
+      color: var(--gold-200);
+      margin-bottom: 8px;
+    }
+    .heart-header p { font-size: 14px; color: #A1B5B1; }
+
+    .heart-arena {
+      position: relative;
+      width: 360px;
+      height: 340px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 20px 0;
     }
-
-    .heart-half-wrapper {
+    .heart-half {
       position: absolute;
       top: 0;
-      width: 150px;
-      height: 280px;
-      transition: transform 0.1s linear, filter 0.3s ease;
+      width: 170px;
+      height: 320px;
       will-change: transform;
+      transition: transform 0.1s linear, filter 0.4s ease;
     }
-
-    .heart-half-left {
-      left: 10px;
-      transform-origin: right center;
-    }
-
-    .heart-half-right {
-      right: 10px;
-      transform-origin: left center;
-    }
-
-    .heart-svg {
+    .heart-half-left { left: 10px; transform-origin: right center; }
+    .heart-half-right { right: 10px; transform-origin: left center; }
+    .heart-filigree-svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 10px 20px rgba(212, 175, 55, 0.3));
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
     }
-
-    .heart-label {
+    .heart-name-badge {
       position: absolute;
-      top: 45%;
-      font-family: var(--font-cursive);
-      font-size: 26px;
-      font-weight: bold;
-      color: #FFFFFF;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      top: 48%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       pointer-events: none;
     }
-
-    .heart-half-left .heart-label {
-      right: 25px;
+    .heart-half-left .heart-name-badge { right: 25px; }
+    .heart-half-right .heart-name-badge { left: 25px; }
+    .heart-name-en {
+      font-family: var(--font-script-en);
+      font-size: 34px;
+      font-weight: 700;
+      color: #FFFDF0;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      line-height: 1;
+    }
+    .heart-name-ar {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 22px;
+      color: var(--gold-200);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
     }
 
-    .heart-half-right .heart-label {
-      left: 25px;
+    .heart-shockwave {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-400);
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.6);
+      transition: all 0.8s ease-out;
+    }
+    .heart-arena.united .heart-shockwave {
+      opacity: 1;
+      transform: scale(2.2);
+      border-color: rgba(255, 255, 255, 0);
+    }
+    .heart-arena.united { animation: heartbeatPulse 1.4s infinite ease-in-out; }
+    .heart-arena.united .heart-filigree-svg {
+      filter: drop-shadow(0 0 35px rgba(212, 175, 55, 0.9)) drop-shadow(0 0 60px rgba(235, 77, 75, 0.4));
     }
 
-    /* Locked Heart Pulse when joined */
-    .heart-stage-container.locked {
-      animation: heartBeating 1.2s infinite ease-in-out;
-    }
-
-    .heart-stage-container.locked .heart-svg {
-      filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8));
-    }
-
-    .union-status-badge {
-      margin-top: 25px;
-      padding: 10px 28px;
-      border-radius: 30px;
-      background: rgba(212, 175, 55, 0.1);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-dark);
+    .union-ribbon {
+      margin-top: 30px;
+      padding: 14px 35px;
+      border-radius: 50px;
+      background: rgba(14, 41, 35, 0.85);
+      border: 1px solid var(--gold-400);
+      color: var(--gold-200);
       font-size: 16px;
       font-weight: 600;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       transition: all 0.4s ease;
     }
-
-    .union-status-badge.united {
+    .union-ribbon.united {
       background: var(--gold-gradient);
-      color: #172421;
+      color: #0E241F;
       font-weight: 700;
-      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
+      transform: scale(1.05);
     }
 
-    /* 3. COUNTDOWN SECTION */
-    .countdown-section {
-      padding: 80px 20px;
-      text-align: center;
-      background: radial-gradient(circle, #FAF7F2 0%, #F3EDE4 100%);
+    /* 3. COUNTDOWN */
+    .countdown-wrapper { padding: 90px 20px; text-align: center; }
+    .section-ornate-title {
+      font-family: var(--font-display-en);
+      font-size: 34px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
     }
-
-    .countdown-grid {
+    .section-arabic-subtitle {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 24px;
+      color: var(--gold-200);
+      margin-bottom: 35px;
+    }
+    .countdown-flex {
       display: flex;
       justify-content: center;
       gap: 20px;
       flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .countdown-box {
-      width: 100px;
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 14px;
-      padding: 18px 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    }
-
-    .countdown-val {
-      font-size: 38px;
-      font-weight: 700;
-      color: var(--gold-dark);
-      display: block;
-      line-height: 1;
-    }
-
-    .countdown-lbl {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #777;
-      margin-top: 6px;
-      display: block;
-    }
-
-    /* 4. EVENT DETAILS & ITINERARY */
-    .details-section {
-      padding: 80px 20px;
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
     }
-
-    .timeline-card {
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.04);
-      margin-bottom: 40px;
-    }
-
-    .timeline-title {
-      text-align: center;
-      font-size: 32px;
-      color: var(--gold-dark);
-      margin-bottom: 30px;
-    }
-
-    .timeline-list {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
+    .countdown-dial {
+      flex: 1;
+      min-width: 120px;
+      max-width: 150px;
+      background: rgba(8, 27, 23, 0.85);
+      border: 1px solid var(--emerald-gold-border);
+      border-radius: 18px;
+      padding: 24px 14px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
       position: relative;
     }
-
-    .timeline-item {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    .countdown-dial::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold-gradient);
+    }
+    .dial-number {
+      font-family: var(--font-display-en);
+      font-size: 46px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: block;
+      line-height: 1;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+    .dial-label-en {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-300); margin-top: 10px; display: block;
+    }
+    .dial-label-ar {
+      font-family: var(--font-calligraphy-ar);
+      font-size: 14px; color: #A1B5B1; display: block;
     }
 
-    .timeline-icon-wrap {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(212, 175, 55, 0.15);
-      color: var(--gold-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
+    /* 4. ITINERARY & VENUE */
+    .itinerary-venue-section { padding: 90px 20px; max-width: 900px; margin: 0 auto; }
+    .itinerary-box {
+      background: rgba(14, 41, 35, 0.7);
+      border: 1px solid var(--emerald-gold-border);
+      border-radius: 24px;
+      padding: 45px 35px;
+      box-shadow: var(--shadow-royal);
+      margin-bottom: 50px;
     }
-
-    .timeline-info h4 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #222;
+    .timeline-schedule {
+      display: flex; flex-direction: column; gap: 30px; position: relative; margin-top: 30px;
     }
-
-    .timeline-info p {
-      font-size: 14px;
-      color: #666;
+    .timeline-schedule::before {
+      content: ''; position: absolute; top: 10px; bottom: 10px; left: 28px; width: 2px;
+      background: linear-gradient(180deg, var(--gold-400), rgba(212, 175, 55, 0.2));
     }
+    html[dir="rtl"] .timeline-schedule::before { left: auto; right: 28px; }
 
-    /* Venue Card */
-    .venue-card {
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 20px;
-      padding: 40px;
+    .timeline-node { display: flex; align-items: flex-start; gap: 25px; }
+    .timeline-node-icon {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #F3CA65, #B8860B);
+      color: #081B17; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border: 2px solid #FFF8D4; z-index: 2;
+    }
+    .timeline-content { flex: 1; padding-top: 6px; }
+    .timeline-time-badge {
+      display: inline-block; padding: 4px 12px; background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-400); border-radius: 20px; color: var(--gold-200);
+      font-size: 13px; font-weight: 700; margin-bottom: 6px;
+    }
+    .timeline-content h4 { font-size: 20px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px; }
+    .timeline-content p { font-size: 14px; color: #A1B5B1; }
+
+    .venue-card-grand {
+      background: linear-gradient(145deg, #12332C 0%, #081B17 100%);
+      border: 1px solid var(--gold-400);
+      border-radius: 24px;
+      padding: 50px 35px;
       text-align: center;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow-royal);
     }
+    .venue-icon-big { font-size: 40px; color: var(--gold-400); margin-bottom: 15px; }
+    .venue-name-en { font-family: var(--font-display-en); font-size: 30px; color: #FFFFFF; margin-bottom: 6px; }
+    .venue-name-ar { font-family: var(--font-calligraphy-ar); font-size: 24px; color: var(--gold-200); margin-bottom: 12px; }
+    .venue-location-desc { font-size: 16px; color: #A1B5B1; margin-bottom: 30px; }
 
-    .venue-title {
-      font-size: 30px;
-      color: var(--gold-dark);
-      margin-bottom: 10px;
-    }
-
-    .venue-address {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .maps-btn {
+    .btn-maps {
+      background: var(--gold-gradient);
+      color: #081B17;
+      padding: 14px 32px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--gold-gradient);
-      color: #172421;
-      padding: 14px 30px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
-      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+      transition: var(--transition-delicate);
     }
+    .btn-maps:hover { transform: translateY(-3px); }
 
-    .maps-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-    }
-
-    /* 5. RSVP & WISHES SECTION */
-    .rsvp-section {
-      padding: 80px 20px;
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .rsvp-card {
-      background: #FFFFFF;
-      border: 1px solid rgba(212, 175, 55, 0.25);
+    .vip-pass-card {
+      background: rgba(8, 27, 23, 0.9);
+      border: 1px dashed var(--gold-400);
       border-radius: 20px;
-      padding: 40px 30px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.05);
-    }
-
-    .rsvp-form {
+      padding: 30px;
+      margin-top: 40px;
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 25px;
-      text-align: initial;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .vip-pass-info { text-align: left; }
+    html[dir="rtl"] .vip-pass-info { text-align: right; }
+    .vip-pass-info h4 { font-size: 20px; color: var(--gold-200); }
+    .vip-pass-info p { font-size: 14px; color: #A1B5B1; margin-top: 4px; }
+    .dress-code-swatches { display: flex; gap: 10px; margin-top: 10px; }
+    .swatch {
+      width: 28px; height: 28px; border-radius: 50%; border: 2px solid #FFF;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
     }
 
-    .rsvp-form input, .rsvp-form textarea, .rsvp-form select {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 15px;
-      outline: none;
-      transition: border 0.3s;
-    }
-
-    .rsvp-form input:focus, .rsvp-form textarea:focus {
-      border-color: var(--gold-primary);
-    }
-
-    .rsvp-btn-submit {
-      background: var(--gold-gradient);
-      color: #172421;
-      border: none;
-      padding: 14px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-      transition: all 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .rsvp-btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-    }
-
-    .rsvp-success-box {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      background: #e8f8f0;
-      color: #157347;
-      font-weight: 600;
-      display: none;
-    }
-
-    /* Footer */
-    footer {
+    /* 5. RSVP */
+    .rsvp-wrapper { padding: 90px 20px 120px; max-width: 650px; margin: 0 auto; }
+    .rsvp-card-grand {
+      background: rgba(14, 41, 35, 0.85);
+      border: 1px solid var(--emerald-gold-border);
+      border-radius: 24px;
+      padding: 45px 35px;
+      box-shadow: var(--shadow-royal);
       text-align: center;
-      padding: 50px 20px 80px;
-      color: #777;
-      font-size: 14px;
+    }
+    .rsvp-form-grid {
+      display: flex; flex-direction: column; gap: 20px; margin-top: 30px; text-align: left;
+    }
+    html[dir="rtl"] .rsvp-form-grid { text-align: right; }
+    .form-group-royal label {
+      display: block; font-size: 13px; color: var(--gold-200); margin-bottom: 6px; font-weight: 600;
+    }
+    .form-group-royal input, .form-group-royal select, .form-group-royal textarea {
+      width: 100%; padding: 14px 18px; background: rgba(6, 20, 17, 0.9);
+      border: 1px solid var(--emerald-gold-border); border-radius: 12px; color: #FFFFFF;
+      font-family: inherit; font-size: 15px; outline: none; transition: var(--transition-delicate);
+    }
+    .form-group-royal input:focus, .form-group-royal select:focus, .form-group-royal textarea:focus {
+      border-color: var(--gold-400); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+    .btn-rsvp-submit {
+      background: var(--gold-gradient); color: #081B17; border: none; padding: 16px;
+      border-radius: 40px; font-size: 17px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4); transition: var(--transition-delicate);
+      display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;
+    }
+    .btn-rsvp-submit:hover { transform: translateY(-2px); }
+    .rsvp-celebration-toast {
+      margin-top: 20px; padding: 18px; border-radius: 14px;
+      background: rgba(39, 174, 96, 0.2); border: 1px solid #27AE60; color: #A3E4D7;
+      font-weight: 600; display: none;
     }
 
-    footer .heart-icon {
-      color: #e25555;
+    footer.royal-footer {
+      text-align: center; padding: 60px 20px 90px; color: #7A9590; font-size: 14px;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    .footer-seal {
+      width: 45px; height: 45px; border-radius: 50%; background: var(--gold-gradient);
+      color: #081B17; font-family: var(--font-script-en); font-size: 20px; font-weight: bold;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;
     }
 
-    /* Animations */
-    @keyframes heartBeating {
-      0%, 100% { transform: scale(1); }
-      30% { transform: scale(1.12); }
-      60% { transform: scale(0.98); }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+      50% { box-shadow: 0 0 35px rgba(212, 175, 55, 0.8); }
     }
-
-    @keyframes bounce {
+    @keyframes bounceHint {
       0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
       40% { transform: translateY(-8px); }
       60% { transform: translateY(-4px); }
     }
+    @keyframes heartbeatPulse {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      40% { transform: scale(1.02); }
+      60% { transform: scale(1.08); }
+    }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
+    @media (max-width: 650px) {
+      .envelope-shell { padding: 40px 20px; }
+      .couple-item .name-en { font-size: 36px; }
+      .couple-item .name-ar { font-size: 28px; }
+      .couple-ampersand { font-size: 45px; }
+      .heart-arena { width: 300px; height: 280px; }
+      .heart-half { width: 140px; height: 270px; }
+      .countdown-dial { min-width: 75px; padding: 15px 8px; }
+      .dial-number { font-size: 32px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating Audio & Language Controls -->
-  <div class="floating-nav">
-    <button class="nav-pill-btn" id="audioToggleBtn" onclick="toggleAudioMelody()">
-      <i class="fa-solid fa-music"></i>
-      <span id="audioStatusText">Play Melody</span>
+  <div class="royal-floating-bar">
+    <button class="royal-pill-btn" id="audioToggleBtn" onclick="toggleRoyalAudio()">
+      <div class="audio-wave"><span></span><span></span><span></span></div>
+      <span id="audioLabelText">Royal Symphony</span>
     </button>
-    <button class="nav-pill-btn" onclick="toggleInviteLanguage()">
-      <i class="fa-solid fa-language"></i>
-      <span id="currentLangLabel">${isArabicFirst ? 'English' : 'عربي'}</span>
+    <button class="royal-pill-btn" onclick="toggleLanguageMode()">
+      <i class="fa-solid fa-earth-americas"></i>
+      <span id="langSwitchLabel">${isArabicFirst ? 'English' : 'عربي'}</span>
     </button>
   </div>
 
   <canvas id="fxCanvas"></canvas>
 
-  <!-- ============================================ -->
-  <!-- 1. LUXURY ENVELOPE & VIP GREETING            -->
-  <!-- ============================================ -->
-  <section class="hero-envelope-section" id="envelopeSection">
-    
-    <div class="envelope-box">
-      
-      <!-- Quranic Blessing -->
-      <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-      <p class="quran-verse">
-        "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
-      </p>
+  <!-- 1. ENVELOPE -->
+  <section class="envelope-screen" id="envelopeScreen">
+    <div class="envelope-container" onclick="openRoyalInvitation()">
+      <div class="envelope-shell">
+        
+        <svg class="filigree-corner filigree-top-left" viewBox="0 0 100 100">
+          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
+          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
+          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
+        </svg>
+        <svg class="filigree-corner filigree-top-right" viewBox="0 0 100 100">
+          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
+          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
+          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
+        </svg>
+        <svg class="filigree-corner filigree-bottom-left" viewBox="0 0 100 100">
+          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
+          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
+          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
+        </svg>
+        <svg class="filigree-corner filigree-bottom-right" viewBox="0 0 100 100">
+          <path d="M5,5 L95,5 C70,25 70,70 5,95 Z" fill="none" stroke="url(#cornerGold)" stroke-width="2"/>
+          <path d="M12,12 C45,20 60,35 68,68" fill="none" stroke="url(#cornerGold)" stroke-width="1.5"/>
+          <circle cx="25" cy="25" r="4" fill="url(#cornerGold)"/>
+        </svg>
 
-      <p class="intro-blessing" style="color: #666; font-size: 15px;">
-        Together with our families, we joyfully invite you to celebrate our wedding
-      </p>
-
-      <!-- VIP GUEST PERSONALIZED BADGE -->
-      <div class="vip-badge-wrapper">
-        <span class="vip-label">Special Invitation For</span>
-        <div class="vip-guest-name" id="heroGuestName">${state.guestName}</div>
-      </div>
-
-      <!-- COUPLE NAMES (LOCKED) -->
-      <div class="couple-grand-names">
-        <div class="couple-row">
-          <div class="name-block">
-            <span class="name-en">${state.groomEn}</span>
-            <span class="name-ar">${state.groomAr}</span>
-          </div>
-          <span class="ampersand">&</span>
-          <div class="name-block">
-            <span class="name-en">${state.brideEn}</span>
-            <span class="name-ar">${state.brideAr}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- WAX SEAL INTERACTIVE OPENER -->
-      <div class="wax-seal-button" onclick="openEnvelopeCard()">
-        <span>M & H</span>
-      </div>
-      <div class="open-prompt">
-        <i class="fa-solid fa-envelope-open"></i> Click Wax Seal to Open
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ============================================ -->
-  <!-- 2. SCROLL-TRIGGERED SPLIT HEART ANIMATION   -->
-  <!-- ============================================ -->
-  <section class="split-heart-section" id="splitHeartSection">
-    
-    <div class="heart-section-title">
-      <h2>Two Souls, One Heart</h2>
-      <p>روحان يجمعهما قلب واحد • Scroll to unite Mohamed & Hala</p>
-    </div>
-
-    <div class="heart-stage-container" id="heartStage">
-      
-      <!-- Left Half: Mohamed -->
-      <div class="heart-half-wrapper heart-half-left" id="heartHalfLeft">
-        <svg class="heart-svg" viewBox="0 0 150 280">
+        <svg style="position: absolute; width: 0; height: 0;">
           <defs>
-            <linearGradient id="goldHeartGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FCF6BA" />
-              <stop offset="50%" stop-color="#D4AF37" />
-              <stop offset="100%" stop-color="#AA771C" />
+            <linearGradient id="cornerGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF9E6"/>
+              <stop offset="50%" stop-color="#D4AF37"/>
+              <stop offset="100%" stop-color="#9E7412"/>
             </linearGradient>
           </defs>
-          <!-- Left side of heart path -->
-          <path d="M148,270 C148,270 10,180 5,90 C0,30 45,5 95,5 C125,5 145,25 148,45 Z" 
-                fill="url(#goldHeartGradLeft)" 
-                stroke="#FAF7F2" 
-                stroke-width="3" />
         </svg>
-        <span class="heart-label">${state.groomEn}</span>
-      </div>
 
-      <!-- Right Half: Hala -->
-      <div class="heart-half-wrapper heart-half-right" id="heartHalfRight">
-        <svg class="heart-svg" viewBox="0 0 150 280">
+        <div class="quran-verse-card">
+          <div class="bismillah-calligraphy">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+          <p class="quran-ayah">
+            "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"
+          </p>
+        </div>
+
+        <div class="gold-separator"><span>❦</span></div>
+
+        <div class="vip-invitation-badge">
+          <span class="vip-tag"><i class="fa-solid fa-crown"></i> Royal VIP Invitation</span>
+          <div class="vip-guest-title">${state.guestName}</div>
+          <div class="vip-guest-arabic">مع خالص التحية والتقدير: ${state.guestName}</div>
+        </div>
+
+        <div class="grand-couple-hero">
+          <div class="couple-title-row">
+            <div class="couple-item">
+              <span class="name-en">${state.groomEn}</span>
+              <span class="name-ar">${state.groomAr}</span>
+            </div>
+            <span class="couple-ampersand">&</span>
+            <div class="couple-item">
+              <span class="name-en">${state.brideEn}</span>
+              <span class="name-ar">${state.brideAr}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wax-seal-wrapper">
+          <div class="royal-wax-seal">
+            <span class="wax-seal-monogram">M & H</span>
+          </div>
+        </div>
+        <div class="open-invitation-hint">
+          <i class="fa-solid fa-envelope-open-text"></i> Click Wax Seal to Open
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SPLIT HEART SECTION -->
+  <section class="heart-union-section" id="heartSection">
+    <div class="heart-header">
+      <h2>Two Souls United in Love</h2>
+      <div class="arabic-quote">"بارك الله لهما وبارك عليهما وجمع بينهما في خير"</div>
+      <p>Scroll gently to watch Mohamed & Hala's hearts join as one</p>
+    </div>
+
+    <div class="heart-arena" id="heartArena">
+      <div class="heart-shockwave" id="heartShockwave"></div>
+
+      <!-- LEFT HALF: MOHAMED -->
+      <div class="heart-half heart-half-left" id="heartHalfLeft">
+        <svg class="heart-filigree-svg" viewBox="0 0 170 320">
           <defs>
-            <linearGradient id="goldHeartGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FCF6BA" />
-              <stop offset="50%" stop-color="#D4AF37" />
-              <stop offset="100%" stop-color="#AA771C" />
+            <linearGradient id="goldFiligreeLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF8D4"/>
+              <stop offset="40%" stop-color="#D4AF37"/>
+              <stop offset="85%" stop-color="#8C650A"/>
+              <stop offset="100%" stop-color="#5C1D24"/>
+            </linearGradient>
+            <linearGradient id="rubyShineLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#80101F"/>
+              <stop offset="100%" stop-color="#C2273F"/>
             </linearGradient>
           </defs>
-          <!-- Right side of heart path -->
-          <path d="M2,270 C2,270 140,180 145,90 C150,30 105,5 55,5 C25,5 5,25 2,45 Z" 
-                fill="url(#goldHeartGradRight)" 
-                stroke="#FAF7F2" 
-                stroke-width="3" />
+          <path d="M168,310 C168,310 12,210 6,105 C0,35 50,6 108,6 C142,6 165,28 168,52 Z" 
+                fill="url(#rubyShineLeft)" stroke="url(#goldFiligreeLeft)" stroke-width="4"/>
+          <path d="M165,270 C140,220 30,160 25,105 C20,55 58,24 105,24 C135,24 155,42 165,65" 
+                fill="none" stroke="url(#goldFiligreeLeft)" stroke-width="2.5" stroke-dasharray="4,2"/>
+          <path d="M165,220 C145,180 55,140 50,105 C46,75 75,50 110,50" 
+                fill="none" stroke="url(#goldFiligreeLeft)" stroke-width="2"/>
+          <path d="M110,6 L120,-8 L135,2 L150,-10 L165,6 Z" fill="url(#goldFiligreeLeft)"/>
         </svg>
-        <span class="heart-label">${state.brideEn}</span>
+
+        <div class="heart-name-badge">
+          <span class="heart-name-en">${state.groomEn}</span>
+          <span class="heart-name-ar">${state.groomAr}</span>
+        </div>
       </div>
 
+      <!-- RIGHT HALF: HALA -->
+      <div class="heart-half heart-half-right" id="heartHalfRight">
+        <svg class="heart-filigree-svg" viewBox="0 0 170 320">
+          <defs>
+            <linearGradient id="goldFiligreeRight" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF8D4"/>
+              <stop offset="40%" stop-color="#D4AF37"/>
+              <stop offset="85%" stop-color="#8C650A"/>
+              <stop offset="100%" stop-color="#5C1D24"/>
+            </linearGradient>
+            <linearGradient id="rubyShineRight" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#80101F"/>
+              <stop offset="100%" stop-color="#C2273F"/>
+            </linearGradient>
+          </defs>
+          <path d="M2,310 C2,310 158,210 164,105 C170,35 120,6 62,6 C28,6 5,28 2,52 Z" 
+                fill="url(#rubyShineRight)" stroke="url(#goldFiligreeRight)" stroke-width="4"/>
+          <path d="M5,270 C30,220 140,160 145,105 C150,55 112,24 65,24 C35,24 15,42 5,65" 
+                fill="none" stroke="url(#goldFiligreeRight)" stroke-width="2.5" stroke-dasharray="4,2"/>
+          <path d="M5,220 C25,180 115,140 120,105 C124,75 95,50 60,50" 
+                fill="none" stroke="url(#goldFiligreeRight)" stroke-width="2"/>
+          <path d="M60,6 L50,-8 L35,2 L20,-10 L5,6 Z" fill="url(#goldFiligreeRight)"/>
+        </svg>
+
+        <div class="heart-name-badge">
+          <span class="heart-name-en">${state.brideEn}</span>
+          <span class="heart-name-ar">${state.brideAr}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="union-status-badge" id="unionStatusBadge">
-      <i class="fa-solid fa-scroll"></i> Keep scrolling to unite the hearts...
+    <div class="union-ribbon" id="unionRibbon">
+      <i class="fa-solid fa-scroll"></i>
+      <span id="unionRibbonText">Scroll to bring Mohamed & Hala together...</span>
     </div>
-
   </section>
 
+  <!-- 3. COUNTDOWN -->
+  <section class="countdown-wrapper">
+    <h3 class="section-ornate-title"><i class="fa-regular fa-clock"></i> The Celebration Countdown</h3>
+    <div class="section-arabic-subtitle">العد التنازلي لليلة العمر</div>
 
-  <!-- ============================================ -->
-  <!-- 3. WEDDING COUNTDOWN TIMER                   -->
-  <!-- ============================================ -->
-  <section class="countdown-section">
-    <h3 style="font-size: 28px; color: var(--gold-dark);"><i class="fa-regular fa-clock"></i> The Countdown to the Big Day</h3>
-    <p style="color: #666; margin-top: 5px;">We cannot wait to celebrate with you, ${state.guestName}</p>
-
-    <div class="countdown-grid">
-      <div class="countdown-box">
-        <span class="countdown-val" id="cntDays">00</span>
-        <span class="countdown-lbl">Days / أيام</span>
+    <div class="countdown-flex">
+      <div class="countdown-dial">
+        <span class="dial-number" id="dialDays">00</span>
+        <span class="dial-label-en">Days</span>
+        <span class="dial-label-ar">أيام</span>
       </div>
-      <div class="countdown-box">
-        <span class="countdown-val" id="cntHours">00</span>
-        <span class="countdown-lbl">Hours / ساعات</span>
+      <div class="countdown-dial">
+        <span class="dial-number" id="dialHours">00</span>
+        <span class="dial-label-en">Hours</span>
+        <span class="dial-label-ar">ساعات</span>
       </div>
-      <div class="countdown-box">
-        <span class="countdown-val" id="cntMinutes">00</span>
-        <span class="countdown-lbl">Minutes / دقائق</span>
+      <div class="countdown-dial">
+        <span class="dial-number" id="dialMinutes">00</span>
+        <span class="dial-label-en">Minutes</span>
+        <span class="dial-label-ar">دقائق</span>
       </div>
-      <div class="countdown-box">
-        <span class="countdown-val" id="cntSeconds">00</span>
-        <span class="countdown-lbl">Seconds / ثواني</span>
+      <div class="countdown-dial">
+        <span class="dial-number" id="dialSeconds">00</span>
+        <span class="dial-label-en">Seconds</span>
+        <span class="dial-label-ar">ثواني</span>
       </div>
     </div>
   </section>
 
+  <!-- 4. ITINERARY & VENUE -->
+  <section class="itinerary-venue-section">
+    <div class="itinerary-box">
+      <h3 class="section-ornate-title" style="text-align: center;"><i class="fa-solid fa-champagne-glasses"></i> Order of Celebration</h3>
+      <div class="section-arabic-subtitle" style="text-align: center;">برنامج الحفل والمراسم</div>
 
-  <!-- ============================================ -->
-  <!-- 4. TIMELINE & VENUE LOCATION                 -->
-  <!-- ============================================ -->
-  <section class="details-section">
-    
-    <div class="timeline-card">
-      <h3 class="timeline-title">Event Schedule & Itinerary</h3>
-      
-      <div class="timeline-list">
-        <div class="timeline-item">
-          <div class="timeline-icon-wrap"><i class="fa-solid fa-champagne-glasses"></i></div>
-          <div class="timeline-info">
-            <h4>06:00 PM • Guest Welcome & Reception (استقبال الضيوف)</h4>
-            <p>Welcome drinks & harp musical accompaniment</p>
+      <div class="timeline-schedule">
+        <div class="timeline-node">
+          <div class="timeline-node-icon"><i class="fa-solid fa-door-open"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-time-badge">06:00 PM</span>
+            <h4>Guest Reception & Harp Music (استقبال الضيوف)</h4>
+            <p>Welcoming our beloved guests with drinks & live royal harp performance</p>
           </div>
         </div>
 
-        <div class="timeline-item">
-          <div class="timeline-icon-wrap"><i class="fa-solid fa-heart"></i></div>
-          <div class="timeline-info">
-            <h4>07:00 PM • Grand Entrance & Zaffa (دخول العروسين والزفة)</h4>
-            <p>Welcoming Mohamed & Hala to the ballroom</p>
+        <div class="timeline-node">
+          <div class="timeline-node-icon"><i class="fa-solid fa-heart"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-time-badge">07:00 PM</span>
+            <h4>Grand Zaffa & Royal Entrance (زفة العروسين)</h4>
+            <p>Welcoming Mohamed & Hala to the Grand Ballroom with traditional fanfare</p>
           </div>
         </div>
 
-        <div class="timeline-item">
-          <div class="timeline-icon-wrap"><i class="fa-solid fa-utensils"></i></div>
-          <div class="timeline-info">
-            <h4>08:30 PM • Royal Dinner Banquet (مأدبة العشاء)</h4>
-            <p>Gourmet dinner & celebratory performances</p>
+        <div class="timeline-node">
+          <div class="timeline-node-icon"><i class="fa-solid fa-utensils"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-time-badge">08:30 PM</span>
+            <h4>Royal Dinner Banquet (مأدبة العشاء الفاخرة)</h4>
+            <p>An exquisite culinary feast prepared by royal executive chefs</p>
           </div>
         </div>
 
-        <div class="timeline-item">
-          <div class="timeline-icon-wrap"><i class="fa-solid fa-cake-candles"></i></div>
-          <div class="timeline-info">
-            <h4>10:00 PM • Cake Cutting & Party (تقطيع التورتة)</h4>
-            <p>Dancing, photography and celebration</p>
+        <div class="timeline-node">
+          <div class="timeline-node-icon"><i class="fa-solid fa-cake-candles"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-time-badge">10:00 PM</span>
+            <h4>Cake Cutting & Celebration (تقطيع التورتة والاحتفال)</h4>
+            <p>Dancing, joyful memories, and honoring our guests</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Venue Card -->
-    <div class="venue-card">
-      <h3 class="venue-title"><i class="fa-solid fa-location-dot"></i> The Venue</h3>
-      <p style="font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px;">${state.venueName}</p>
-      <p class="venue-address">${state.venueLocation}</p>
-      <p style="color: #666; margin-bottom: 25px;">Date: ${dateFormattedEn} at ${state.weddingTime}</p>
+    <div class="venue-card-grand">
+      <div class="venue-icon-big"><i class="fa-solid fa-landmark"></i></div>
+      <h3 class="venue-name-en">${state.venueName}</h3>
+      <h4 class="venue-name-ar">قاعة الاحتفالات الملكية - فندق فور سيزونز</h4>
+      <p class="venue-location-desc">${state.venueLocation} • Date: ${dateFormattedEn} at ${state.weddingTime}</p>
 
-      <a href="https://maps.google.com/?q=${encodeURIComponent(state.venueName + ' ' + state.venueLocation)}" target="_blank" class="maps-btn">
-        <i class="fa-solid fa-diamond-turn-right"></i>
-        <span>Open in Google Maps / الاتجاهات</span>
-      </a>
+      <div class="venue-action-btns">
+        <a href="https://maps.google.com/?q=${encodeURIComponent(state.venueName + ' ' + state.venueLocation)}" target="_blank" class="btn-maps">
+          <i class="fa-solid fa-location-arrow"></i>
+          <span>Open in Google Maps / الاتجاهات</span>
+        </a>
+      </div>
+
+      <div class="vip-pass-card">
+        <div class="vip-pass-info">
+          <h4><i class="fa-solid fa-user-tie"></i> Dress Code: Black Tie / Formal</h4>
+          <p>We invite you to wear our royal palette: Emerald, Champagne & Gold</p>
+          <div class="dress-code-swatches">
+            <div class="swatch" style="background: #081B17;" title="Deep Emerald"></div>
+            <div class="swatch" style="background: #D4AF37;" title="Royal Gold"></div>
+            <div class="swatch" style="background: #FAF7F2;" title="Champagne Ivory"></div>
+            <div class="swatch" style="background: #5C1D24;" title="Velvet Wine"></div>
+          </div>
+        </div>
+        <div class="vip-qr-badge" style="text-align: center;">
+          <i class="fa-solid fa-qrcode" style="font-size: 60px; color: var(--gold-400);"></i>
+          <span style="display: block; font-size: 11px; color: var(--gold-300); margin-top: 4px;">VIP ENTRY PASS</span>
+        </div>
+      </div>
     </div>
-
   </section>
 
+  <!-- 5. RSVP -->
+  <section class="rsvp-wrapper">
+    <div class="rsvp-card-grand">
+      <h3 class="section-ornate-title">RSVP / تأكيد الحضور</h3>
+      <div class="section-arabic-subtitle">يسعدنا ويشرفنا حضوركم الكريم</div>
+      <p style="color: #A1B5B1; font-size: 14px;">Kindly confirm your attendance by November 10th</p>
 
-  <!-- ============================================ -->
-  <!-- 5. RSVP INTERACTIVE FORM                     -->
-  <!-- ============================================ -->
-  <section class="rsvp-section">
-    <div class="rsvp-card">
-      <h3 style="font-size: 28px; color: var(--gold-dark); margin-bottom: 8px;">RSVP / تأكيد الحضور</h3>
-      <p style="color: #666;">Kindly confirm your attendance by November 10th</p>
-
-      <form class="rsvp-form" onsubmit="submitRSVP(event)">
-        <div>
-          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 4px;">Your Name / الاسم</label>
-          <input type="text" id="rsvpGuestName" value="${state.guestName}" required>
+      <form class="rsvp-form-grid" onsubmit="handleRoyalRSVP(event)">
+        <div class="form-group-royal">
+          <label>Honored Guest Name / اسم الضيف الكريم</label>
+          <input type="text" id="rsvpGuestInput" value="${state.guestName}" required>
         </div>
 
-        <div>
-          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 4px;">Will you attend? / هل ستشرفنا بالحضور؟</label>
-          <select id="rsvpAttendance">
-            <option value="yes">Joyfully Accepts / يسعدني الحضور بكل سرور</option>
-            <option value="regret">Regretfully Declines / للأسف أعتذر عن الحضور</option>
+        <div class="form-group-royal">
+          <label>Attendance Status / هل ستشرفنا بالحضور؟</label>
+          <select id="rsvpStatus">
+            <option value="accept">Joyfully Accepts / يسعدني ويشرفني الحضور بكل سرور ✨</option>
+            <option value="decline">Regretfully Declines / للأسف أعتذر لظروف خاصة</option>
           </select>
         </div>
 
-        <div>
-          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 4px;">Number of Guests / عدد المرافقين</label>
-          <select id="rsvpGuestCount">
-            <option value="1">1 Person (Just Me)</option>
+        <div class="form-group-royal">
+          <label>Number of Guests / عدد المرافقين</label>
+          <select id="rsvpCount">
+            <option value="1">1 Person (VIP Pass)</option>
             <option value="2">2 Persons</option>
-            <option value="3">3 Persons</option>
-            <option value="family">Family / عائلة</option>
+            <option value="family">Family Table / عائلة</option>
           </select>
         </div>
 
-        <div>
-          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 4px;">Warm Wish / تهنئة للعروسين</label>
-          <textarea rows="3" placeholder="Write a blessing for Mohamed & Hala..."></textarea>
+        <div class="form-group-royal">
+          <label>Special Blessing for Mohamed & Hala / كلمة طيبة للعروسين</label>
+          <textarea rows="3" placeholder="اكتب دعوة مباركة لمحمد وهالة..."></textarea>
         </div>
 
-        <button type="submit" class="rsvp-btn-submit">
-          <i class="fa-solid fa-paper-plane"></i> Send RSVP Confirmation
+        <button type="submit" class="btn-rsvp-submit">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Send Royal RSVP / تأكيد الحضور</span>
         </button>
 
-        <div id="rsvpSuccessMsg" class="rsvp-success-box">
-          🎉 Thank you, ${state.guestName}! Your RSVP has been confirmed with love.
+        <div id="rsvpToast" class="rsvp-celebration-toast">
+          💐 بارك الله فيك! تم تأكيد حضورك بنجاح. ننتظرك بكل حب وفرح!
         </div>
       </form>
     </div>
   </section>
 
-  <footer>
-    <p>Honored to celebrate our special day with you • Mohamed & Hala</p>
-    <p style="margin-top: 6px;">Made with <i class="fa-solid fa-heart heart-icon"></i> for Mohamed & Hala</p>
+  <footer class="royal-footer">
+    <div class="footer-seal">M & H</div>
+    <p>Mohamed & Hala Royal Wedding Celebration • زفاف محمد & هالة</p>
+    <p style="font-size: 12px; margin-top: 6px; color: #58726E;">Created with love & elegance for ${state.guestName}</p>
   </footer>
 
   <script>
-    // 1. Web Audio API Procedural Wedding Melody
+    // Audio Symphony
     let audioCtx = null;
     let isPlaying = false;
-    let melodyTimer = null;
+    let musicInterval = null;
 
-    function initWeddingAudio() {
+    function initAudio() {
       if (audioCtx) return;
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       audioCtx = new AudioContext();
     }
 
-    // Gentle harp/piano chord sequence (D major romantic harmony)
-    const chords = [
-      [293.66, 369.99, 440.00, 587.33], // D maj
-      [220.00, 277.18, 329.63, 440.00], // A maj
-      [246.94, 293.66, 369.99, 493.88], // B min
-      [196.00, 246.94, 293.66, 392.00]  // G maj
+    const harmonicProgression = [
+      { bass: 146.83, chord: [293.66, 369.99, 440.00, 587.33] },
+      { bass: 110.00, chord: [220.00, 277.18, 329.63, 440.00] },
+      { bass: 123.47, chord: [246.94, 293.66, 369.99, 493.88] },
+      { bass: 92.50,  chord: [185.00, 233.08, 277.18, 369.99] },
+      { bass: 98.00,  chord: [196.00, 246.94, 293.66, 392.00] },
+      { bass: 146.83, chord: [293.66, 369.99, 440.00, 587.33] }
     ];
 
-    function playNote(freq, time, duration = 1.2) {
+    function playTone(freq, startTime, duration, type = 'sine', volume = 0.05) {
       if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, time);
-
-      // Envelope: gentle attack, lingering soft decay
-      gain.gain.setValueAtTime(0.0001, time);
-      gain.gain.exponentialRampToValueAtTime(0.08, time + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, startTime);
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-
-      osc.start(time);
-      osc.stop(time + duration);
+      osc.start(startTime);
+      osc.stop(startTime + duration);
     }
 
-    function startMelodyLoop() {
-      if (!audioCtx) initWeddingAudio();
+    function startSymphony() {
+      if (!audioCtx) initAudio();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-      
       isPlaying = true;
-      document.getElementById('audioToggleBtn').classList.add('playing');
-      document.getElementById('audioStatusText').textContent = 'Melody Playing';
+      document.getElementById('audioToggleBtn').classList.add('audio-playing');
+      document.getElementById('audioLabelText').textContent = 'Symphony Playing';
 
-      let chordIndex = 0;
-      function scheduleNextChord() {
+      let step = 0;
+      function nextBar() {
         if (!isPlaying) return;
-        const currentChord = chords[chordIndex % chords.length];
         const now = audioCtx.currentTime;
-
-        // Arpeggiate
-        currentChord.forEach((note, idx) => {
-          playNote(note, now + idx * 0.35, 2.0);
+        const current = harmonicProgression[step % harmonicProgression.length];
+        playTone(current.bass, now, 3.0, 'sine', 0.07);
+        current.chord.forEach((freq, idx) => {
+          playTone(freq, now + idx * 0.38, 2.2, 'triangle', 0.06);
+          if (idx % 2 === 0) playTone(freq * 2, now + idx * 0.38 + 0.1, 1.2, 'sine', 0.02);
         });
-
-        chordIndex++;
-        melodyTimer = setTimeout(scheduleNextChord, 2200);
+        step++;
+        musicInterval = setTimeout(nextBar, 2400);
       }
-
-      scheduleNextChord();
+      nextBar();
     }
 
-    function stopMelody() {
+    function stopSymphony() {
       isPlaying = false;
-      clearTimeout(melodyTimer);
-      document.getElementById('audioToggleBtn').classList.remove('playing');
-      document.getElementById('audioStatusText').textContent = 'Play Melody';
+      clearTimeout(musicInterval);
+      document.getElementById('audioToggleBtn').classList.remove('audio-playing');
+      document.getElementById('audioLabelText').textContent = 'Royal Symphony';
     }
 
-    function toggleAudioMelody() {
-      if (isPlaying) stopMelody();
-      else startMelodyLoop();
+    function toggleRoyalAudio() {
+      if (isPlaying) stopSymphony();
+      else startSymphony();
     }
 
-    function openEnvelopeCard() {
-      if (!isPlaying) startMelodyLoop();
-      
+    function openRoyalInvitation() {
+      if (!isPlaying) startSymphony();
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ['#D4AF37', '#F7E7CE', '#E3A857']
+          particleCount: 80,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#D4AF37', '#FFF9E6', '#B8860B', '#B82538']
         });
       }
-
-      document.getElementById('splitHeartSection').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('heartSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 2. Language Switcher
-    function toggleInviteLanguage() {
+    function toggleLanguageMode() {
       const html = document.documentElement;
       const currentDir = html.getAttribute('dir');
-      const isCurrentlyRtl = currentDir === 'rtl';
-
-      if (isCurrentlyRtl) {
+      const isArabic = currentDir === 'rtl';
+      if (isArabic) {
         html.setAttribute('dir', 'ltr');
         html.setAttribute('lang', 'en');
-        document.getElementById('currentLangLabel').textContent = 'عربي';
+        document.getElementById('langSwitchLabel').textContent = 'عربي';
       } else {
         html.setAttribute('dir', 'rtl');
         html.setAttribute('lang', 'ar');
-        document.getElementById('currentLangLabel').textContent = 'English';
+        document.getElementById('langSwitchLabel').textContent = 'English';
       }
     }
 
-    // 3. Scroll-Driven Split Heart Animation Engine
-    const heartStage = document.getElementById('heartStage');
+    // Split Heart Scroll
+    const heartArena = document.getElementById('heartArena');
     const heartLeft = document.getElementById('heartHalfLeft');
     const heartRight = document.getElementById('heartHalfRight');
-    const unionBadge = document.getElementById('unionStatusBadge');
-    let hasTriggeredHeartCelebration = false;
+    const unionRibbon = document.getElementById('unionRibbon');
+    let hasUnitedTriggered = false;
 
-    function handleHeartScroll() {
-      const stageRect = heartStage.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+    function evaluateHeartScroll() {
+      const rect = heartArena.getBoundingClientRect();
+      const windowH = window.innerHeight;
+      const elementCenter = rect.top + rect.height / 2;
+      const viewportCenter = windowH / 2;
+      const dist = elementCenter - viewportCenter;
+      const range = windowH * 0.55;
 
-      // Calculate progress of heart section on screen (0 = below viewport, 1 = centered)
-      const elementCenter = stageRect.top + stageRect.height / 2;
-      const screenCenter = windowHeight / 2;
-      
-      // Distance from center
-      const distance = elementCenter - screenCenter;
-      const range = windowHeight * 0.6; // Transition range
+      let progress = 1 - Math.min(Math.max(dist / range, 0), 1);
+      const maxOffset = 130;
+      const maxAngle = 20;
 
-      // Progress goes from 0 (split) to 1 (joined together)
-      let progress = 1 - Math.min(Math.max(distance / range, 0), 1);
-
-      // Interpolate positions:
-      // Start: left is -100px, right is +100px
-      // End: left is 0px, right is 0px
-      const maxOffset = 110;
-      const maxAngle = 18;
-      
       const currentOffset = maxOffset * (1 - progress);
       const currentAngle = maxAngle * (1 - progress);
 
       heartLeft.style.transform = \`translateX(-\${currentOffset}px) rotate(-\${currentAngle}deg)\`;
       heartRight.style.transform = \`translateX(\${currentOffset}px) rotate(\${currentAngle}deg)\`;
 
-      if (progress >= 0.95) {
-        // Locked together!
-        heartStage.classList.add('locked');
-        unionBadge.classList.add('united');
-        unionBadge.innerHTML = '<i class="fa-solid fa-heart" style="color: #e25555;"></i> Mohamed & Hala United Forever • بارك الله لهما وجمع بينهما في خير';
-
-        if (!hasTriggeredHeartCelebration) {
-          hasTriggeredHeartCelebration = true;
+      if (progress >= 0.94) {
+        heartArena.classList.add('united');
+        unionRibbon.classList.add('united');
+        unionRibbon.innerHTML = '<i class="fa-solid fa-heart" style="color: #e74c3c;"></i> Mohamed & Hala United Forever • بارك الله لهما وجمع بينهما في خير';
+        if (!hasUnitedTriggered) {
+          hasUnitedTriggered = true;
           if (typeof confetti === 'function') {
             confetti({
-              particleCount: 60,
-              spread: 80,
+              particleCount: 100,
+              spread: 90,
               origin: { y: 0.5 },
-              colors: ['#D4AF37', '#e25555', '#FCF6BA']
+              colors: ['#D4AF37', '#FFF8D4', '#B82538', '#E3A857']
             });
           }
         }
       } else {
-        heartStage.classList.remove('locked');
-        unionBadge.classList.remove('united');
-        unionBadge.innerHTML = '<i class="fa-solid fa-scroll"></i> Keep scrolling to unite the hearts...';
-        hasTriggeredHeartCelebration = false;
+        heartArena.classList.remove('united');
+        unionRibbon.classList.remove('united');
+        unionRibbon.innerHTML = '<i class="fa-solid fa-scroll"></i> Scroll to bring Mohamed & Hala together...';
+        hasUnitedTriggered = false;
       }
     }
 
-    window.addEventListener('scroll', handleHeartScroll, { passive: true });
-    window.addEventListener('resize', handleHeartScroll);
-    handleHeartScroll();
+    window.addEventListener('scroll', evaluateHeartScroll, { passive: true });
+    window.addEventListener('resize', evaluateHeartScroll);
+    evaluateHeartScroll();
 
-    // 4. Countdown Timer Engine
-    const targetDate = new Date('${state.weddingDate}T${state.weddingTime}').getTime();
-
-    function updateCountdown() {
+    // Countdown
+    const weddingTargetTime = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();
+    function refreshCountdown() {
       const now = new Date().getTime();
-      const diff = targetDate - now;
-
+      const diff = weddingTargetTime - now;
       if (diff > 0) {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('cntDays').textContent = String(days).padStart(2, '0');
-        document.getElementById('cntHours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('cntMinutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('cntSeconds').textContent = String(seconds).padStart(2, '0');
+        document.getElementById('dialDays').textContent = String(days).padStart(2, '0');
+        document.getElementById('dialHours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('dialMinutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('dialSeconds').textContent = String(seconds).padStart(2, '0');
       }
     }
+    setInterval(refreshCountdown, 1000);
+    refreshCountdown();
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // 5. RSVP Submission
-    function submitRSVP(e) {
+    function handleRoyalRSVP(e) {
       e.preventDefault();
-      const successBox = document.getElementById('rsvpSuccessMsg');
-      successBox.style.display = 'block';
-
+      document.getElementById('rsvpToast').style.display = 'block';
       if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
+        confetti({ particleCount: 120, spread: 85, origin: { y: 0.6 }, colors: ['#D4AF37', '#27AE60', '#FFF'] });
       }
     }
 
-    // 6. Floating Rose Petals / Golden Sparkles Canvas
+    // Canvas
     const canvas = document.getElementById('fxCanvas');
     const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
 
     const particles = [];
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 40; i++) {
       particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 4 + 2,
-        speedY: Math.random() * 1.2 + 0.6,
-        speedX: Math.random() * 0.8 - 0.4,
-        rot: Math.random() * 360,
-        rotSpeed: Math.random() * 2 - 1,
-        color: i % 2 === 0 ? 'rgba(212, 175, 55, 0.4)' : 'rgba(235, 178, 185, 0.4)'
+        x: Math.random() * w, y: Math.random() * h,
+        size: Math.random() * 4 + 2,
+        speedY: Math.random() * 1.0 + 0.5, speedX: Math.random() * 0.6 - 0.3,
+        rotation: Math.random() * 360, rotSpeed: Math.random() * 2 - 1,
+        color: i % 2 === 0 ? 'rgba(212, 175, 55, 0.45)' : 'rgba(184, 37, 56, 0.35)'
       });
     }
 
-    function renderParticles() {
-      ctx.clearRect(0, 0, width, height);
+    function renderDust() {
+      ctx.clearRect(0, 0, w, h);
       particles.forEach(p => {
         ctx.save();
         ctx.translate(p.x, p.y);
-        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.rotate((p.rotation * Math.PI) / 180);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.ellipse(0, 0, p.r, p.r * 1.5, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, p.size, p.size * 1.6, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
-
-        p.y += p.speedY;
-        p.x += p.speedX;
-        p.rot += p.rotSpeed;
-
-        if (p.y > height) {
-          p.y = -10;
-          p.x = Math.random() * width;
-        }
+        p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotSpeed;
+        if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
       });
-      requestAnimationFrame(renderParticles);
+      requestAnimationFrame(renderDust);
     }
-    renderParticles();
+    renderDust();
   <\/script>
 </body>
 </html>`;
@@ -1360,7 +1389,6 @@ function renderPreview() {
   const iframe = document.getElementById('invitePreviewIframe');
   const generatedHtml = generateInviteHTML(inviteState);
   
-  // Update iframe with new content
   const doc = iframe.contentWindow || iframe.contentDocument;
   if (doc.document) {
     doc.document.open();
@@ -1380,7 +1408,7 @@ function downloadStandaloneInvite() {
   const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const sanitizedGuest = inviteState.guestName.replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g, '_');
-  const filename = `Mohamed_and_Hala_Wedding_Invite_${sanitizedGuest}.html`;
+  const filename = `Mohamed_and_Hala_Royal_Invite_${sanitizedGuest}.html`;
 
   const a = document.createElement('a');
   a.href = url;
@@ -1460,7 +1488,6 @@ function generateBatchLinks() {
   resultsContainer.classList.remove('hidden');
 }
 
-// Toast helper
 function showToast(msg) {
   const toast = document.getElementById('toastNotification');
   toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--gold-primary);"></i> ${msg}`;
@@ -1478,7 +1505,6 @@ function showToast(msg) {
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   
-  // If ?guest=... is passed in the URL
   if (params.has('guest')) {
     const passedGuest = params.get('guest');
     inviteState.guestName = passedGuest;
@@ -1488,13 +1514,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if (label) label.textContent = passedGuest;
   }
 
-  // If directly opened as invitation view: ?view=invite
   if (params.get('view') === 'invite') {
     document.body.innerHTML = generateInviteHTML(inviteState);
     return;
   }
 
-  // Check if session was previously unlocked
   const isUnlocked = sessionStorage.getItem('portal_unlocked') === 'true';
   if (isUnlocked) {
     unlockPortal();
