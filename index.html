@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohamed & Hala | Luxury Wedding Invite Generator</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="locked-body">
+
+  <!-- ============================================ -->
+  <!-- 1. LUXURY PASSWORD GATE & ADMIN BACKDOOR      -->
+  <!-- ============================================ -->
+  <div id="passwordGateModal" class="gate-overlay active">
+    <div class="gate-card">
+      <div class="gate-seal">
+        <div class="wax-seal-icon">
+          <span>M & H</span>
+        </div>
+      </div>
+      
+      <h2 class="gate-title">Mohamed & Hala</h2>
+      <p class="gate-arabic-title">حفل زفاف محمد وهالة</p>
+      <div class="gate-divider"><span>❦</span></div>
+      
+      <p class="gate-subtitle">Please enter your invitation portal access key</p>
+      <p class="gate-subtitle-ar">يرجى إدخال رمز الدخول الخاص بالبوابة</p>
+
+      <!-- Standard Unlock Form -->
+      <form id="gateForm" onsubmit="handleGateSubmit(event)" class="gate-form">
+        <div class="input-group">
+          <i class="fa-solid fa-key input-icon"></i>
+          <input type="password" id="gatePassInput" placeholder="Enter access password..." autocomplete="off" required>
+          <button type="button" class="eye-toggle" onclick="togglePassVisibility('gatePassInput', this)">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+        
+        <div id="gateError" class="gate-error-msg"></div>
+
+        <button type="submit" class="gate-btn">
+          <span>Unlock Portal</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Secret Admin Panel (Revealed if typed wedding_pass_wedding) -->
+      <div id="adminSecretPanel" class="admin-panel hidden">
+        <div class="admin-badge">
+          <i class="fa-solid fa-shield-halved"></i> Master Admin Mode
+        </div>
+        <p class="admin-desc">You unlocked the secret backdoor! Set a new password without rewriting code:</p>
+        
+        <div class="input-group">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input type="password" id="newPassInput" placeholder="Enter new password (e.g. mypass123)...">
+          <button type="button" class="eye-toggle" onclick="togglePassVisibility('newPassInput', this)">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <div class="admin-actions">
+          <button type="button" class="admin-btn-save" onclick="saveNewPassword()">
+            <i class="fa-solid fa-check"></i> Save New Password
+          </button>
+          <button type="button" class="admin-btn-reset" onclick="resetToDefaultPassword()">
+            <i class="fa-solid fa-rotate-left"></i> Reset to Default (me7299)
+          </button>
+        </div>
+        <div id="adminSuccessMsg" class="admin-success-msg"></div>
+      </div>
+
+      <div class="gate-footer">
+        <small>© Mohamed & Hala Wedding Celebration | VIP Access</small>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================ -->
+  <!-- 2. MAIN GENERATOR DASHBOARD                  -->
+  <!-- ============================================ -->
+  <div id="appContainer" class="app-container hidden">
+    
+    <!-- Top Bar -->
+    <header class="app-topbar">
+      <div class="topbar-brand">
+        <div class="brand-monogram">M & H</div>
+        <div class="brand-info">
+          <h1>Wedding Invite Generator</h1>
+          <span>محمد & هالة • Luxury Bilingual Suite</span>
+        </div>
+      </div>
+
+      <div class="topbar-controls">
+        <button class="topbar-btn preview-mode-btn active" id="btnModeDesktop" onclick="setPreviewDevice('desktop')" title="Desktop View">
+          <i class="fa-solid fa-laptop"></i>
+        </button>
+        <button class="topbar-btn preview-mode-btn" id="btnModeMobile" onclick="setPreviewDevice('mobile')" title="Mobile View">
+          <i class="fa-solid fa-mobile-screen"></i>
+        </button>
+        <button class="topbar-btn change-pass-btn" onclick="openPasswordChangeModal()" title="Change Access Password">
+          <i class="fa-solid fa-lock"></i> Password
+        </button>
+        <button class="topbar-btn logout-btn" onclick="logout()" title="Lock Portal">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Split -->
+    <main class="app-layout">
+      
+      <!-- LEFT COLUMN: CONTROLS & GUEST INPUT -->
+      <aside class="generator-sidebar">
+        <div class="sidebar-header">
+          <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Customize Invite</h2>
+          <p>Instant real-time invitation generator for every guest</p>
+        </div>
+
+        <div class="sidebar-content">
+          
+          <!-- Couple Profile (LOCKED AS REQUESTED) -->
+          <div class="setting-card couple-locked-card">
+            <div class="card-label">
+              <i class="fa-solid fa-lock"></i> Couple Names (Fixed)
+            </div>
+            <div class="couple-locked-display">
+              <div class="couple-pill">
+                <span class="role">Groom / العريس</span>
+                <strong class="name">Mohamed (محمد)</strong>
+              </div>
+              <div class="heart-symbol"><i class="fa-solid fa-heart"></i></div>
+              <div class="couple-pill">
+                <span class="role">Bride / العروسة</span>
+                <strong class="name">Hala (هالة)</strong>
+              </div>
+            </div>
+            <small class="locked-note">Names are fixed to Mohamed & Hala as specified.</small>
+          </div>
+
+          <!-- GUEST NAME INPUT (THE CORE FIELD) -->
+          <div class="setting-card highlight-card">
+            <label for="guestNameInput" class="card-label">
+              <i class="fa-solid fa-user-tag"></i> Invited Guest Name (اسم الضيف)
+            </label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-id-card"></i>
+              <input type="text" id="guestNameInput" value="Mr / Sherief Mohamed" 
+                     placeholder="e.g. Mr / Sherief Mohamed or د / أحمد علي"
+                     oninput="updateGuestName(this.value)">
+            </div>
+            
+            <div class="quick-guest-tags">
+              <span class="quick-tag-label">Presets:</span>
+              <button type="button" class="quick-tag" onclick="setQuickGuest('Mr / Sherief Mohamed')">Mr / Sherief Mohamed</button>
+              <button type="button" class="quick-tag" onclick="setQuickGuest('السيد / شريف محمد')">السيد / شريف محمد</button>
+              <button type="button" class="quick-tag" onclick="setQuickGuest('Eng / Sherief Mohamed & Family')">Eng / Sherief & Family</button>
+            </div>
+          </div>
+
+          <!-- EVENT DETAILS -->
+          <div class="setting-card">
+            <div class="card-label"><i class="fa-solid fa-calendar-days"></i> Wedding Date & Venue</div>
+            
+            <div class="form-row">
+              <div class="form-col">
+                <label>Date / التاريخ</label>
+                <input type="date" id="weddingDateInput" value="2026-11-20" onchange="updateEventDetails()">
+              </div>
+              <div class="form-col">
+                <label>Time / الوقت</label>
+                <input type="time" id="weddingTimeInput" value="18:00" onchange="updateEventDetails()">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Venue / قاعة الحفل</label>
+              <input type="text" id="venueNameInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateEventDetails()">
+            </div>
+
+            <div class="form-group">
+              <label>Location / المدينة</label>
+              <input type="text" id="venueLocationInput" value="Nile Plaza, Garden City, Cairo" oninput="updateEventDetails()">
+            </div>
+          </div>
+
+          <!-- LANGUAGE DISPLAY PREFERENCE -->
+          <div class="setting-card">
+            <div class="card-label"><i class="fa-solid fa-language"></i> Default Language in Invite</div>
+            <div class="lang-toggle-group">
+              <button type="button" class="lang-choice-btn active" id="langChoiceBilingual" onclick="setInitialLang('bilingual')">
+                <i class="fa-solid fa-earth-americas"></i> Bilingual (AR / EN)
+              </button>
+              <button type="button" class="lang-choice-btn" id="langChoiceAr" onclick="setInitialLang('ar')">
+                عربي (Arabic First)
+              </button>
+              <button type="button" class="lang-choice-btn" id="langChoiceEn" onclick="setInitialLang('en')">
+                English First
+              </button>
+            </div>
+          </div>
+
+          <!-- ACTION BUTTONS: DOWNLOAD HTML, COPY LINK, FULLSCREEN -->
+          <div class="action-buttons-container">
+            <button class="btn-primary-action" onclick="downloadStandaloneInvite()">
+              <i class="fa-solid fa-download"></i>
+              <div class="btn-text-wrap">
+                <strong>Download Standalone HTML</strong>
+                <small>Ready-to-share single offline file for this guest</small>
+              </div>
+            </button>
+
+            <button class="btn-secondary-action" onclick="copyPersonalizedLink()">
+              <i class="fa-solid fa-link"></i>
+              <span>Copy VIP Share Link</span>
+            </button>
+
+            <button class="btn-tertiary-action" onclick="openPreviewFullscreen()">
+              <i class="fa-solid fa-expand"></i>
+              <span>Open Invite Fullscreen</span>
+            </button>
+          </div>
+
+          <!-- BATCH GENERATOR MODAL TRIGGER -->
+          <div class="batch-section">
+            <button type="button" class="btn-batch" onclick="openBatchModal()">
+              <i class="fa-solid fa-users"></i> Batch Guest Invites Generator
+            </button>
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- RIGHT COLUMN: LIVE INTERACTIVE PREVIEW -->
+      <section class="preview-section">
+        <div class="preview-toolbar">
+          <div class="toolbar-left">
+            <span class="live-dot"></span>
+            <span class="toolbar-title">Live Preview for: <strong id="previewGuestLabel">Mr / Sherief Mohamed</strong></span>
+          </div>
+          <div class="toolbar-right">
+            <span class="preview-tip"><i class="fa-solid fa-mouse-pointer"></i> Scroll down inside to test the Split Heart animation!</span>
+          </div>
+        </div>
+
+        <div class="preview-frame-wrapper" id="previewFrameWrapper">
+          <div class="preview-viewport" id="previewViewport">
+            <!-- The Live Interactive Wedding Invitation Template is Rendered Inside this Frame -->
+            <iframe id="invitePreviewIframe" title="Wedding Invitation Preview"></iframe>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 3. BATCH GENERATOR MODAL                     -->
+  <!-- ============================================ -->
+  <div id="batchModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-users"></i> Bulk Guest Invite Links</h3>
+        <button class="modal-close" onclick="closeBatchModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p>Enter guest names (one per line). The generator will create customized links for each:</p>
+        <textarea id="batchGuestsTextarea" rows="6" placeholder="Mr / Sherief Mohamed&#10;Eng / Ahmed Aly&#10;Dr / Mona Hassan&#10;السيد / محمود إبراهيم"></textarea>
+        <button class="btn-batch-generate" onclick="generateBatchLinks()">
+          <i class="fa-solid fa-bolt"></i> Generate Links List
+        </button>
+
+        <div id="batchResultsContainer" class="batch-results hidden">
+          <h4>Generated VIP Invite Links:</h4>
+          <div id="batchLinksList" class="batch-links-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastNotification" class="toast-popup hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
