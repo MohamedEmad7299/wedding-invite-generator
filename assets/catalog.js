@@ -181,7 +181,7 @@ window.WEDDING_DESIGNS_CATALOG = [
     "id": "design-12",
     "index": 12,
     "fileName": "il_1588xN.6301635747_inc2.avif",
-    "image": "assets/designs/il_1588xN.6301635747_inc2.avif",
+    "image": "assets/designs/il_1588xN.6301635747_inc2_clean.jpg",
     "titleEn": "Imperial Emerald & Gilded Leaf Suite #12",
     "titleAr": "طقم الزمرد الإمبراطوري وأوراق الذهب #12",
     "category": "emerald",
