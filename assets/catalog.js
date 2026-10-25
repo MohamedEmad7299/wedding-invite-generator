@@ -11,8 +11,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#D4AF37",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-2",
@@ -26,8 +27,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-3",
@@ -41,8 +44,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#E74C3C",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A",
+    "textColorTheme": "gold"
   },
   {
     "id": "design-4",
@@ -56,8 +61,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-5",
@@ -71,8 +77,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-6",
@@ -86,8 +93,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-7",
@@ -101,8 +109,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-8",
@@ -116,8 +125,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-9",
@@ -131,8 +141,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-10",
@@ -146,8 +157,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-11",
@@ -161,23 +173,26 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-12",
     "index": 12,
     "fileName": "il_1588xN.6301635747_inc2.avif",
     "image": "assets/designs/il_1588xN.6301635747_inc2.avif",
-    "titleEn": "Royal Sapphire Floral Garland Suite #12",
-    "titleAr": "طقم إكليل الزهور الياقوتية والكحلية #12",
-    "category": "navy",
-    "categoryNameEn": "Dusty Blue & Navy",
-    "categoryNameAr": "أزرق داكن وسماوي",
-    "defaultColor": "#1B365D",
+    "titleEn": "Imperial Emerald & Gilded Leaf Suite #12",
+    "titleAr": "طقم الزمرد الإمبراطوري وأوراق الذهب #12",
+    "category": "emerald",
+    "categoryNameEn": "Emerald & Gold",
+    "categoryNameAr": "زمردي وذهبي",
+    "defaultColor": "#D4AF37",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F",
+    "textColorTheme": "gold"
   },
   {
     "id": "design-13",
@@ -191,8 +206,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.88
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.88,
+    "cardBgColor": "#FAF8F5",
+    "textColorTheme": "emerald"
   },
   {
     "id": "design-14",
@@ -206,8 +223,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-15",
@@ -221,8 +239,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-16",
@@ -236,8 +255,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-17",
@@ -251,8 +271,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.88
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.88,
+    "cardBgColor": "#0A0A0A",
+    "textColorTheme": "gold"
   },
   {
     "id": "design-18",
@@ -266,8 +288,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-19",
@@ -281,8 +304,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-20",
@@ -296,8 +321,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-21",
@@ -311,8 +337,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-22",
@@ -326,8 +353,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-23",
@@ -341,8 +369,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-24",
@@ -356,8 +385,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-25",
@@ -371,8 +401,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-26",
@@ -386,8 +418,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-27",
@@ -401,8 +435,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-28",
@@ -416,8 +451,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-29",
@@ -431,8 +467,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-30",
@@ -446,8 +483,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-31",
@@ -461,8 +499,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-32",
@@ -476,8 +515,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-33",
@@ -491,8 +531,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#800020",
     "defaultFont": "Playfair Display",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "burgundy"
   },
   {
     "id": "design-34",
@@ -506,8 +548,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-35",
@@ -521,8 +564,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-36",
@@ -536,8 +580,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-37",
@@ -551,8 +596,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-38",
@@ -566,8 +612,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-39",
@@ -581,8 +628,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-40",
@@ -596,8 +644,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-41",
@@ -611,8 +660,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-42",
@@ -626,8 +676,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-43",
@@ -641,8 +693,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-44",
@@ -656,8 +709,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-45",
@@ -671,8 +725,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-46",
@@ -686,8 +741,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF",
+    "textColorTheme": "navy"
   },
   {
     "id": "design-47",
@@ -701,8 +758,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-48",
@@ -716,8 +774,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-49",
@@ -731,8 +790,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-50",
@@ -746,8 +806,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-51",
@@ -761,8 +822,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-52",
@@ -776,8 +838,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-53",
@@ -791,8 +854,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-54",
@@ -806,8 +870,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-55",
@@ -821,8 +886,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-56",
@@ -836,8 +902,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-57",
@@ -851,8 +918,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-58",
@@ -866,8 +934,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-59",
@@ -881,8 +950,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-60",
@@ -896,8 +966,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-61",
@@ -911,8 +982,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-62",
@@ -926,8 +998,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-63",
@@ -941,8 +1014,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-64",
@@ -956,8 +1030,10 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#D4AF37",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.9
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.9,
+    "cardBgColor": "#0A0A0A",
+    "textColorTheme": "gold"
   },
   {
     "id": "design-65",
@@ -971,8 +1047,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-66",
@@ -986,8 +1063,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-67",
@@ -1001,8 +1079,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-68",
@@ -1016,8 +1095,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-69",
@@ -1031,8 +1111,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-70",
@@ -1046,8 +1127,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-71",
@@ -1061,8 +1143,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-72",
@@ -1076,8 +1159,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-73",
@@ -1091,8 +1175,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-74",
@@ -1106,8 +1191,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-75",
@@ -1121,8 +1207,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   },
   {
     "id": "design-76",
@@ -1136,8 +1223,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "نبيتي مخملي وعنابي",
     "defaultColor": "#68132A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#2A0813"
   },
   {
     "id": "design-77",
@@ -1151,8 +1239,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أسود ملكي وذهب",
     "defaultColor": "#ECC870",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "dark",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0A0A0A"
   },
   {
     "id": "design-78",
@@ -1166,8 +1255,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زهور وبوتانيكال",
     "defaultColor": "#5C6B57",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-79",
@@ -1181,8 +1271,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "زمردي وذهبي",
     "defaultColor": "#0E4D3A",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0B261F"
   },
   {
     "id": "design-80",
@@ -1196,8 +1287,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "إسلامي وأندلسي",
     "defaultColor": "#1B4D3E",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "parchment",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-81",
@@ -1211,8 +1303,9 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أكريليك وأقواس زجاجية",
     "defaultColor": "#B8860B",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#FFFFFF"
   },
   {
     "id": "design-82",
@@ -1226,7 +1319,8 @@ window.WEDDING_DESIGNS_CATALOG = [
     "categoryNameAr": "أزرق داكن وسماوي",
     "defaultColor": "#1B365D",
     "defaultFont": "Pinyon Script",
-    "defaultPlaque": "frosted",
-    "defaultPlaqueOpacity": 0.85
+    "defaultPlaque": "seamless",
+    "defaultPlaqueOpacity": 0.85,
+    "cardBgColor": "#0C1B2E"
   }
 ];

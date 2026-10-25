@@ -401,7 +401,16 @@
             
             <div class="plaque-choice-grid">
               <label class="plaque-card active">
-                <input type="radio" name="plaqueStyle" value="frosted" checked onchange="updateAllCardData()">
+                <input type="radio" name="plaqueStyle" value="seamless" checked onchange="updateAllCardData()">
+                <div class="plaque-preview seamless-preview"></div>
+                <div class="plaque-info">
+                  <strong>✨ Seamless Card Native (بدون أي صندوق)</strong>
+                  <span>Exact 1:1 match with card artwork, zero white boxes, gold foil script</span>
+                </div>
+              </label>
+
+              <label class="plaque-card">
+                <input type="radio" name="plaqueStyle" value="frosted" onchange="updateAllCardData()">
                 <div class="plaque-preview frosted-preview"></div>
                 <div class="plaque-info">
                   <strong>Frosted Glass Plaque</strong>
@@ -424,15 +433,6 @@
                 <div class="plaque-info">
                   <strong>Midnight Velvet Onyx</strong>
                   <span>Deep dark luxury backing with glowing gold frame</span>
-                </div>
-              </label>
-
-              <label class="plaque-card">
-                <input type="radio" name="plaqueStyle" value="none" onchange="updateAllCardData()">
-                <div class="plaque-preview none-preview"></div>
-                <div class="plaque-info">
-                  <strong>Seamless Floating (None)</strong>
-                  <span>Direct typography over the card artwork without backing</span>
                 </div>
               </label>
             </div>

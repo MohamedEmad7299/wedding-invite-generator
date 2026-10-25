@@ -1,15 +1,15 @@
 /**
  * Royal Wedding Invitation Studio & Generator Engine
- * 82 Reference Designs Coded Architecture
+ * 82 Reference Designs Coded Architecture - Exact 1:1 Match Engine
  */
 
 const DEFAULT_PASSWORD = 'me7299';
 const SECRET_BACKDOOR = 'wedding_pass_wedding';
 const STORAGE_PASS_KEY = 'wedding_invite_site_pass';
 
-// Studio State
+// Studio State - Defaults to Design #12 (Imperial Emerald & Gold Leaf) with Seamless Native matching
 var cardStudioState = {
-  activeDesignId: 'design-13', // Default: Islamic Bismillah & Eucalyptus Marble Suite
+  activeDesignId: 'design-12', // Design #12: Imperial Emerald & Gilded Leaf Suite
   groomEn: 'Mohamed',
   groomAr: 'محمد',
   brideEn: 'Hala',
@@ -20,10 +20,10 @@ var cardStudioState = {
   textColorTheme: 'gold',
   coupleSize: 44,
   offsetY: 0,
-  plaqueStyle: 'frosted',
+  plaqueStyle: 'seamless', // Seamless 1:1 card integration (ZERO white boxes!)
   plaqueOpacity: 85,
-  plaqueWidth: 88,
-  plaqueBorder: 'gold-thin',
+  plaqueWidth: 92,
+  plaqueBorder: 'none',
   eventDate: '2026-11-20',
   eventTime: '18:00',
   dateDivider: 'divider',
@@ -161,6 +161,7 @@ function logout() {
 function initStudioApp() {
   populateDesignsGallery();
   readUrlParams();
+  syncFormInputsWithState();
   renderCardPreview();
 }
 
@@ -258,15 +259,15 @@ function selectDesign(designId) {
   const catalog = getCatalog();
   const design = catalog.find(d => d.id === designId);
 
-  // Auto-tune plaque and color if default given
+  // Exact 1:1 match settings:
+  cardStudioState.plaqueStyle = 'seamless'; // Never show a white box!
   if (design) {
-    if (design.defaultPlaque) cardStudioState.plaqueStyle = design.defaultPlaque;
-    if (design.defaultColor) {
-      if (design.category === 'blackgold') cardStudioState.textColorTheme = 'gold';
-      else if (design.category === 'navy') cardStudioState.textColorTheme = 'navy';
-      else if (design.category === 'burgundy') cardStudioState.textColorTheme = 'burgundy';
-      else if (design.category === 'emerald') cardStudioState.textColorTheme = 'emerald';
-      else cardStudioState.textColorTheme = 'gold';
+    if (design.category === 'emerald' || design.category === 'blackgold' || design.category === 'burgundy') {
+      cardStudioState.textColorTheme = 'gold';
+    } else if (design.category === 'navy') {
+      cardStudioState.textColorTheme = (design.cardBgColor === '#FFFFFF') ? 'navy' : 'gold';
+    } else {
+      cardStudioState.textColorTheme = 'gold';
     }
     syncFormInputsWithState();
   }
@@ -277,7 +278,7 @@ function selectDesign(designId) {
   if (activeEl) activeEl.classList.add('active');
 
   renderCardPreview();
-  showToast(`Loaded ${design ? design.titleEn : 'Selected Design'}!`);
+  showToast(`Loaded ${design ? design.titleEn : 'Selected Design'}! ✨`);
 }
 
 // ==========================================================================
@@ -373,9 +374,13 @@ function applyVersePreset(val) {
 function generateCodedCardHTML(state) {
   const catalog = getCatalog();
   const design = catalog.find(d => d.id === state.activeDesignId) || catalog[0] || {
-    image: 'assets/designs/il_1588xN.6422523152_isqu.jpg',
-    titleEn: 'Royal Wedding Suite #13'
+    image: 'assets/designs/il_1588xN.6301635747_inc2.avif',
+    titleEn: 'Imperial Emerald & Gilded Leaf Suite #12',
+    cardBgColor: '#0B261F'
   };
+
+  const isSeamless = (state.plaqueStyle === 'seamless' || !state.plaqueStyle);
+  const cardBg = design.cardBgColor || '#0B261F';
 
   const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
   const weekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
@@ -385,38 +390,6 @@ function generateCodedCardHTML(state) {
   const shortMonth = eventDateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
   const year = eventDateObj.getFullYear();
   const timeFormatted = eventDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-
-  // Date layout markup
-  let dateMarkup = '';
-  if (state.dateDivider === 'divider') {
-    dateMarkup = `
-      <div class="card-date-divider-row">
-        <span class="date-part">${weekday}</span>
-        <span class="date-day-badge">${day}</span>
-        <span class="date-part">${monthEn}</span>
-        <span class="date-part">${year}</span>
-      </div>
-      <div class="card-time-line">AT ${timeFormatted} IN THE EVENING</div>
-    `;
-  } else if (state.dateDivider === 'pill') {
-    dateMarkup = `
-      <div class="card-date-pill-row">
-        <span class="pill-weekday">${shortWeekday}</span>
-        <div class="pill-center-badge">
-          <span class="pill-day">${day}</span>
-          <span class="pill-month">${shortMonth}</span>
-        </div>
-        <span class="pill-time">${timeFormatted}</span>
-      </div>
-    `;
-  } else {
-    dateMarkup = `
-      <div class="card-date-classic-row">
-        <div class="classic-date-str">${eventDateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
-        <div class="classic-time-str">at ${timeFormatted}</div>
-      </div>
-    `;
-  }
 
   // Wax seal gradient & border
   let sealBg = 'radial-gradient(circle at 35% 30%, #F5CE68, #B8860B 65%, #6E4E04)';
@@ -432,18 +405,19 @@ function generateCodedCardHTML(state) {
     sealBorder = '#FDEBD0';
   }
 
-  // Border style
-  let plaqueBorderCSS = 'border: 1px solid rgba(212, 175, 55, 0.7); outline: 1px solid rgba(212, 175, 55, 0.3); outline-offset: 4px;';
-  if (state.plaqueBorder === 'gold-double') plaqueBorderCSS = 'border: 3px double rgba(212, 175, 55, 0.9);';
-  else if (state.plaqueBorder === 'gold-dashed') plaqueBorderCSS = 'border: 1px dashed rgba(212, 175, 55, 0.8);';
-  else if (state.plaqueBorder === 'none') plaqueBorderCSS = 'border: none;';
-
-  // Plaque Background
+  // Non-seamless Plaque settings
   const op = state.plaqueOpacity / 100;
-  let plaqueBgCSS = `background: rgba(255, 255, 255, ${op}); backdrop-filter: blur(14px);`;
-  if (state.plaqueStyle === 'parchment') plaqueBgCSS = `background: rgba(253, 248, 238, ${op}); backdrop-filter: blur(10px);`;
-  else if (state.plaqueStyle === 'dark') plaqueBgCSS = `background: rgba(10, 14, 12, ${op}); backdrop-filter: blur(14px);`;
-  else if (state.plaqueStyle === 'none') plaqueBgCSS = `background: transparent; backdrop-filter: none; box-shadow: none; border: none;`;
+  let plaqueBgCSS = 'background: transparent; backdrop-filter: none; box-shadow: none; border: none;';
+  let plaqueBorderCSS = '';
+  if (!isSeamless) {
+    if (state.plaqueStyle === 'frosted') plaqueBgCSS = `background: rgba(255, 255, 255, ${op}); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);`;
+    else if (state.plaqueStyle === 'parchment') plaqueBgCSS = `background: rgba(253, 248, 238, ${op}); backdrop-filter: blur(10px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);`;
+    else if (state.plaqueStyle === 'dark') plaqueBgCSS = `background: rgba(10, 14, 12, ${op}); backdrop-filter: blur(14px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);`;
+    
+    if (state.plaqueBorder === 'gold-thin') plaqueBorderCSS = 'border: 1px solid rgba(212, 175, 55, 0.7); outline: 1px solid rgba(212, 175, 55, 0.3); outline-offset: 4px;';
+    else if (state.plaqueBorder === 'gold-double') plaqueBorderCSS = 'border: 3px double rgba(212, 175, 55, 0.9);';
+    else if (state.plaqueBorder === 'gold-dashed') plaqueBorderCSS = 'border: 1px dashed rgba(212, 175, 55, 0.8);';
+  }
 
   // Text Color / Foil styling
   let colorClass = 'foil-gold';
@@ -484,15 +458,17 @@ function generateCodedCardHTML(state) {
   <style>
     :root {
       --gold-primary: #D4AF37;
-      --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
+      --gold-light: #F7E7CE;
+      --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%);
       --seal-bg: ${sealBg};
       --seal-border: ${sealBorder};
+      --card-bg-native: ${cardBg};
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: #051310;
+      background: #040E0C;
       color: #E8ECEB;
       font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
@@ -503,13 +479,13 @@ function generateCodedCardHTML(state) {
       padding: 30px 16px 80px;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
     }
 
     #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
 
-    /* Floating Top Action Bar */
+    /* Top Action Bar */
     .top-action-bar {
       position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px;
     }
@@ -522,18 +498,18 @@ function generateCodedCardHTML(state) {
     }
     .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
 
-    /* CARD CONTAINER */
+    /* THE CARD STAGE */
     .card-stage-container {
       width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;
     }
 
     .luxury-invitation-card {
       position: relative; width: 100%; border-radius: 18px; overflow: hidden;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 30px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 35px rgba(212, 175, 55, 0.2);
       background: #000;
     }
 
-    /* CARD ARTWORK BASE */
+    /* CARD ARTWORK FRAME */
     .card-artwork-frame {
       position: relative; width: 100%; display: block; line-height: 0;
     }
@@ -541,125 +517,187 @@ function generateCodedCardHTML(state) {
       width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);
     }
 
-    /* OVERLAY PLAQUE */
+    /* SEAMLESS LOCALIZED ERASER PATCHES (Dissolve old text seamlessly into card background with ZERO white boxes) */
+    .seamless-name-patch {
+      position: absolute;
+      top: 34%;
+      left: 12%;
+      right: 12%;
+      height: 30%;
+      background: radial-gradient(ellipse 95% 80% at center, var(--card-bg-native) 48%, rgba(11,38,31,0.85) 75%, transparent 100%);
+      filter: blur(4px);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .seamless-date-patch {
+      position: absolute;
+      bottom: 10%;
+      left: 14%;
+      right: 14%;
+      height: 24%;
+      background: radial-gradient(ellipse 95% 80% at center, var(--card-bg-native) 52%, rgba(11,38,31,0.85) 78%, transparent 100%);
+      filter: blur(3px);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* TYPOGRAPHY OVERLAY LAYER */
     .card-typography-plaque {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%) translateY(${state.offsetY}px);
-      width: ${state.plaqueWidth}%;
-      ${plaqueBgCSS}
-      ${plaqueBorderCSS}
-      border-radius: 16px;
-      padding: 30px 24px;
+      width: ${isSeamless ? 96 : state.plaqueWidth}%;
+      ${isSeamless ? 'background: transparent; border: none; box-shadow: none; outline: none; padding: 20px 15px;' : (plaqueBgCSS + plaqueBorderCSS + ' padding: 30px 24px; border-radius: 16px;')}
       text-align: center;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
       z-index: 10;
       transition: all 0.3s ease;
     }
 
-    /* FOIL & COLOR PALETTES */
+    /* METALLIC GOLD FOIL EFFECT */
     .foil-gold {
-      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
+      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #AA771C 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.45));
     }
     .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }
-    .foil-black { color: #111111 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
     .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
     .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
     .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
-    .foil-rosegold {
-      background: linear-gradient(135deg, #E5AA9C 0%, #FFF0EB 30%, #B76E79 70%, #8C4751 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+    /* EXACT 1:1 TYPOGRAPHY ARCHITECTURE */
+    .card-header-families {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: #ECC870;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
 
-    /* CARD TEXT ELEMENTS */
-    .card-verse-block { margin-bottom: 14px; }
-    .card-bismillah-arabic {
-      font-family: 'Amiri', serif; font-size: 20px; font-weight: 700; line-height: 1.4;
+    .card-guest-line {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #F7E7CE;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .card-guest-highlight {
+      font-weight: 700;
+      color: #FFF3B3;
+      padding: 0 4px;
+    }
+
+    .card-bismillah-gold {
+      font-family: 'Amiri', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ECC870;
       margin-bottom: 4px;
-    }
-    .card-verse-arabic {
-      font-family: 'Aref Ruqaa', 'Amiri', serif; font-size: 13px; line-height: 1.6;
-      color: rgba(20, 20, 20, 0.85); max-width: 90%; margin: 0 auto;
-    }
-    .dark-text { color: #222 !important; }
-    .light-text { color: #EEE !important; }
-
-    /* Guest line */
-    .card-guest-block { margin-bottom: 12px; }
-    .card-invite-greeting {
-      font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-      color: #666; margin-bottom: 4px;
-    }
-    .card-guest-badge {
-      display: inline-block; padding: 4px 14px; border-radius: 20px;
-      background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.5);
-      font-size: 13px; font-weight: 700; color: #1B150F;
-    }
-    .card-guest-ar {
-      display: block; font-family: 'Aref Ruqaa', serif; font-size: 12px;
-      color: #666; margin-top: 2px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
     }
 
-    /* Couple Names */
-    .card-couple-block { margin: 14px 0; }
-    .card-couple-names {
+    /* COUPLE NAMES (Sloping, fluid luxury script matching reference card) */
+    .card-couple-stacked {
       ${fontCssRule}
-      line-height: 1.15;
+      line-height: 1.1;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .card-couple-stacked .amp-line {
+      font-size: 0.65em;
+      margin: -6px 0;
+      opacity: 0.9;
+    }
+
+    .card-couple-arabic-gold {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #ECC870;
+      margin-top: 2px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    /* DATE EXACT 1:1 DIVIDER LINES */
+    .card-date-exact-layout {
+      margin: 14px 0 8px;
+    }
+    .exact-date-month {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #ECC870;
+      font-weight: 600;
       margin-bottom: 4px;
-      word-break: break-word;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
-    .card-couple-arabic {
-      font-family: 'Aref Ruqaa', serif; font-size: 22px; font-weight: 700;
-      color: var(--gold-primary); margin-top: 2px;
+    .exact-date-line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border-top: 1px solid rgba(212, 175, 55, 0.6);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.6);
+      padding: 5px 22px;
+      margin: 3px auto;
+    }
+    .exact-weekday, .exact-time {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #F7E7CE;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .exact-day {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #FFF3B3;
+      padding: 0 4px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    }
+    .exact-date-year {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #ECC870;
+      margin-top: 4px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
 
-    /* Date layout */
-    .card-date-divider-row {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      margin: 14px 0 4px; border-top: 1px solid rgba(212, 175, 55, 0.4);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding: 8px 0;
+    /* VENUE EXACT LAYOUT */
+    .card-venue-exact-layout {
+      margin-top: 10px;
     }
-    .date-part { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: #333; }
-    .date-day-badge {
-      font-size: 24px; font-weight: 700; font-family: 'Cinzel', serif;
-      color: var(--gold-primary); padding: 0 6px;
+    .venue-exact-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #F7E7CE;
+      text-transform: uppercase;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     }
-    .card-time-line { font-size: 10px; letter-spacing: 2px; color: #666; font-weight: 600; }
+    .venue-exact-ar {
+      font-family: 'Aref Ruqaa', serif;
+      font-size: 13px;
+      color: #ECC870;
+      margin-top: 2px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .venue-exact-addr {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: rgba(247, 231, 206, 0.85);
+      text-transform: uppercase;
+      margin-top: 2px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
 
-    /* Pill Date */
-    .card-date-pill-row {
-      display: inline-flex; align-items: center; gap: 10px; margin: 12px 0 6px;
-      border: 1px solid rgba(212, 175, 55, 0.6); border-radius: 30px; padding: 4px 14px;
-    }
-    .pill-weekday, .pill-time { font-size: 11px; font-weight: 600; color: #333; letter-spacing: 1px; }
-    .pill-center-badge {
-      display: flex; flex-direction: column; align-items: center; padding: 2px 8px;
-      border-left: 1px solid rgba(212, 175, 55, 0.4); border-right: 1px solid rgba(212, 175, 55, 0.4);
-    }
-    .pill-day { font-size: 16px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
-    .pill-month { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #444; }
-
-    /* Classic Date */
-    .card-date-classic-row { margin: 12px 0; }
-    .classic-date-str { font-size: 13px; font-weight: 600; color: #222; }
-    .classic-time-str { font-size: 11px; color: #666; }
-
-    /* Venue */
-    .card-venue-block { margin-top: 12px; }
-    .card-venue-name { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #222; }
-    .card-venue-ar { font-family: 'Amiri', serif; font-size: 13px; color: var(--gold-primary); }
-    .card-venue-address { font-size: 10px; color: #666; margin-top: 2px; }
-    .card-map-link {
-      display: inline-flex; align-items: center; gap: 5px; margin-top: 6px;
-      font-size: 10px; font-weight: 600; color: var(--gold-primary); text-decoration: none;
-      padding: 3px 10px; border-radius: 12px; background: rgba(212, 175, 55, 0.1);
-      transition: all 0.2s;
-    }
-    .card-map-link:hover { background: var(--gold-primary); color: #081B17; }
-
-    /* BOTTOM CONTROLS & WAX SEAL */
+    /* FOOTER & WAX SEAL */
     .card-interactive-footer {
       width: 100%; max-width: 540px; margin: 0 auto; display: flex; flex-direction: column;
       align-items: center; gap: 16px;
@@ -758,41 +796,55 @@ function generateCodedCardHTML(state) {
       <!-- High-Res Chosen Design Template Artwork -->
       <div class="card-artwork-frame">
         <img src="${design.image}" alt="${design.titleEn}" class="card-artwork-img">
+        
+        <!-- Localized seamless blending patches to dissolve old text into the card's native background -->
+        ${isSeamless ? `
+          <div class="seamless-name-patch"></div>
+          <div class="seamless-date-patch"></div>
+        ` : ''}
       </div>
 
-      <!-- Live Personalized Overlay Plaque -->
+      <!-- Live Personalized Overlay (Zero white box in seamless mode!) -->
       <div class="card-typography-plaque">
         
-        <!-- Bismillah / Ayah -->
-        <div class="card-verse-block">
-          <div class="card-bismillah-arabic ${state.plaqueStyle === 'dark' ? 'foil-gold' : 'dark-text'}">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-          <div class="card-verse-arabic ${state.plaqueStyle === 'dark' ? 'light-text' : 'dark-text'}">"${state.verseText}"</div>
-        </div>
+        <!-- Bismillah -->
+        <div class="card-bismillah-gold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+
+        <!-- Header line -->
+        <div class="card-header-families">TOGETHER WITH THEIR FAMILIES</div>
 
         <!-- Guest Invitation -->
-        <div class="card-guest-block">
-          <div class="card-invite-greeting">Together with their families, cordially invite</div>
-          <div class="card-guest-badge">${state.guestEn}</div>
-          <div class="card-guest-ar">${state.guestAr}</div>
+        <div class="card-guest-line">
+          CORDIALLY INVITING: <span class="card-guest-highlight">${state.guestEn}</span>
+          <span style="opacity:0.85;">(${state.guestAr})</span>
         </div>
 
-        <!-- Couple Names -->
-        <div class="card-couple-block">
-          <h1 class="card-couple-names ${colorClass}">${state.groomEn} & ${state.brideEn}</h1>
-          <div class="card-couple-arabic">${state.groomAr} و ${state.brideAr}</div>
+        <!-- Couple Names (Stacked with & like reference card) -->
+        <div class="card-couple-stacked ${colorClass}">
+          <div>${state.groomEn}</div>
+          <div class="amp-line">&amp;</div>
+          <div>${state.brideEn}</div>
         </div>
 
-        <!-- Date & Time -->
-        ${dateMarkup}
+        <!-- Arabic Calligraphy -->
+        <div class="card-couple-arabic-gold">${state.groomAr} و ${state.brideAr}</div>
+
+        <!-- Date Layout -->
+        <div class="card-date-exact-layout">
+          <div class="exact-date-month">${monthEn}</div>
+          <div class="exact-date-line">
+            <span class="exact-weekday">${weekday}</span>
+            <span class="exact-day">${day}</span>
+            <span class="exact-time">AT ${timeFormatted}</span>
+          </div>
+          <div class="exact-date-year">${year}</div>
+        </div>
 
         <!-- Venue & Reception -->
-        <div class="card-venue-block">
-          <div class="card-venue-name ${state.plaqueStyle === 'dark' ? 'light-text' : 'dark-text'}">${state.venueNameEn}</div>
-          <div class="card-venue-ar">${state.venueNameAr}</div>
-          <div class="card-venue-address">${state.venueAddress}</div>
-          <a href="${state.venueMapLink}" target="_blank" class="card-map-link">
-            <i class="fa-solid fa-location-dot"></i> View on Google Maps
-          </a>
+        <div class="card-venue-exact-layout">
+          <div class="venue-exact-name">${state.venueNameEn}</div>
+          <div class="venue-exact-ar">${state.venueNameAr}</div>
+          <div class="venue-exact-addr">${state.venueAddress}</div>
         </div>
 
       </div>

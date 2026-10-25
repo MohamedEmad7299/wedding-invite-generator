@@ -485,6 +485,11 @@ input[type="range"]::-webkit-slider-thumb {
 .plaque-preview {
   height: 40px; border-radius: 8px; width: 100%;
 }
+.seamless-preview {
+  background: radial-gradient(circle at center, #0E362C 30%, #051410 100%);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.25);
+}
 .frosted-preview {
   background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); border: 1px solid rgba(212, 175, 55, 0.6);
 }
