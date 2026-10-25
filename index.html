@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal Wedding Invitation Builder | Coded Luxury Card Studio</title>
+  <title>Royal Wedding Invitation Studio | 82 Luxury Designs Coded Card Engine</title>
   
-  <!-- Premium Fonts: Cinzel Decorative, Cormorant Garamond, Great Vibes, Alex Brush, Aref Ruqaa, Amiri, Reem Kufi, Montserrat -->
+  <!-- Premium Fonts: Pinyon Script, Playfair Display, Great Vibes, Alex Brush, Cormorant Garamond, Cinzel, Amiri, Aref Ruqaa, Reem Kufi, Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Italianno&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Complete 82 Designs Catalog Data -->
+  <script src="assets/catalog.js"></script>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -82,7 +85,7 @@
       </div>
 
       <div class="gate-footer">
-        <small>© Royal Wedding Studio Suite • Coded Card Engine</small>
+        <small>© Royal Wedding Studio Suite • 82 Luxury Designs Engine</small>
       </div>
     </div>
   </div>
@@ -96,22 +99,22 @@
     <!-- Topbar -->
     <header class="app-topbar">
       <div class="topbar-brand">
-        <div class="brand-monogram"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="brand-monogram"><i class="fa-solid fa-gem"></i></div>
         <div class="brand-info">
-          <h1>Royal Wedding Invitation Builder</h1>
-          <span>100% Code-Rendered Luxury Cards • Choose Style & Put Any Name</span>
+          <h1>Royal Wedding Invitation Studio</h1>
+          <span>82 Luxury Card Suites • Authentic Typography • Custom Name Engine</span>
         </div>
       </div>
 
       <div class="topbar-controls">
         <button class="topbar-btn preview-mode-btn active" id="btnModeDesktop" onclick="setPreviewDevice('desktop')" title="Desktop View">
-          <i class="fa-solid fa-laptop"></i>
+          <i class="fa-solid fa-laptop"></i> <span>Desktop</span>
         </button>
         <button class="topbar-btn preview-mode-btn" id="btnModeMobile" onclick="setPreviewDevice('mobile')" title="Mobile View">
-          <i class="fa-solid fa-mobile-screen"></i>
+          <i class="fa-solid fa-mobile-screen"></i> <span>Mobile</span>
         </button>
         <button class="topbar-btn action-download-top" onclick="downloadStandaloneInvite()" title="Download Standalone HTML">
-          <i class="fa-solid fa-download"></i> <span>Download Card HTML</span>
+          <i class="fa-solid fa-download"></i> <span>Export HTML</span>
         </button>
         <button class="topbar-btn action-print-top" onclick="printCard()" title="Print / Save PDF">
           <i class="fa-solid fa-print"></i> <span>Print / PDF</span>
@@ -136,148 +139,73 @@
         
         <!-- Navigation Tabs -->
         <nav class="sidebar-tabs">
-          <button class="tab-btn active" onclick="switchSidebarTab('styles')">
-            <i class="fa-solid fa-swatchbook"></i>
-            <span>Card Styles</span>
+          <button class="tab-btn active" onclick="switchSidebarTab('gallery')">
+            <i class="fa-solid fa-images"></i>
+            <span>All Designs (82)</span>
           </button>
-          <button class="tab-btn" onclick="switchSidebarTab('names')">
-            <i class="fa-solid fa-user-pen"></i>
-            <span>Names & Text</span>
+          <button class="tab-btn" onclick="switchSidebarTab('typography')">
+            <i class="fa-solid fa-feather"></i>
+            <span>Names & Fonts</span>
           </button>
-          <button class="tab-btn" onclick="switchSidebarTab('event')">
-            <i class="fa-solid fa-calendar-days"></i>
+          <button class="tab-btn" onclick="switchSidebarTab('plaque')">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Card Plaque</span>
+          </button>
+          <button class="tab-btn" onclick="switchSidebarTab('details')">
+            <i class="fa-solid fa-calendar-check"></i>
             <span>Date & Venue</span>
           </button>
           <button class="tab-btn" onclick="switchSidebarTab('finishing')">
-            <i class="fa-solid fa-gem"></i>
+            <i class="fa-solid fa-stamp"></i>
             <span>Finishing</span>
           </button>
         </nav>
 
-        <!-- TAB 1: CARD STYLES SELECTION (ALL BUILT WITH CODE) -->
-        <div id="tabContentStyles" class="tab-content active">
+        <!-- ============================================ -->
+        <!-- TAB 1: ALL 82 DESIGNS GALLERY                -->
+        <!-- ============================================ -->
+        <div id="tabContentGallery" class="tab-content active">
           <div class="tab-header">
-            <h3>Choose Your Coded Invitation Card Architecture</h3>
-            <p>Select any style below. The entire card will be rendered directly in pure code, framing your personalized names:</p>
+            <div class="tab-header-title-row">
+              <h3>Choose from all 82 Reference Designs</h3>
+              <span class="badge-count" id="galleryCountBadge">82 Cards</span>
+            </div>
+            <p>Click any card below to load that design and put your personalized names inside it:</p>
+            
+            <!-- Search & Filters -->
+            <div class="gallery-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="gallerySearchInput" placeholder="Search by number (#13), theme (Islamic, Rose, Blue, Gold)..." oninput="filterDesignsGallery()">
+            </div>
+
+            <div class="gallery-filter-chips">
+              <button class="filter-chip active" onclick="setGalleryCategory('all', this)">All (82)</button>
+              <button class="filter-chip" onclick="setGalleryCategory('floral', this)">🌿 Floral</button>
+              <button class="filter-chip" onclick="setGalleryCategory('islamic', this)">🕌 Islamic</button>
+              <button class="filter-chip" onclick="setGalleryCategory('navy', this)">🌊 Dusty Blue</button>
+              <button class="filter-chip" onclick="setGalleryCategory('burgundy', this)">🍷 Burgundy</button>
+              <button class="filter-chip" onclick="setGalleryCategory('blackgold', this)">👑 Black & Gold</button>
+              <button class="filter-chip" onclick="setGalleryCategory('emerald', this)">🌲 Emerald</button>
+              <button class="filter-chip" onclick="setGalleryCategory('acrylic', this)">💎 Acrylic Arch</button>
+            </div>
           </div>
 
-          <div class="style-cards-grid">
-            
-            <!-- Style 1: Modern Arched Frosted Acrylic -->
-            <div class="style-choice-card active" onclick="selectCardStyle('acrylic-arch')" id="cardStyle_acrylic-arch">
-              <div class="style-preview-mini mini-acrylic">
-                <div class="mini-arch-shape"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>1. Modern Arched Frosted Acrylic</strong>
-                <span>زجاج وأكريليك شفاف مع أقواس ذهبية فاخرة</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 2: Royal Emerald Velvet & Gold Filigree -->
-            <div class="style-choice-card" onclick="selectCardStyle('emerald-velvet')" id="cardStyle_emerald-velvet">
-              <div class="style-preview-mini mini-emerald">
-                <div class="mini-border-gold"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>2. Royal Emerald Velvet & Gold Foil</strong>
-                <span>المخمل الزمردي مع إطار الزخرفة الباروكية المذهبة</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 3: Deckle Edge Cotton Paper & Silk Ribbon Wax Seal -->
-            <div class="style-choice-card" onclick="selectCardStyle('deckle-edge')" id="cardStyle_deckle-edge">
-              <div class="style-preview-mini mini-deckle">
-                <div class="mini-deckle-edge"></div>
-                <div class="mini-ribbon"></div>
-                <div class="mini-seal"></div>
-              </div>
-              <div class="style-choice-info">
-                <strong>3. Deckle Edge Paper & Silk Wax Seal</strong>
-                <span>الورق القطني ذو الحواف الممزقة مع الختم والشريط</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 4: Velvet Burgundy Baroque Palace Suite -->
-            <div class="style-choice-card" onclick="selectCardStyle('burgundy-baroque')" id="cardStyle_burgundy-baroque">
-              <div class="style-preview-mini mini-burgundy">
-                <div class="mini-baroque-crest"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>4. Velvet Burgundy Baroque Crest</strong>
-                <span>المخمل النبيتي الملكي مع تاج الشعار الذهبي</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 5: Moroccan Arabesque Horseshoe Arch Gate -->
-            <div class="style-choice-card" onclick="selectCardStyle('moroccan-arch')" id="cardStyle_moroccan-arch">
-              <div class="style-preview-mini mini-moroccan">
-                <div class="mini-horseshoe-arch"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>5. Moroccan Arabesque Horseshoe Arch</strong>
-                <span>القوس الأندلسي المذهب والزخرفة الإسلامية الملكية</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 6: Minimalist Modern Editorial Arch -->
-            <div class="style-choice-card" onclick="selectCardStyle('minimalist-arch')" id="cardStyle_minimalist-arch">
-              <div class="style-preview-mini mini-minimal">
-                <div class="mini-clean-arch"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>6. Minimalist Modern Editorial Arch</strong>
-                <span>مينيمال عصري راقي مستوحى من خطوط مجلات الموضة</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 7: Celestial Midnight Navy & Star Gold -->
-            <div class="style-choice-card" onclick="selectCardStyle('midnight-celestial')" id="cardStyle_midnight-celestial">
-              <div class="style-preview-mini mini-navy">
-                <div class="mini-stars"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>7. Celestial Midnight Navy & Star Gold</strong>
-                <span>سماء الليل الكحلي المرصعة بالغبار الذهبي</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
-            <!-- Style 8: Romantic Blush & Rose Gold Botanical -->
-            <div class="style-choice-card" onclick="selectCardStyle('blush-botanical')" id="cardStyle_blush-botanical">
-              <div class="style-preview-mini mini-blush">
-                <div class="mini-botanical-branch"></div>
-                <span class="mini-label">M & H</span>
-              </div>
-              <div class="style-choice-info">
-                <strong>8. Romantic Blush & Rose Gold Botanical</strong>
-                <span>الوردي الناعم مع أوراق الشجر والذهب الوردي</span>
-              </div>
-              <div class="style-radio"><i class="fa-solid fa-circle-check"></i></div>
-            </div>
-
+          <!-- Dynamic 82 Designs Grid -->
+          <div class="designs-grid-container" id="designsGalleryGrid">
+            <!-- Dynamically populated by app.js -->
           </div>
         </div>
 
-        <!-- TAB 2: COUPLE & GUEST NAMES (PUT ANY NAME INSIDE THE CARD) -->
-        <div id="tabContentNames" class="tab-content">
+        <!-- ============================================ -->
+        <!-- TAB 2: NAMES & CALLIGRAPHY TYPOGRAPHY        -->
+        <!-- ============================================ -->
+        <div id="tabContentTypography" class="tab-content">
           <div class="tab-header">
-            <h3>Put Names & Text Inside The Card</h3>
-            <p>Type any names below. They are rendered directly inside the card with matching gold calligraphy and styling:</p>
+            <h3>Put Names & Calligraphy Inside The Card</h3>
+            <p>Customize the couple, guest name, luxury wedding fonts, and metallic foil colors:</p>
           </div>
 
+          <!-- Guest Name (Special VIP Recipient) -->
           <div class="form-section highlight-box">
             <h4 class="form-section-title"><i class="fa-solid fa-user-tag"></i> Invited Guest Name (اسم الضيف)</h4>
             <div class="form-row">
@@ -299,11 +227,12 @@
             </div>
           </div>
 
+          <!-- Couple Names -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-ring"></i> The Groom (العريس)</h4>
+            <h4 class="form-section-title"><i class="fa-solid fa-heart"></i> The Happy Couple (العروسين)</h4>
             <div class="form-row">
               <div class="form-col">
-                <label>Groom Name (English)</label>
+                <label>Groom's Name (العريس)</label>
                 <input type="text" id="groomEnInput" value="Mohamed" oninput="updateAllCardData()">
               </div>
               <div class="form-col">
@@ -311,203 +240,466 @@
                 <input type="text" id="groomArInput" value="محمد" dir="rtl" oninput="updateAllCardData()">
               </div>
             </div>
-          </div>
-
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-heart"></i> The Bride (العروسة)</h4>
             <div class="form-row">
               <div class="form-col">
-                <label>Bride Name (English)</label>
+                <label>Bride's Name (العروس)</label>
                 <input type="text" id="brideEnInput" value="Hala" oninput="updateAllCardData()">
               </div>
               <div class="form-col">
-                <label>اسم العروسة (عربي)</label>
+                <label>اسم العروس (عربي)</label>
                 <input type="text" id="brideArInput" value="هالة" dir="rtl" oninput="updateAllCardData()">
               </div>
             </div>
           </div>
 
+          <!-- Luxury Font Pairings -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-feather"></i> Opening Blessings & Lines</h4>
-            
-            <div class="form-group">
-              <label>Select Preset Verse / Opening Blessing</label>
-              <select id="versePresetSelect" onchange="applyVersePreset(this.value)">
-                <option value="ayah1">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</option>
-                <option value="ayah2">"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"</option>
-                <option value="quote1">"Two souls with but a single thought, two hearts that beat as one."</option>
-                <option value="custom">-- Custom Text (اكتب نصاً مخصصاً) --</option>
-              </select>
-            </div>
+            <h4 class="form-section-title"><i class="fa-solid fa-font"></i> Luxury Script & Calligraphy Font</h4>
+            <div class="font-picker-grid">
+              
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Pinyon Script" checked onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-pinyon">Mohamed & Hala</span>
+                  <span class="font-meta"><strong>Pinyon Script</strong> • Royal Aristocratic Cursive</span>
+                </div>
+              </label>
 
-            <div class="form-group">
-              <label>Custom Blessing / Verse Text</label>
-              <textarea id="customVerseTextarea" rows="2" oninput="updateAllCardData()">"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"</textarea>
-            </div>
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Playfair Display" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-playfair">Mohamed & Hala</span>
+                  <span class="font-meta"><strong>Playfair Display</strong> • Editorial Vogue High-Fashion</span>
+                </div>
+              </label>
 
-            <div class="form-group">
-              <label>Host Families Invitation Line</label>
-              <input type="text" id="hostLineInput" value="Together with their families, joyfully invite you to celebrate the marriage of" oninput="updateAllCardData()">
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Great Vibes" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-vibes">Mohamed & Hala</span>
+                  <span class="font-meta"><strong>Great Vibes</strong> • Classic Swash Cursive</span>
+                </div>
+              </label>
+
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Alex Brush" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-brush">Mohamed & Hala</span>
+                  <span class="font-meta"><strong>Alex Brush</strong> • Slender Fluid Calligraphy</span>
+                </div>
+              </label>
+
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Cormorant Garamond" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-garamond">MOHAMED & HALA</span>
+                  <span class="font-meta"><strong>Cormorant Garamond</strong> • Renaissance Fine Serif</span>
+                </div>
+              </label>
+
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Cinzel" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-cinzel">MOHAMED & HALA</span>
+                  <span class="font-meta"><strong>Cinzel Luxury</strong> • Imperial Roman Gold Serif</span>
+                </div>
+              </label>
+
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Aref Ruqaa" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-ruqaa" dir="rtl">محمد و هالة</span>
+                  <span class="font-meta"><strong>Aref Ruqaa</strong> • Royal Arabic Calligraphy</span>
+                </div>
+              </label>
+
+              <label class="font-choice-item">
+                <input type="radio" name="scriptFont" value="Amiri" onchange="updateAllCardData()">
+                <div class="font-choice-box">
+                  <span class="font-sample sample-amiri" dir="rtl">محمد و هالة</span>
+                  <span class="font-meta"><strong>Amiri Gold</strong> • Classic Holy Naskh Calligraphy</span>
+                </div>
+              </label>
             </div>
           </div>
 
+          <!-- Metallic Foil & Text Color -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-palette"></i> Metallic Foil & Text Color</h4>
+            <div class="color-swatches-grid">
+              <label class="swatch-btn active" title="Royal Gold Foil">
+                <input type="radio" name="textColorTheme" value="gold" checked onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-gold"></span>
+                <span class="swatch-label">Gold Foil</span>
+              </label>
+              <label class="swatch-btn" title="Pure Snow White / Ivory">
+                <input type="radio" name="textColorTheme" value="white" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-white"></span>
+                <span class="swatch-label">Pearl White</span>
+              </label>
+              <label class="swatch-btn" title="Velvet Midnight Noir">
+                <input type="radio" name="textColorTheme" value="black" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-black"></span>
+                <span class="swatch-label">Onyx Noir</span>
+              </label>
+              <label class="swatch-btn" title="Dusty Blue / Navy">
+                <input type="radio" name="textColorTheme" value="navy" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-navy"></span>
+                <span class="swatch-label">Navy Blue</span>
+              </label>
+              <label class="swatch-btn" title="Velvet Burgundy Wine">
+                <input type="radio" name="textColorTheme" value="burgundy" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-burgundy"></span>
+                <span class="swatch-label">Wine Burgundy</span>
+              </label>
+              <label class="swatch-btn" title="Imperial Emerald">
+                <input type="radio" name="textColorTheme" value="emerald" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-emerald"></span>
+                <span class="swatch-label">Emerald</span>
+              </label>
+              <label class="swatch-btn" title="Rose Gold Shimmer">
+                <input type="radio" name="textColorTheme" value="rosegold" onchange="updateAllCardData()">
+                <span class="swatch-circle swatch-rosegold"></span>
+                <span class="swatch-label">Rose Gold</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Sizing & Vertical Alignment Sliders -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-arrows-up-down"></i> Sizing & Alignment</h4>
+            
+            <div class="slider-control-group">
+              <div class="slider-label-row">
+                <label>Couple Names Size</label>
+                <span id="valCoupleSize">44px</span>
+              </div>
+              <input type="range" id="sliderCoupleSize" min="26" max="62" value="44" oninput="updateAllCardData()">
+            </div>
+
+            <div class="slider-control-group">
+              <div class="slider-label-row">
+                <label>Vertical Position Offset (Move Up/Down on Card)</label>
+                <span id="valOffsetY">0px</span>
+              </div>
+              <input type="range" id="sliderOffsetY" min="-120" max="120" value="0" oninput="updateAllCardData()">
+            </div>
+          </div>
         </div>
 
-        <!-- TAB 3: DATE, VENUE & PROGRAM -->
-        <div id="tabContentEvent" class="tab-content">
+        <!-- ============================================ -->
+        <!-- TAB 3: CARD PLAQUE & BACKING CONTROLS        -->
+        <!-- ============================================ -->
+        <div id="tabContentPlaque" class="tab-content">
           <div class="tab-header">
-            <h3>Date, Time, Venue & Directions</h3>
-            <p>Set where and when the wedding takes place:</p>
+            <h3>Card Plaque & Backing Overlay</h3>
+            <p>Choose how your personalized typography sits on the chosen artwork card:</p>
           </div>
 
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-clock"></i> Date & Time</h4>
+            <h4 class="form-section-title"><i class="fa-solid fa-clone"></i> Plaque Architecture Style</h4>
+            
+            <div class="plaque-choice-grid">
+              <label class="plaque-card active">
+                <input type="radio" name="plaqueStyle" value="frosted" checked onchange="updateAllCardData()">
+                <div class="plaque-preview frosted-preview"></div>
+                <div class="plaque-info">
+                  <strong>Frosted Glass Plaque</strong>
+                  <span>Translucent glassmorphism blur with delicate gold border</span>
+                </div>
+              </label>
+
+              <label class="plaque-card">
+                <input type="radio" name="plaqueStyle" value="parchment" onchange="updateAllCardData()">
+                <div class="plaque-preview parchment-preview"></div>
+                <div class="plaque-info">
+                  <strong>Royal Ivory Parchment</strong>
+                  <span>Warm creamy cotton card backing with double gold border</span>
+                </div>
+              </label>
+
+              <label class="plaque-card">
+                <input type="radio" name="plaqueStyle" value="dark" onchange="updateAllCardData()">
+                <div class="plaque-preview dark-preview"></div>
+                <div class="plaque-info">
+                  <strong>Midnight Velvet Onyx</strong>
+                  <span>Deep dark luxury backing with glowing gold frame</span>
+                </div>
+              </label>
+
+              <label class="plaque-card">
+                <input type="radio" name="plaqueStyle" value="none" onchange="updateAllCardData()">
+                <div class="plaque-preview none-preview"></div>
+                <div class="plaque-info">
+                  <strong>Seamless Floating (None)</strong>
+                  <span>Direct typography over the card artwork without backing</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-sliders"></i> Plaque Appearance Sliders</h4>
+            
+            <div class="slider-control-group">
+              <div class="slider-label-row">
+                <label>Plaque Background Opacity (Covers background sample text)</label>
+                <span id="valPlaqueOpacity">85%</span>
+              </div>
+              <input type="range" id="sliderPlaqueOpacity" min="0" max="100" value="85" oninput="updateAllCardData()">
+            </div>
+
+            <div class="slider-control-group">
+              <div class="slider-label-row">
+                <label>Plaque Width</label>
+                <span id="valPlaqueWidth">88%</span>
+              </div>
+              <input type="range" id="sliderPlaqueWidth" min="65" max="98" value="88" oninput="updateAllCardData()">
+            </div>
+
+            <div class="slider-control-group">
+              <div class="slider-label-row">
+                <label>Border Accent Style</label>
+              </div>
+              <select id="plaqueBorderSelect" onchange="updateAllCardData()" class="styled-select">
+                <option value="gold-thin" selected>Thin Gold Border (1px Solid)</option>
+                <option value="gold-double">Double Royal Gold Border</option>
+                <option value="gold-dashed">Delicate Gold Dashed Stitch</option>
+                <option value="none">No Border</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- TAB 4: DATE, VENUE & CEREMONY DETAILS        -->
+        <!-- ============================================ -->
+        <div id="tabContentDetails" class="tab-content">
+          <div class="tab-header">
+            <h3>Date, Venue & Ceremony Details</h3>
+            <p>Enter the wedding schedule, address, and Quranic verse or blessing:</p>
+          </div>
+
+          <!-- Date & Time -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-calendar-day"></i> Wedding Date & Time</h4>
             <div class="form-row">
               <div class="form-col">
-                <label>Wedding Date</label>
+                <label>Event Date</label>
                 <input type="date" id="eventDateInput" value="2026-11-20" onchange="updateAllCardData()">
               </div>
               <div class="form-col">
-                <label>Ceremony Time</label>
+                <label>Event Time</label>
                 <input type="time" id="eventTimeInput" value="18:00" onchange="updateAllCardData()">
               </div>
             </div>
-          </div>
 
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Venue & Location</h4>
-            <div class="form-group">
-              <label>Venue Name (English)</label>
-              <input type="text" id="venueNameEnInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateAllCardData()">
-            </div>
-            <div class="form-group">
-              <label>اسم القاعة (عربي)</label>
-              <input type="text" id="venueNameArInput" value="قاعة الاحتفالات الملكية - فندق فور سيزونز" dir="rtl" oninput="updateAllCardData()">
-            </div>
-            <div class="form-group">
-              <label>Full Address / City</label>
-              <input type="text" id="venueAddressInput" value="Nile Plaza, Garden City, Cairo, Egypt" oninput="updateAllCardData()">
-            </div>
-            <div class="form-group">
-              <label>Google Maps Link</label>
-              <input type="text" id="venueMapLinkInput" value="https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo" oninput="updateAllCardData()">
-            </div>
-          </div>
-
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-list-check"></i> Event Schedule & Itinerary</h4>
-            <div class="itinerary-edit-list">
-              <div class="itinerary-edit-item">
-                <input type="text" class="itin-time" value="06:00 PM" placeholder="Time">
-                <input type="text" class="itin-desc" value="Guest Reception & Welcome Drinks" placeholder="Event">
-              </div>
-              <div class="itinerary-edit-item">
-                <input type="text" class="itin-time" value="07:00 PM" placeholder="Time">
-                <input type="text" class="itin-desc" value="Grand Entrance & Royal Zaffa" placeholder="Event">
-              </div>
-              <div class="itinerary-edit-item">
-                <input type="text" class="itin-time" value="08:30 PM" placeholder="Time">
-                <input type="text" class="itin-desc" value="Royal Dinner Banquet Feast" placeholder="Event">
-              </div>
-              <div class="itinerary-edit-item">
-                <input type="text" class="itin-time" value="10:00 PM" placeholder="Time">
-                <input type="text" class="itin-desc" value="Cake Cutting & Celebration" placeholder="Event">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 4: FINISHING, WAX SEAL & MUSIC -->
-        <div id="tabContentFinishing" class="tab-content">
-          <div class="tab-header">
-            <h3>Card Finishing & Luxury Accents</h3>
-            <p>Customize wax seal stamp, gold foil grade, music, and countdown:</p>
-          </div>
-
-          <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-stamp"></i> 3D Wax Seal Customization</h4>
             <div class="form-row">
               <div class="form-col">
-                <label>Wax Seal Monogram</label>
-                <input type="text" id="waxSealMonogramInput" value="M & H" maxlength="6" oninput="updateAllCardData()">
-              </div>
-              <div class="form-col">
-                <label>Wax Seal Color</label>
-                <select id="waxSealColorSelect" onchange="updateAllCardData()">
-                  <option value="gold">Antique Royal Gold</option>
-                  <option value="ruby">Velvet Ruby Red</option>
-                  <option value="emerald">Imperial Emerald</option>
-                  <option value="pearl">Rose Champagne Pearl</option>
+                <label>Date Divider Style</label>
+                <select id="dateDividerSelect" onchange="updateAllCardData()" class="styled-select">
+                  <option value="divider" selected>Divided: SUNDAY | 20 | NOVEMBER | 2026</option>
+                  <option value="pill">Pill Badge: FRI • 20 NOV • 6 PM</option>
+                  <option value="classic">Full Script: Friday, the 20th of November</option>
                 </select>
               </div>
             </div>
           </div>
 
+          <!-- Islamic Verse / Header blessing -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-music"></i> Procedural Music (Web Audio)</h4>
-            <div class="form-group">
-              <label>Soundtrack Style</label>
-              <select id="audioStyleSelect" onchange="updateAllCardData()">
-                <option value="symphony">Royal Canon in D Symphony (Strings + Chimes)</option>
-                <option value="harp">Romantic Acoustic Harp & Piano</option>
-                <option value="chimes">Gentle Celestial Chimes</option>
-                <option value="none">No Audio (Silent)</option>
-              </select>
+            <h4 class="form-section-title"><i class="fa-solid fa-star-and-crescent"></i> Opening Verse / Blessing</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Select Preset or Custom</label>
+                <select id="versePresetSelect" onchange="applyVersePreset(this.value)" class="styled-select">
+                  <option value="ayah1" selected>Quran 30:21 ("وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا...")</option>
+                  <option value="ayah2">Hadith ("بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ")</option>
+                  <option value="quote1">English ("Two souls with but a single thought, two hearts that beat as one")</option>
+                  <option value="custom">Custom Text Below</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <textarea id="customVerseTextarea" rows="3" dir="rtl" oninput="updateAllCardData()">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</textarea>
+              </div>
             </div>
           </div>
 
+          <!-- Venue & Location -->
           <div class="form-section">
-            <h4 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Visual Effects</h4>
-            <div class="toggle-row">
-              <label>Falling Rose Petals & Gold Dust</label>
-              <input type="checkbox" id="petalsToggle" checked onchange="updateAllCardData()">
+            <h4 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Venue & Location</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Venue Name (English)</label>
+                <input type="text" id="venueNameEnInput" value="The Royal Ballroom, Four Seasons Hotel" oninput="updateAllCardData()">
+              </div>
+              <div class="form-col">
+                <label>اسم القاعة (عربي)</label>
+                <input type="text" id="venueNameArInput" value="قاعة الاحتفالات الملكية - فندق فور سيزونز" dir="rtl" oninput="updateAllCardData()">
+              </div>
             </div>
-            <div class="toggle-row" style="margin-top: 8px;">
-              <label>Interactive Countdown Clock</label>
-              <input type="checkbox" id="countdownToggle" checked onchange="updateAllCardData()">
+            <div class="form-row">
+              <div class="form-col">
+                <label>Address / City</label>
+                <input type="text" id="venueAddressInput" value="Nile Plaza, Garden City, Cairo, Egypt" oninput="updateAllCardData()">
+              </div>
             </div>
-            <div class="toggle-row" style="margin-top: 8px;">
-              <label>Interactive RSVP Form</label>
-              <input type="checkbox" id="rsvpToggle" checked onchange="updateAllCardData()">
+            <div class="form-row">
+              <div class="form-col">
+                <label>Google Maps Link</label>
+                <input type="url" id="venueMapLinkInput" value="https://maps.google.com/?q=Four+Seasons+Hotel+Cairo+Nile+Plaza" oninput="updateAllCardData()">
+              </div>
             </div>
           </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- TAB 5: FINISHING & INTERACTIVE FEATURES      -->
+        <!-- ============================================ -->
+        <div id="tabContentFinishing" class="tab-content">
+          <div class="tab-header">
+            <h3>Finishing Touches & Interactive Features</h3>
+            <p>Customize the wax seal stamp, royal wedding music, and celebration effects:</p>
+          </div>
+
+          <!-- Wax Seal -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-stamp"></i> 3D Wax Seal Stamp</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Monogram Letters</label>
+                <input type="text" id="waxSealMonogramInput" value="M & H" maxlength="6" oninput="updateAllCardData()">
+              </div>
+              <div class="form-col">
+                <label>Seal Color</label>
+                <select id="waxSealColorSelect" onchange="updateAllCardData()" class="styled-select">
+                  <option value="gold" selected>Royal Gold Foil Seal</option>
+                  <option value="ruby">Velvet Ruby Crimson Seal</option>
+                  <option value="emerald">Imperial Emerald Seal</option>
+                  <option value="pearl">Antique Rose Pearl Seal</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio & Symphony -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-music"></i> Royal Audio Symphony</h4>
+            <div class="form-row">
+              <div class="form-col">
+                <label>Melody Atmosphere</label>
+                <select id="audioStyleSelect" onchange="updateAllCardData()" class="styled-select">
+                  <option value="symphony" selected>Royal Orchestral Canon in D (Strings & Harp)</option>
+                  <option value="arabesque">Andalusian Oud & Classical Strings</option>
+                  <option value="ambient">Ethereal Starlight Harmony</option>
+                  <option value="none">Mute / No Music</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Toggles -->
+          <div class="form-section">
+            <h4 class="form-section-title"><i class="fa-solid fa-toggle-on"></i> Celebration FX</h4>
+            
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Floating Gold Dust & Petals</strong>
+                <span>Falling animated golden particles on the invitation stage</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="petalsToggle" checked onchange="updateAllCardData()">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Live Countdown Timer</strong>
+                <span>Interactive countdown days/hours/mins badge</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="countdownToggle" checked onchange="updateAllCardData()">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>VIP RSVP Confirmation Button</strong>
+                <span>Interactive button for guests to confirm attendance</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="rsvpToggle" checked onchange="updateAllCardData()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
         </div>
 
       </aside>
 
-      <!-- RIGHT PANEL: LIVE REAL-TIME CARD SHOWCASE -->
-      <section class="preview-section">
-        <div class="preview-toolbar">
-          <div class="toolbar-left">
-            <span class="live-indicator"></span>
-            <span class="toolbar-status">Live Coded Card • <strong id="previewActiveStyleLabel">Modern Arched Frosted Acrylic</strong></span>
+      <!-- RIGHT STAGE: REAL-TIME INVITATION CARD PREVIEW CANVAS -->
+      <section class="generator-preview-canvas">
+        
+        <!-- Active Design Floating Pill -->
+        <div class="preview-active-info-pill">
+          <div class="active-design-tag">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span id="activeDesignTitleDisplay">Active: Royal Islamic Bismillah Suite #13</span>
           </div>
-
-          <div class="toolbar-actions">
-            <button class="tool-btn" onclick="openPreviewFullscreen()" title="Open Fullscreen">
-              <i class="fa-solid fa-expand"></i> Fullscreen
-            </button>
-            <button class="tool-btn btn-export-gold" onclick="downloadStandaloneInvite()" title="Download Standalone HTML">
-              <i class="fa-solid fa-file-arrow-down"></i> Export HTML
-            </button>
-          </div>
+          <button class="pill-btn" onclick="switchSidebarTab('gallery')">
+            <i class="fa-solid fa-arrows-rotate"></i> Change Design
+          </button>
         </div>
 
+        <!-- Preview Container with Desktop / Mobile Dimensions -->
         <div class="preview-frame-wrapper" id="previewFrameWrapper">
-          <div class="preview-viewport" id="previewViewport">
-            <!-- The Entire Coded Invitation Card Renders Directly in This Iframe -->
-            <iframe id="invitePreviewIframe" title="Live Coded Wedding Card"></iframe>
+          <div class="preview-viewport-container" id="previewViewportContainer">
+            <!-- Dynamically Rendered Card Canvas by app.js -->
           </div>
         </div>
+
       </section>
 
     </main>
 
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toastNotification" class="toast-popup hidden"></div>
 
+  <!-- ============================================ -->
+  <!-- 3. CHANGE PASSWORD MODAL                     -->
+  <!-- ============================================ -->
+  <div id="changePasswordModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-lock"></i> Change Studio Access Key</h3>
+        <button class="modal-close-btn" onclick="closePasswordChangeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p>Set a new password for your invitation studio. This persists in your browser:</p>
+        <div class="input-group">
+          <i class="fa-solid fa-key input-icon"></i>
+          <input type="password" id="modalNewPassInput" placeholder="New password...">
+          <button type="button" class="eye-toggle" onclick="togglePassVisibility('modalNewPassInput', this)">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closePasswordChangeModal()">Cancel</button>
+        <button class="btn-primary" onclick="savePasswordFromModal()">Save Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="toast-notification"></div>
+
+  <!-- Core App Logic -->
   <script src="app.js"></script>
 </body>
 </html>

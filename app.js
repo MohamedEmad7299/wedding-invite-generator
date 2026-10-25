@@ -1,13 +1,6 @@
 /**
  * Royal Wedding Invitation Studio & Generator Engine
- * 100% Coded Luxury Card Builder Architecture
- * Features:
- * - 8 Unique Coded Card Archetypes (Acrylic Arch, Emerald Velvet, Deckle Edge, Burgundy Baroque, Moroccan Arch, Minimalist, Celestial Navy, Blush Botanical)
- * - Names & Details rendered directly INSIDE the coded card
- * - Fully customizable Groom, Bride, Guest, Host, Date, Venue, Verse, and Itinerary
- * - Interactive 3D Wax Seal Stamp with custom monogram
- * - Web Audio API Procedural Royal Symphony
- * - 1-Click Standalone HTML Card Exporter
+ * 82 Reference Designs Coded Architecture
  */
 
 const DEFAULT_PASSWORD = 'me7299';
@@ -15,28 +8,30 @@ const SECRET_BACKDOOR = 'wedding_pass_wedding';
 const STORAGE_PASS_KEY = 'wedding_invite_site_pass';
 
 // Studio State
-const cardStudioState = {
-  activeStyle: 'acrylic-arch', // acrylic-arch | emerald-velvet | deckle-edge | burgundy-baroque | moroccan-arch | minimalist-arch | midnight-celestial | blush-botanical
+var cardStudioState = {
+  activeDesignId: 'design-13', // Default: Islamic Bismillah & Eucalyptus Marble Suite
   groomEn: 'Mohamed',
   groomAr: 'محمد',
   brideEn: 'Hala',
   brideAr: 'هالة',
   guestEn: 'Mr / Sherief Mohamed',
   guestAr: 'السيد / شريف محمد',
+  scriptFont: 'Pinyon Script',
+  textColorTheme: 'gold',
+  coupleSize: 44,
+  offsetY: 0,
+  plaqueStyle: 'frosted',
+  plaqueOpacity: 85,
+  plaqueWidth: 88,
+  plaqueBorder: 'gold-thin',
+  eventDate: '2026-11-20',
+  eventTime: '18:00',
+  dateDivider: 'divider',
   verseText: 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً',
-  hostLine: 'Together with their families, joyfully invite you to celebrate the marriage of',
-  weddingDate: '2026-11-20',
-  weddingTime: '18:00',
   venueNameEn: 'The Royal Ballroom, Four Seasons Hotel',
   venueNameAr: 'قاعة الاحتفالات الملكية - فندق فور سيزونز',
   venueAddress: 'Nile Plaza, Garden City, Cairo, Egypt',
-  venueMapLink: 'https://maps.google.com/?q=The+Royal+Ballroom+Four+Seasons+Hotel+Nile+Plaza+Cairo',
-  itinerary: [
-    { time: '06:00 PM', desc: 'Guest Reception & Welcome Drinks' },
-    { time: '07:00 PM', desc: 'Grand Entrance & Royal Zaffa' },
-    { time: '08:30 PM', desc: 'Royal Dinner Banquet Feast' },
-    { time: '10:00 PM', desc: 'Cake Cutting & Celebration' }
-  ],
+  venueMapLink: 'https://maps.google.com/?q=Four+Seasons+Hotel+Cairo+Nile+Plaza',
   waxSealMonogram: 'M & H',
   waxSealColor: 'gold',
   audioStyle: 'symphony',
@@ -45,22 +40,18 @@ const cardStudioState = {
   enableRSVP: true
 };
 
-const STYLE_NAMES = {
-  'acrylic-arch': 'Modern Arched Frosted Acrylic',
-  'emerald-velvet': 'Royal Emerald Velvet & Gold Foil',
-  'deckle-edge': 'Deckle Edge Paper & Silk Wax Seal',
-  'burgundy-baroque': 'Velvet Burgundy Baroque Crest',
-  'moroccan-arch': 'Moroccan Arabesque Horseshoe Arch',
-  'minimalist-arch': 'Minimalist Modern Editorial Arch',
-  'midnight-celestial': 'Celestial Midnight Navy & Star Gold',
-  'blush-botanical': 'Romantic Blush & Rose Gold Botanical'
-};
+let activeGalleryCategory = 'all';
+let currentSearchQuery = '';
 
 // ==========================================================================
 // 1. PASSWORD GATE & ADMIN BACKDOOR
 // ==========================================================================
 function getStoredPassword() {
-  return localStorage.getItem(STORAGE_PASS_KEY) || DEFAULT_PASSWORD;
+  try {
+    return localStorage.getItem(STORAGE_PASS_KEY) || DEFAULT_PASSWORD;
+  } catch(e) {
+    return DEFAULT_PASSWORD;
+  }
 }
 
 function handleGateSubmit(event) {
@@ -90,7 +81,7 @@ function handleGateSubmit(event) {
 }
 
 function unlockPortal() {
-  sessionStorage.setItem('portal_unlocked', 'true');
+  try { sessionStorage.setItem('portal_unlocked', 'true'); } catch(e) {}
   if (typeof confetti === 'function') {
     confetti({
       particleCount: 90,
@@ -104,7 +95,7 @@ function unlockPortal() {
   document.body.classList.remove('locked-body');
   document.getElementById('appContainer').classList.remove('hidden');
 
-  renderCardPreview();
+  initStudioApp();
   showToast('Welcome to Royal Wedding Invitation Studio! 💍✨');
 }
 
@@ -118,18 +109,13 @@ function saveNewPassword() {
   }
   localStorage.setItem(STORAGE_PASS_KEY, newPass);
   msgEl.textContent = `Password successfully changed to: "${newPass}"!`;
-  newPassInput.value = '';
-  showToast('Password updated! You can now use your new password.');
-  setTimeout(() => {
-    msgEl.textContent = '';
-    unlockPortal();
-  }, 1200);
+  showToast('Password updated successfully!');
 }
 
 function resetToDefaultPassword() {
   localStorage.setItem(STORAGE_PASS_KEY, DEFAULT_PASSWORD);
-  document.getElementById('adminSuccessMsg').textContent = `Password reset to default ("${DEFAULT_PASSWORD}")`;
-  showToast('Password reset to default (me7299)');
+  document.getElementById('adminSuccessMsg').textContent = `Password reset to default ("${DEFAULT_PASSWORD}")!`;
+  showToast('Password reset to me7299');
 }
 
 function togglePassVisibility(inputId, btn) {
@@ -147,105 +133,45 @@ function togglePassVisibility(inputId, btn) {
 }
 
 function openPasswordChangeModal() {
-  const newPass = prompt('Enter new access password for the studio:');
-  if (newPass && newPass.trim()) {
-    localStorage.setItem(STORAGE_PASS_KEY, newPass.trim());
-    showToast(`Password updated successfully to "${newPass.trim()}"`);
+  document.getElementById('changePasswordModal').classList.remove('hidden');
+}
+function closePasswordChangeModal() {
+  document.getElementById('changePasswordModal').classList.add('hidden');
+}
+function savePasswordFromModal() {
+  const val = document.getElementById('modalNewPassInput').value.trim();
+  if (val) {
+    localStorage.setItem(STORAGE_PASS_KEY, val);
+    showToast(`Password updated to: "${val}"`);
+    closePasswordChangeModal();
   }
 }
 
 function logout() {
-  sessionStorage.removeItem('portal_unlocked');
-  location.reload();
+  try { sessionStorage.removeItem('portal_unlocked'); } catch(e) {}
+  document.getElementById('appContainer').classList.add('hidden');
+  document.getElementById('passwordGateModal').classList.add('active');
+  document.body.classList.add('locked-body');
+  document.getElementById('gatePassInput').value = '';
 }
 
 // ==========================================================================
-// 2. TAB NAVIGATION & STYLE SELECTION
+// 2. STUDIO INITIALIZATION & TAB MANAGEMENT
 // ==========================================================================
+function initStudioApp() {
+  populateDesignsGallery();
+  readUrlParams();
+  renderCardPreview();
+}
+
 function switchSidebarTab(tabName) {
-  document.querySelectorAll('.sidebar-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-  if (tabName === 'styles') {
-    document.querySelectorAll('.sidebar-tabs .tab-btn')[0].classList.add('active');
-    document.getElementById('tabContentStyles').classList.add('active');
-  } else if (tabName === 'names') {
-    document.querySelectorAll('.sidebar-tabs .tab-btn')[1].classList.add('active');
-    document.getElementById('tabContentNames').classList.add('active');
-  } else if (tabName === 'event') {
-    document.querySelectorAll('.sidebar-tabs .tab-btn')[2].classList.add('active');
-    document.getElementById('tabContentEvent').classList.add('active');
-  } else if (tabName === 'finishing') {
-    document.querySelectorAll('.sidebar-tabs .tab-btn')[3].classList.add('active');
-    document.getElementById('tabContentFinishing').classList.add('active');
-  }
-}
-
-function selectCardStyle(styleKey) {
-  cardStudioState.activeStyle = styleKey;
-  
-  document.querySelectorAll('.style-choice-card').forEach(card => card.classList.remove('active'));
-  const activeEl = document.getElementById(`cardStyle_${styleKey}`);
-  if (activeEl) activeEl.classList.add('active');
-
-  const styleName = STYLE_NAMES[styleKey] || styleKey;
-  document.getElementById('previewActiveStyleLabel').textContent = styleName;
-
-  renderCardPreview();
-  showToast(`✨ Switched to Coded Architecture: ${styleName}`);
-}
-
-function updateAllCardData() {
-  cardStudioState.groomEn = document.getElementById('groomEnInput').value.trim() || 'Mohamed';
-  cardStudioState.groomAr = document.getElementById('groomArInput').value.trim() || 'محمد';
-  cardStudioState.brideEn = document.getElementById('brideEnInput').value.trim() || 'Hala';
-  cardStudioState.brideAr = document.getElementById('brideArInput').value.trim() || 'هالة';
-  cardStudioState.guestEn = document.getElementById('guestNameInput').value.trim() || 'Honored Guest';
-  cardStudioState.guestAr = document.getElementById('guestNameArInput').value.trim() || 'الضيف الكريم';
-  cardStudioState.verseText = document.getElementById('customVerseTextarea').value.trim();
-  cardStudioState.hostLine = document.getElementById('hostLineInput').value.trim();
-  cardStudioState.weddingDate = document.getElementById('eventDateInput').value;
-  cardStudioState.weddingTime = document.getElementById('eventTimeInput').value;
-  cardStudioState.venueNameEn = document.getElementById('venueNameEnInput').value.trim();
-  cardStudioState.venueNameAr = document.getElementById('venueNameArInput').value.trim();
-  cardStudioState.venueAddress = document.getElementById('venueAddressInput').value.trim();
-  cardStudioState.venueMapLink = document.getElementById('venueMapLinkInput').value.trim();
-
-  // Read Itinerary items
-  const itinItems = [];
-  document.querySelectorAll('.itinerary-edit-item').forEach(item => {
-    const time = item.querySelector('.itin-time').value.trim();
-    const desc = item.querySelector('.itin-desc').value.trim();
-    if (time && desc) itinItems.push({ time, desc });
+  const tabs = ['gallery', 'typography', 'plaque', 'details', 'finishing'];
+  tabs.forEach(t => {
+    const btn = document.querySelector(`.sidebar-tabs button[onclick*="${t}"]`);
+    const content = document.getElementById('tabContent' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (btn) btn.classList.toggle('active', t === tabName);
+    if (content) content.classList.toggle('active', t === tabName);
   });
-  if (itinItems.length > 0) cardStudioState.itinerary = itinItems;
-
-  cardStudioState.waxSealMonogram = document.getElementById('waxSealMonogramInput').value.trim() || 'M & H';
-  cardStudioState.waxSealColor = document.getElementById('waxSealColorSelect').value;
-  cardStudioState.audioStyle = document.getElementById('audioStyleSelect').value;
-  cardStudioState.enablePetals = document.getElementById('petalsToggle').checked;
-  cardStudioState.enableCountdown = document.getElementById('countdownToggle').checked;
-  cardStudioState.enableRSVP = document.getElementById('rsvpToggle').checked;
-
-  renderCardPreview();
-}
-
-function setGuestPreset(en, ar) {
-  document.getElementById('guestNameInput').value = en;
-  document.getElementById('guestNameArInput').value = ar;
-  updateAllCardData();
-}
-
-function applyVersePreset(val) {
-  const textarea = document.getElementById('customVerseTextarea');
-  if (val === 'ayah1') {
-    textarea.value = '"وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً"';
-  } else if (val === 'ayah2') {
-    textarea.value = '"بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ"';
-  } else if (val === 'quote1') {
-    textarea.value = '"Two souls with but a single thought, two hearts that beat as one."';
-  }
-  updateAllCardData();
 }
 
 function setPreviewDevice(mode) {
@@ -265,14 +191,234 @@ function setPreviewDevice(mode) {
 }
 
 // ==========================================================================
-// 3. MASTER CODED INVITATION CARD ARCHITECTURE GENERATOR
+// 3. 82 DESIGNS GALLERY ENGINE
+// ==========================================================================
+function getCatalog() {
+  return window.WEDDING_DESIGNS_CATALOG || [];
+}
+
+function populateDesignsGallery() {
+  const catalog = getCatalog();
+  const grid = document.getElementById('designsGalleryGrid');
+  const countBadge = document.getElementById('galleryCountBadge');
+  if (!grid) return;
+
+  const filtered = catalog.filter(item => {
+    const matchCat = (activeGalleryCategory === 'all') || (item.category === activeGalleryCategory);
+    let matchSearch = true;
+    if (currentSearchQuery) {
+      const q = currentSearchQuery.toLowerCase();
+      const numStr = '#' + item.index;
+      matchSearch = item.titleEn.toLowerCase().includes(q) ||
+                    item.titleAr.toLowerCase().includes(q) ||
+                    item.categoryNameEn.toLowerCase().includes(q) ||
+                    item.fileName.toLowerCase().includes(q) ||
+                    numStr.includes(q);
+    }
+    return matchCat && matchSearch;
+  });
+
+  countBadge.textContent = `${filtered.length} Cards`;
+
+  grid.innerHTML = filtered.map(item => {
+    const isActive = item.id === cardStudioState.activeDesignId;
+    return `
+      <div class="design-choice-card ${isActive ? 'active' : ''}" onclick="selectDesign('${item.id}')" id="cardChoice_${item.id}">
+        <div class="design-thumb-wrapper">
+          <img src="${item.image}" alt="${item.titleEn}" class="design-thumb-img" loading="lazy">
+          <span class="design-badge-num">#${item.index}</span>
+          <span class="design-badge-cat">${item.categoryNameEn}</span>
+          <div class="design-active-indicator">
+            <i class="fa-solid fa-check"></i>
+          </div>
+        </div>
+        <div class="design-choice-meta">
+          <strong>${item.titleEn}</strong>
+          <span>${item.titleAr}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setGalleryCategory(cat, btn) {
+  activeGalleryCategory = cat;
+  document.querySelectorAll('.gallery-filter-chips .filter-chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  populateDesignsGallery();
+}
+
+function filterDesignsGallery() {
+  currentSearchQuery = document.getElementById('gallerySearchInput').value.trim();
+  populateDesignsGallery();
+}
+
+function selectDesign(designId) {
+  cardStudioState.activeDesignId = designId;
+  const catalog = getCatalog();
+  const design = catalog.find(d => d.id === designId);
+
+  // Auto-tune plaque and color if default given
+  if (design) {
+    if (design.defaultPlaque) cardStudioState.plaqueStyle = design.defaultPlaque;
+    if (design.defaultColor) {
+      if (design.category === 'blackgold') cardStudioState.textColorTheme = 'gold';
+      else if (design.category === 'navy') cardStudioState.textColorTheme = 'navy';
+      else if (design.category === 'burgundy') cardStudioState.textColorTheme = 'burgundy';
+      else if (design.category === 'emerald') cardStudioState.textColorTheme = 'emerald';
+      else cardStudioState.textColorTheme = 'gold';
+    }
+    syncFormInputsWithState();
+  }
+
+  // Update gallery highlight
+  document.querySelectorAll('.design-choice-card').forEach(c => c.classList.remove('active'));
+  const activeEl = document.getElementById('cardChoice_' + designId);
+  if (activeEl) activeEl.classList.add('active');
+
+  renderCardPreview();
+  showToast(`Loaded ${design ? design.titleEn : 'Selected Design'}!`);
+}
+
+// ==========================================================================
+// 4. DATA SYNC & CONTROLS BINDING
+// ==========================================================================
+function updateAllCardData() {
+  cardStudioState.guestEn = document.getElementById('guestNameInput').value.trim() || 'Honored Guest';
+  cardStudioState.guestAr = document.getElementById('guestNameArInput').value.trim() || 'الضيف الكريم';
+
+  cardStudioState.groomEn = document.getElementById('groomEnInput').value.trim() || 'Mohamed';
+  cardStudioState.groomAr = document.getElementById('groomArInput').value.trim() || 'محمد';
+  cardStudioState.brideEn = document.getElementById('brideEnInput').value.trim() || 'Hala';
+  cardStudioState.brideAr = document.getElementById('brideArInput').value.trim() || 'هالة';
+
+  const scriptFontInput = document.querySelector('input[name="scriptFont"]:checked');
+  if (scriptFontInput) cardStudioState.scriptFont = scriptFontInput.value;
+
+  const colorInput = document.querySelector('input[name="textColorTheme"]:checked');
+  if (colorInput) cardStudioState.textColorTheme = colorInput.value;
+
+  cardStudioState.coupleSize = parseInt(document.getElementById('sliderCoupleSize').value, 10);
+  document.getElementById('valCoupleSize').textContent = cardStudioState.coupleSize + 'px';
+
+  cardStudioState.offsetY = parseInt(document.getElementById('sliderOffsetY').value, 10);
+  document.getElementById('valOffsetY').textContent = cardStudioState.offsetY + 'px';
+
+  const plaqueInput = document.querySelector('input[name="plaqueStyle"]:checked');
+  if (plaqueInput) cardStudioState.plaqueStyle = plaqueInput.value;
+
+  cardStudioState.plaqueOpacity = parseInt(document.getElementById('sliderPlaqueOpacity').value, 10);
+  document.getElementById('valPlaqueOpacity').textContent = cardStudioState.plaqueOpacity + '%';
+
+  cardStudioState.plaqueWidth = parseInt(document.getElementById('sliderPlaqueWidth').value, 10);
+  document.getElementById('valPlaqueWidth').textContent = cardStudioState.plaqueWidth + '%';
+
+  cardStudioState.plaqueBorder = document.getElementById('plaqueBorderSelect').value;
+
+  cardStudioState.eventDate = document.getElementById('eventDateInput').value;
+  cardStudioState.eventTime = document.getElementById('eventTimeInput').value;
+  cardStudioState.dateDivider = document.getElementById('dateDividerSelect').value;
+
+  cardStudioState.verseText = document.getElementById('customVerseTextarea').value.trim();
+
+  cardStudioState.venueNameEn = document.getElementById('venueNameEnInput').value.trim();
+  cardStudioState.venueNameAr = document.getElementById('venueNameArInput').value.trim();
+  cardStudioState.venueAddress = document.getElementById('venueAddressInput').value.trim();
+  cardStudioState.venueMapLink = document.getElementById('venueMapLinkInput').value.trim();
+
+  cardStudioState.waxSealMonogram = document.getElementById('waxSealMonogramInput').value.trim() || 'M & H';
+  cardStudioState.waxSealColor = document.getElementById('waxSealColorSelect').value;
+  cardStudioState.audioStyle = document.getElementById('audioStyleSelect').value;
+
+  cardStudioState.enablePetals = document.getElementById('petalsToggle').checked;
+  cardStudioState.enableCountdown = document.getElementById('countdownToggle').checked;
+  cardStudioState.enableRSVP = document.getElementById('rsvpToggle').checked;
+
+  renderCardPreview();
+}
+
+function syncFormInputsWithState() {
+  const fontRadio = document.querySelector(`input[name="scriptFont"][value="${cardStudioState.scriptFont}"]`);
+  if (fontRadio) fontRadio.checked = true;
+
+  const colorRadio = document.querySelector(`input[name="textColorTheme"][value="${cardStudioState.textColorTheme}"]`);
+  if (colorRadio) colorRadio.checked = true;
+
+  const plaqueRadio = document.querySelector(`input[name="plaqueStyle"][value="${cardStudioState.plaqueStyle}"]`);
+  if (plaqueRadio) plaqueRadio.checked = true;
+}
+
+function setGuestPreset(en, ar) {
+  document.getElementById('guestNameInput').value = en;
+  document.getElementById('guestNameArInput').value = ar;
+  updateAllCardData();
+  showToast(`Guest set to: ${en}`);
+}
+
+function applyVersePreset(val) {
+  const textarea = document.getElementById('customVerseTextarea');
+  if (val === 'ayah1') {
+    textarea.value = 'وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً';
+  } else if (val === 'ayah2') {
+    textarea.value = 'بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ';
+  } else if (val === 'quote1') {
+    textarea.value = '"Two souls with but a single thought, two hearts that beat as one."';
+  }
+  updateAllCardData();
+}
+
+// ==========================================================================
+// 5. MASTER CODED INVITATION CARD ARCHITECTURE GENERATOR
 // ==========================================================================
 function generateCodedCardHTML(state) {
-  const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
-  const dateFormattedEn = eventDateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  const dateFormattedAr = eventDateObj.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const catalog = getCatalog();
+  const design = catalog.find(d => d.id === state.activeDesignId) || catalog[0] || {
+    image: 'assets/designs/il_1588xN.6422523152_isqu.jpg',
+    titleEn: 'Royal Wedding Suite #13'
+  };
 
-  // Wax seal color variables
+  const eventDateObj = new Date(`${state.weddingDate}T${state.weddingTime}:00`);
+  const weekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+  const shortWeekday = eventDateObj.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+  const day = eventDateObj.getDate();
+  const monthEn = eventDateObj.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+  const shortMonth = eventDateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+  const year = eventDateObj.getFullYear();
+  const timeFormatted = eventDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+  // Date layout markup
+  let dateMarkup = '';
+  if (state.dateDivider === 'divider') {
+    dateMarkup = `
+      <div class="card-date-divider-row">
+        <span class="date-part">${weekday}</span>
+        <span class="date-day-badge">${day}</span>
+        <span class="date-part">${monthEn}</span>
+        <span class="date-part">${year}</span>
+      </div>
+      <div class="card-time-line">AT ${timeFormatted} IN THE EVENING</div>
+    `;
+  } else if (state.dateDivider === 'pill') {
+    dateMarkup = `
+      <div class="card-date-pill-row">
+        <span class="pill-weekday">${shortWeekday}</span>
+        <div class="pill-center-badge">
+          <span class="pill-day">${day}</span>
+          <span class="pill-month">${shortMonth}</span>
+        </div>
+        <span class="pill-time">${timeFormatted}</span>
+      </div>
+    `;
+  } else {
+    dateMarkup = `
+      <div class="card-date-classic-row">
+        <div class="classic-date-str">${eventDateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</div>
+        <div class="classic-time-str">at ${timeFormatted}</div>
+      </div>
+    `;
+  }
+
+  // Wax seal gradient & border
   let sealBg = 'radial-gradient(circle at 35% 30%, #F5CE68, #B8860B 65%, #6E4E04)';
   let sealBorder = '#FDF0AA';
   if (state.waxSealColor === 'ruby') {
@@ -286,12 +432,41 @@ function generateCodedCardHTML(state) {
     sealBorder = '#FDEBD0';
   }
 
-  const itineraryHTML = state.itinerary.map(item => `
-    <div class="itinerary-pill-item">
-      <span class="itinerary-pill-time">${item.time}</span>
-      <span class="itinerary-pill-desc">${item.desc}</span>
-    </div>
-  `).join('');
+  // Border style
+  let plaqueBorderCSS = 'border: 1px solid rgba(212, 175, 55, 0.7); outline: 1px solid rgba(212, 175, 55, 0.3); outline-offset: 4px;';
+  if (state.plaqueBorder === 'gold-double') plaqueBorderCSS = 'border: 3px double rgba(212, 175, 55, 0.9);';
+  else if (state.plaqueBorder === 'gold-dashed') plaqueBorderCSS = 'border: 1px dashed rgba(212, 175, 55, 0.8);';
+  else if (state.plaqueBorder === 'none') plaqueBorderCSS = 'border: none;';
+
+  // Plaque Background
+  const op = state.plaqueOpacity / 100;
+  let plaqueBgCSS = `background: rgba(255, 255, 255, ${op}); backdrop-filter: blur(14px);`;
+  if (state.plaqueStyle === 'parchment') plaqueBgCSS = `background: rgba(253, 248, 238, ${op}); backdrop-filter: blur(10px);`;
+  else if (state.plaqueStyle === 'dark') plaqueBgCSS = `background: rgba(10, 14, 12, ${op}); backdrop-filter: blur(14px);`;
+  else if (state.plaqueStyle === 'none') plaqueBgCSS = `background: transparent; backdrop-filter: none; box-shadow: none; border: none;`;
+
+  // Text Color / Foil styling
+  let colorClass = 'foil-gold';
+  if (state.textColorTheme === 'white') colorClass = 'foil-white';
+  else if (state.textColorTheme === 'black') colorClass = 'foil-black';
+  else if (state.textColorTheme === 'navy') colorClass = 'foil-navy';
+  else if (state.textColorTheme === 'burgundy') colorClass = 'foil-burgundy';
+  else if (state.textColorTheme === 'emerald') colorClass = 'foil-emerald';
+  else if (state.textColorTheme === 'rosegold') colorClass = 'foil-rosegold';
+
+  // Script Font styling
+  let fontCssRule = `font-family: '${state.scriptFont}', cursive; font-size: ${state.coupleSize}px; font-weight: 400;`;
+  if (state.scriptFont === 'Playfair Display') {
+    fontCssRule = `font-family: 'Playfair Display', serif; font-style: italic; font-size: ${Math.round(state.coupleSize * 0.9)}px; font-weight: 600;`;
+  } else if (state.scriptFont === 'Cormorant Garamond') {
+    fontCssRule = `font-family: 'Cormorant Garamond', serif; font-size: ${Math.round(state.coupleSize * 0.9)}px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;`;
+  } else if (state.scriptFont === 'Cinzel') {
+    fontCssRule = `font-family: 'Cinzel', serif; font-size: ${Math.round(state.coupleSize * 0.8)}px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;`;
+  } else if (state.scriptFont === 'Aref Ruqaa') {
+    fontCssRule = `font-family: 'Aref Ruqaa', serif; font-size: ${Math.round(state.coupleSize * 0.95)}px; font-weight: 700;`;
+  } else if (state.scriptFont === 'Amiri') {
+    fontCssRule = `font-family: 'Amiri', serif; font-size: ${state.coupleSize}px; font-weight: 700;`;
+  }
 
   return `<!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -302,650 +477,322 @@ function generateCodedCardHTML(state) {
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Italianno&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>
 
   <style>
-    /* -------------------------------------------------------------
-       CORE DESIGN TOKENS
-       ------------------------------------------------------------- */
     :root {
       --gold-primary: #D4AF37;
       --gold-foil: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
-      --gold-shimmer: linear-gradient(90deg, #D4AF37, #FFF9E6, #D4AF37);
-      --font-display-en: 'Cinzel Decorative', 'Cormorant Garamond', serif;
-      --font-serif-en: 'Cormorant Garamond', Georgia, serif;
-      --font-script-en: 'Great Vibes', 'Alex Brush', cursive;
-      --font-quran-ar: 'Amiri', serif;
-      --font-calligraphy-ar: 'Aref Ruqaa', 'Amiri', serif;
+      --seal-bg: ${sealBg};
+      --seal-border: ${sealBorder};
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: #06110F;
+      background: #051310;
       color: #E8ECEB;
-      font-family: var(--font-serif-en);
+      font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 40px 16px 80px;
+      padding: 30px 16px 80px;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
     }
 
     #fxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
 
-    /* Top Floating Controls */
+    /* Floating Top Action Bar */
     .top-action-bar {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 999;
-      display: flex;
-      gap: 10px;
+      position: fixed; top: 16px; right: 16px; z-index: 999; display: flex; gap: 8px;
     }
-    .top-btn {
-      background: rgba(8, 27, 23, 0.85);
-      border: 1px solid var(--gold-primary);
-      color: #FFF9E6;
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .top-action-btn {
+      background: rgba(8, 27, 23, 0.85); border: 1px solid var(--gold-primary);
+      color: #FFF9E6; padding: 7px 14px; border-radius: 25px; font-size: 11px;
+      font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 6px;
       transition: all 0.3s;
     }
-    .top-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
+    .top-action-btn:hover { background: var(--gold-foil); color: #081B17; transform: translateY(-2px); }
 
-    /* -------------------------------------------------------------
-       THE INVITATION CARD CONTAINER & 8 CODED ARCHITECTURES
-       ------------------------------------------------------------- */
-    .card-stage-wrapper {
-      width: 100%;
-      max-width: 580px;
-      margin: 20px auto 40px;
-      perspective: 1200px;
+    /* CARD CONTAINER */
+    .card-stage-container {
+      width: 100%; max-width: 540px; margin: 20px auto 30px; perspective: 1200px;
     }
 
-    .invitation-coded-card {
-      position: relative;
-      width: 100%;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.2);
-      padding: 55px 35px;
-      text-align: center;
-      overflow: hidden;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    .luxury-invitation-card {
+      position: relative; width: 100%; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 30px rgba(212, 175, 55, 0.25);
+      background: #000;
     }
 
-    /* =============================================================
-       STYLE 1: MODERN ARCHED FROSTED ACRYLIC
-       ============================================================= */
-    .style-acrylic-arch {
-      border-radius: 260px 260px 20px 20px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 2px solid rgba(212, 175, 55, 0.6);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.1);
+    /* CARD ARTWORK BASE */
+    .card-artwork-frame {
+      position: relative; width: 100%; display: block; line-height: 0;
     }
-    .style-acrylic-arch::before {
-      content: '';
+    .card-artwork-img {
+      width: 100%; height: auto; display: block; filter: contrast(102%) brightness(101%);
+    }
+
+    /* OVERLAY PLAQUE */
+    .card-typography-plaque {
       position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      border-radius: 245px 245px 12px 12px;
-      pointer-events: none;
-    }
-
-    /* =============================================================
-       STYLE 2: ROYAL EMERALD VELVET & GOLD FOIL
-       ============================================================= */
-    .style-emerald-velvet {
-      border-radius: 20px;
-      background: radial-gradient(circle at 50% 30%, #0E362C 0%, #071C17 70%, #03100D 100%);
-      border: 3px double var(--gold-primary);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), inset 0 0 40px rgba(212, 175, 55, 0.15);
-    }
-    .style-emerald-velvet::before {
-      content: '';
-      position: absolute;
-      inset: 10px;
-      border: 1px dashed rgba(212, 175, 55, 0.5);
-      border-radius: 12px;
-      pointer-events: none;
-    }
-
-    /* =============================================================
-       STYLE 3: DECKLE EDGE COTTON PAPER & SILK WAX SEAL
-       ============================================================= */
-    .style-deckle-edge {
-      border-radius: 4px;
-      background: #FAF6F0;
-      color: #2D2319;
-      border: 1px solid #E6D8C3;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), inset 0 0 50px rgba(184, 134, 11, 0.08);
-      filter: contrast(102%);
-    }
-    .style-deckle-edge .card-quran-ayah { color: #8A6214 !important; }
-    .style-deckle-edge .card-couple-en { color: #8A6214 !important; -webkit-text-fill-color: initial !important; }
-    .style-deckle-edge .card-guest-title { color: #1B150F !important; }
-
-    /* Silk ribbon hanging down */
-    .deckle-silk-ribbon {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 100%;
-      background: linear-gradient(90deg, #E8A87C, #F4D3C4, #D98880);
-      opacity: 0.85;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* =============================================================
-       STYLE 4: VELVET BURGUNDY BAROQUE CREST
-       ============================================================= */
-    .style-burgundy-baroque {
-      border-radius: 24px;
-      background: radial-gradient(circle at 50% 30%, #5A121D 0%, #3D0C13 65%, #24050A 100%);
-      border: 2px solid var(--gold-primary);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
-    }
-    .style-burgundy-baroque::before {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      border: 2px solid rgba(212, 175, 55, 0.4);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) translateY(${state.offsetY}px);
+      width: ${state.plaqueWidth}%;
+      ${plaqueBgCSS}
+      ${plaqueBorderCSS}
       border-radius: 16px;
-      pointer-events: none;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+      z-index: 10;
+      transition: all 0.3s ease;
     }
 
-    /* =============================================================
-       STYLE 5: MOROCCAN ARABESQUE HORSESHOE ARCH
-       ============================================================= */
-    .style-moroccan-arch {
-      border-radius: 200px 200px 16px 16px;
-      background: linear-gradient(160deg, #0D2620 0%, #04100D 100%);
-      border: 2px solid var(--gold-primary);
-    }
-    .style-moroccan-arch::before {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.5);
-      border-radius: 188px 188px 8px 8px;
-      pointer-events: none;
-    }
-
-    /* =============================================================
-       STYLE 6: MINIMALIST MODERN EDITORIAL ARCH
-       ============================================================= */
-    .style-minimalist-arch {
-      border-radius: 220px 220px 8px 8px;
-      background: #FAF7F2;
-      color: #171717;
-      border: 1.5px solid #D8CEBE;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    }
-    .style-minimalist-arch .card-quran-ayah { color: #666 !important; }
-    .style-minimalist-arch .card-couple-en {
-      font-family: 'Playfair Display', serif !important;
-      color: #111 !important;
-      -webkit-text-fill-color: initial !important;
-      font-size: 38px !important;
-      letter-spacing: 3px !important;
-    }
-    .style-minimalist-arch .card-guest-title { color: #111 !important; }
-
-    /* =============================================================
-       STYLE 7: CELESTIAL MIDNIGHT NAVY & STAR GOLD
-       ============================================================= */
-    .style-midnight-celestial {
-      border-radius: 20px;
-      background: radial-gradient(circle at 50% 20%, #0F2042 0%, #081226 60%, #030712 100%);
-      border: 2px solid var(--gold-primary);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(30, 80, 160, 0.2);
-    }
-    .style-midnight-celestial::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, #D4AF37 1.2px, transparent 1.2px);
-      background-size: 24px 24px;
-      opacity: 0.35;
-      pointer-events: none;
-    }
-
-    /* =============================================================
-       STYLE 8: ROMANTIC BLUSH & ROSE GOLD BOTANICAL
-       ============================================================= */
-    .style-blush-botanical {
-      border-radius: 24px;
-      background: linear-gradient(145deg, #FFF6F5 0%, #F8E6E4 100%);
-      color: #4A2E2B;
-      border: 2px solid #E5AA9C;
-      box-shadow: 0 25px 60px rgba(180, 100, 90, 0.2);
-    }
-    .style-blush-botanical .card-quran-ayah { color: #8C534D !important; }
-    .style-blush-botanical .card-couple-en {
-      background: linear-gradient(135deg, #C26D60, #E5AA9C, #A04D40) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-    }
-    .style-blush-botanical .card-guest-title { color: #361E1C !important; }
-
-    /* -------------------------------------------------------------
-       ELEMENTS INSIDE THE CODED INVITATION CARD
-       ------------------------------------------------------------- */
-    .card-content-inner {
-      position: relative;
-      z-index: 2;
-    }
-
-    .card-header-crest {
-      width: 50px;
-      height: 50px;
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: var(--gold-primary);
+    /* FOIL & COLOR PALETTES */
+    .foil-gold {
+      background: linear-gradient(135deg, #ECC870 0%, #FFF3B3 25%, #D4AF37 50%, #FAF0A8 75%, #9E7412 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
     }
-
-    .card-bismillah {
-      font-family: var(--font-quran-ar);
-      font-size: 28px;
-      font-weight: 700;
-      background: var(--gold-foil);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+    .foil-white { color: #FFFFFF !important; text-shadow: 0 2px 10px rgba(0,0,0,0.6); -webkit-text-fill-color: initial !important; }
+    .foil-black { color: #111111 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-navy { color: #14284B !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-burgundy { color: #68132A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-emerald { color: #0E4D3A !important; text-shadow: 0 1px 2px rgba(255,255,255,0.4); -webkit-text-fill-color: initial !important; }
+    .foil-rosegold {
+      background: linear-gradient(135deg, #E5AA9C 0%, #FFF0EB 30%, #B76E79 70%, #8C4751 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .card-quran-ayah {
-      font-family: var(--font-calligraphy-ar);
-      font-size: 20px;
-      color: var(--gold-primary);
-      line-height: 1.8;
-      margin-bottom: 20px;
-      padding: 0 10px;
-    }
-
-    .card-host-line {
-      font-size: 13px;
-      letter-spacing: 1px;
-      opacity: 0.85;
-      margin-bottom: 20px;
-    }
-
-    /* VIP Guest Certificate Box inside Card */
-    .card-vip-guest-box {
-      margin: 22px auto;
-      padding: 14px 20px;
-      border-top: 1px solid rgba(212, 175, 55, 0.5);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.5);
-      display: inline-block;
-      max-width: 90%;
-    }
-
-    .card-vip-tag {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold-primary);
-      display: block;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
-    .card-guest-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: #FFFFFF;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    .card-guest-arabic {
-      font-family: var(--font-calligraphy-ar);
-      font-size: 22px;
-      color: var(--gold-primary);
-      margin-top: 2px;
-    }
-
-    /* Couple Names inside Card */
-    .card-couple-block {
-      margin: 25px 0;
-    }
-
-    .card-couple-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .card-couple-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-couple-en {
-      font-family: var(--font-script-en);
-      font-size: 48px;
-      font-weight: 700;
-      background: var(--gold-foil);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1;
-      filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
-    }
-
-    .card-couple-ar {
-      font-family: var(--font-calligraphy-ar);
-      font-size: 32px;
-      color: var(--gold-primary);
-      margin-top: -6px;
-    }
-
-    .card-ampersand {
-      font-family: var(--font-display-en);
-      font-size: 36px;
-      color: var(--gold-primary);
-      opacity: 0.8;
-    }
-
-    /* Date & Venue inside Card */
-    .card-event-date-row {
-      margin: 20px 0 10px;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .card-venue-title {
-      font-family: var(--font-display-en);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold-primary);
+    /* CARD TEXT ELEMENTS */
+    .card-verse-block { margin-bottom: 14px; }
+    .card-bismillah-arabic {
+      font-family: 'Amiri', serif; font-size: 20px; font-weight: 700; line-height: 1.4;
       margin-bottom: 4px;
     }
-
-    .card-venue-address {
-      font-size: 13px;
-      opacity: 0.8;
-      margin-bottom: 25px;
+    .card-verse-arabic {
+      font-family: 'Aref Ruqaa', 'Amiri', serif; font-size: 13px; line-height: 1.6;
+      color: rgba(20, 20, 20, 0.85); max-width: 90%; margin: 0 auto;
     }
+    .dark-text { color: #222 !important; }
+    .light-text { color: #EEE !important; }
 
-    /* 3D Wax Seal Stamp directly on the Card */
-    .card-wax-seal-stamp {
-      width: 85px;
-      height: 85px;
-      margin: 25px auto 10px;
-      border-radius: 50%;
-      background: ${sealBg};
-      border: 3px solid ${sealBorder};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.5);
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Guest line */
+    .card-guest-block { margin-bottom: 12px; }
+    .card-invite-greeting {
+      font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+      color: #666; margin-bottom: 4px;
     }
-    .card-wax-seal-stamp:hover { transform: scale(1.08) rotate(4deg); }
-    .card-wax-seal-monogram {
-      font-family: var(--font-script-en);
-      font-size: 30px;
-      font-weight: bold;
-      color: #FFFDF0;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+    .card-guest-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      background: rgba(212, 175, 55, 0.15); border: 1px solid rgba(212, 175, 55, 0.5);
+      font-size: 13px; font-weight: 700; color: #1B150F;
+    }
+    .card-guest-ar {
+      display: block; font-family: 'Aref Ruqaa', serif; font-size: 12px;
+      color: #666; margin-top: 2px;
     }
 
-    /* -------------------------------------------------------------
-       BELOW-CARD ACCORDION / INTERACTIVE SECTIONS
-       ------------------------------------------------------------- */
-    .card-interactive-drawer {
-      width: 100%;
-      max-width: 580px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    /* Couple Names */
+    .card-couple-block { margin: 14px 0; }
+    .card-couple-names {
+      ${fontCssRule}
+      line-height: 1.15;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .card-couple-arabic {
+      font-family: 'Aref Ruqaa', serif; font-size: 22px; font-weight: 700;
+      color: var(--gold-primary); margin-top: 2px;
     }
 
-    /* Countdown Dials */
-    .countdown-pill-card {
-      background: rgba(8, 27, 23, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 18px;
-      padding: 20px;
-      display: flex;
-      justify-content: space-around;
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    /* Date layout */
+    .card-date-divider-row {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin: 14px 0 4px; border-top: 1px solid rgba(212, 175, 55, 0.4);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding: 8px 0;
     }
-    .countdown-val {
-      font-family: var(--font-display-en);
-      font-size: 36px;
-      font-weight: 700;
-      color: #FFF;
-      display: block;
-      line-height: 1;
+    .date-part { font-size: 11px; font-weight: 600; letter-spacing: 2px; color: #333; }
+    .date-day-badge {
+      font-size: 24px; font-weight: 700; font-family: 'Cinzel', serif;
+      color: var(--gold-primary); padding: 0 6px;
     }
-    .countdown-lbl {
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--gold-primary);
-      margin-top: 6px;
-      display: block;
+    .card-time-line { font-size: 10px; letter-spacing: 2px; color: #666; font-weight: 600; }
+
+    /* Pill Date */
+    .card-date-pill-row {
+      display: inline-flex; align-items: center; gap: 10px; margin: 12px 0 6px;
+      border: 1px solid rgba(212, 175, 55, 0.6); border-radius: 30px; padding: 4px 14px;
+    }
+    .pill-weekday, .pill-time { font-size: 11px; font-weight: 600; color: #333; letter-spacing: 1px; }
+    .pill-center-badge {
+      display: flex; flex-direction: column; align-items: center; padding: 2px 8px;
+      border-left: 1px solid rgba(212, 175, 55, 0.4); border-right: 1px solid rgba(212, 175, 55, 0.4);
+    }
+    .pill-day { font-size: 16px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
+    .pill-month { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #444; }
+
+    /* Classic Date */
+    .card-date-classic-row { margin: 12px 0; }
+    .classic-date-str { font-size: 13px; font-weight: 600; color: #222; }
+    .classic-time-str { font-size: 11px; color: #666; }
+
+    /* Venue */
+    .card-venue-block { margin-top: 12px; }
+    .card-venue-name { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #222; }
+    .card-venue-ar { font-family: 'Amiri', serif; font-size: 13px; color: var(--gold-primary); }
+    .card-venue-address { font-size: 10px; color: #666; margin-top: 2px; }
+    .card-map-link {
+      display: inline-flex; align-items: center; gap: 5px; margin-top: 6px;
+      font-size: 10px; font-weight: 600; color: var(--gold-primary); text-decoration: none;
+      padding: 3px 10px; border-radius: 12px; background: rgba(212, 175, 55, 0.1);
+      transition: all 0.2s;
+    }
+    .card-map-link:hover { background: var(--gold-primary); color: #081B17; }
+
+    /* BOTTOM CONTROLS & WAX SEAL */
+    .card-interactive-footer {
+      width: 100%; max-width: 540px; margin: 0 auto; display: flex; flex-direction: column;
+      align-items: center; gap: 16px;
     }
 
-    /* Itinerary Schedule */
-    .itinerary-pill-card {
-      background: rgba(8, 27, 23, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    .wax-seal-wrapper {
+      position: relative; display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; margin-top: -30px; z-index: 50; transition: transform 0.3s;
     }
-    .itinerary-card-title {
-      font-family: var(--font-display-en);
-      font-size: 20px;
-      color: var(--gold-primary);
-      text-align: center;
-      margin-bottom: 16px;
+    .wax-seal-wrapper:hover { transform: scale(1.08); }
+    .wax-seal-disc {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--seal-bg); border: 3px solid var(--seal-border);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 900;
+      color: #FFF9E6; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     }
-    .itinerary-pill-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .itinerary-pill-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 8px;
-    }
-    .itinerary-pill-time {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--gold-primary);
-      min-width: 75px;
-    }
-    .itinerary-pill-desc {
-      font-size: 14px;
-      color: #DDD;
+    .wax-seal-hint {
+      margin-top: 6px; font-size: 10px; color: var(--gold-primary); font-weight: 600;
+      background: rgba(8, 27, 23, 0.85); padding: 3px 10px; border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
     }
 
-    /* Navigation button */
-    .map-pill-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: var(--gold-foil);
-      color: #081B17;
-      padding: 14px 24px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 15px;
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-      transition: transform 0.3s;
+    .card-actions-row {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%;
     }
-    .map-pill-btn:hover { transform: translateY(-2px); }
+    .card-btn {
+      background: var(--gold-foil); color: #081B17; border: none; border-radius: 25px;
+      padding: 10px 20px; font-size: 13px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+      transition: all 0.3s;
+    }
+    .card-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .card-btn-outline {
+      background: rgba(14, 41, 35, 0.8); border: 1px solid var(--gold-primary);
+      color: #FFF9E6; border-radius: 25px; padding: 10px 20px; font-size: 13px;
+      font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s;
+    }
+    .card-btn-outline:hover { background: rgba(212, 175, 55, 0.2); }
 
-    /* RSVP Card */
-    .rsvp-pill-card {
-      background: rgba(8, 27, 23, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-      text-align: center;
+    /* COUNTDOWN BADGE */
+    .countdown-widget {
+      background: rgba(8, 27, 23, 0.9); border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 16px; padding: 12px 20px; display: flex; gap: 16px; text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
     }
-    .rsvp-card-title {
-      font-family: var(--font-display-en);
-      font-size: 22px;
-      color: var(--gold-primary);
-      margin-bottom: 12px;
-    }
-    .rsvp-form-row {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 15px;
-      text-align: left;
-    }
-    .rsvp-input {
-      width: 100%;
-      padding: 12px;
-      background: rgba(4, 14, 12, 0.9);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-    }
-    .rsvp-submit-btn {
-      background: var(--gold-foil);
-      color: #081B17;
-      border: none;
-      padding: 14px;
-      border-radius: 30px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    .rsvp-success-toast {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      background: rgba(39, 174, 96, 0.2);
-      border: 1px solid #27AE60;
-      color: #A3E4D7;
-      display: none;
-      font-weight: 600;
-    }
+    .countdown-unit { display: flex; flex-direction: column; align-items: center; }
+    .countdown-num { font-size: 20px; font-weight: 700; color: var(--gold-primary); font-family: 'Cinzel', serif; }
+    .countdown-lbl { font-size: 9px; color: #8FAEA8; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Print styles */
-    @media print {
-      body { background: white !important; color: black !important; padding: 0 !important; }
-      .top-action-bar, .card-interactive-drawer, #fxCanvas { display: none !important; }
-      .invitation-coded-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+    /* RSVP MODAL */
+    .rsvp-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+      z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;
     }
+    .rsvp-modal.active { display: flex; }
+    .rsvp-card {
+      width: 100%; max-width: 440px; background: #0A221D; border: 2px solid var(--gold-primary);
+      border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .rsvp-close {
+      position: absolute; top: 16px; right: 16px; background: none; border: none;
+      color: #8FAEA8; font-size: 18px; cursor: pointer;
+    }
+    .rsvp-title { font-family: 'Cinzel Decorative', serif; font-size: 20px; color: #FFF9E6; margin-bottom: 6px; }
+    .rsvp-desc { font-size: 13px; color: #8FAEA8; margin-bottom: 20px; }
+    .rsvp-actions { display: flex; flex-direction: column; gap: 10px; }
+    .rsvp-btn-yes {
+      background: var(--gold-foil); color: #081B17; border: none; border-radius: 12px;
+      padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .rsvp-btn-yes:hover { filter: brightness(1.1); transform: translateY(-1px); }
   </style>
 </head>
 <body>
 
-  <!-- Floating Audio & Language Buttons -->
+  <!-- Floating Audio & Map Controls -->
   <div class="top-action-bar">
-    <button class="top-btn" id="audioToggleBtn" onclick="toggleRoyalAudio()">
-      <i class="fa-solid fa-music"></i>
-      <span id="audioStatusText">Royal Symphony</span>
+    <button class="top-action-btn" onclick="toggleRoyalMusic()" id="btnMusicPlay">
+      <i class="fa-solid fa-music"></i> <span id="lblMusic">Royal Music</span>
     </button>
-    <button class="top-btn" onclick="triggerCardCelebration()">
-      <i class="fa-solid fa-sparkles"></i> Celebrate
-    </button>
+    <a href="${state.venueMapLink}" target="_blank" class="top-action-btn">
+      <i class="fa-solid fa-map-location-dot"></i> <span>Directions</span>
+    </a>
   </div>
 
   <canvas id="fxCanvas"></canvas>
 
-  <!-- =============================================================
-       THE ACTUAL 100% CODED LUXURY WEDDING CARD
-       ============================================================= -->
-  <div class="card-stage-wrapper">
-    <div class="invitation-coded-card style-${state.activeStyle}" id="mainCodedCard">
+  <!-- THE INVITATION CARD -->
+  <div class="card-stage-container">
+    <div class="luxury-invitation-card">
       
-      <!-- Optional Silk Ribbon for Deckle Edge -->
-      ${state.activeStyle === 'deckle-edge' ? '<div class="deckle-silk-ribbon"></div>' : ''}
+      <!-- High-Res Chosen Design Template Artwork -->
+      <div class="card-artwork-frame">
+        <img src="${design.image}" alt="${design.titleEn}" class="card-artwork-img">
+      </div>
 
-      <div class="card-content-inner">
+      <!-- Live Personalized Overlay Plaque -->
+      <div class="card-typography-plaque">
         
-        <!-- Royal Header Crest -->
-        <div class="card-header-crest">
-          <i class="fa-solid fa-crown"></i>
+        <!-- Bismillah / Ayah -->
+        <div class="card-verse-block">
+          <div class="card-bismillah-arabic ${state.plaqueStyle === 'dark' ? 'foil-gold' : 'dark-text'}">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+          <div class="card-verse-arabic ${state.plaqueStyle === 'dark' ? 'light-text' : 'dark-text'}">"${state.verseText}"</div>
         </div>
 
-        <!-- Bismillah & Quranic Verse -->
-        <div class="card-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <p class="card-quran-ayah">${state.verseText}</p>
-
-        <p class="card-host-line">${state.hostLine}</p>
-
-        <!-- SPECIAL VIP GUEST BADGE (NAME DIRECTLY INSIDE CARD) -->
-        <div class="card-vip-guest-box">
-          <span class="card-vip-tag"><i class="fa-solid fa-gem"></i> VIP Guest Invitation</span>
-          <div class="card-guest-title" id="cardGuestEn">${state.guestEn}</div>
-          <div class="card-guest-arabic" id="cardGuestAr">${state.guestAr}</div>
+        <!-- Guest Invitation -->
+        <div class="card-guest-block">
+          <div class="card-invite-greeting">Together with their families, cordially invite</div>
+          <div class="card-guest-badge">${state.guestEn}</div>
+          <div class="card-guest-ar">${state.guestAr}</div>
         </div>
 
-        <!-- COUPLE NAMES (DIRECTLY INSIDE CARD) -->
+        <!-- Couple Names -->
         <div class="card-couple-block">
-          <div class="card-couple-row">
-            <div class="card-couple-item">
-              <span class="card-couple-en">${state.groomEn}</span>
-              <span class="card-couple-ar">${state.groomAr}</span>
-            </div>
-            <span class="card-ampersand">&</span>
-            <div class="card-couple-item">
-              <span class="card-couple-en">${state.brideEn}</span>
-              <span class="card-couple-ar">${state.brideAr}</span>
-            </div>
-          </div>
+          <h1 class="card-couple-names ${colorClass}">${state.groomEn} & ${state.brideEn}</h1>
+          <div class="card-couple-arabic">${state.groomAr} و ${state.brideAr}</div>
         </div>
 
-        <!-- Date & Venue -->
-        <div class="card-event-date-row">
-          <span>${dateFormattedEn} at ${state.weddingTime}</span>
-        </div>
-        <div class="card-venue-title">${state.venueNameEn}</div>
-        <div class="card-venue-address">${state.venueAddress}</div>
+        <!-- Date & Time -->
+        ${dateMarkup}
 
-        <!-- 3D Wax Seal Stamp on Card -->
-        <div class="card-wax-seal-stamp" onclick="triggerCardCelebration()">
-          <span class="card-wax-seal-monogram">${state.waxSealMonogram}</span>
+        <!-- Venue & Reception -->
+        <div class="card-venue-block">
+          <div class="card-venue-name ${state.plaqueStyle === 'dark' ? 'light-text' : 'dark-text'}">${state.venueNameEn}</div>
+          <div class="card-venue-ar">${state.venueNameAr}</div>
+          <div class="card-venue-address">${state.venueAddress}</div>
+          <a href="${state.venueMapLink}" target="_blank" class="card-map-link">
+            <i class="fa-solid fa-location-dot"></i> View on Google Maps
+          </a>
         </div>
 
       </div>
@@ -953,311 +800,363 @@ function generateCodedCardHTML(state) {
     </div>
   </div>
 
-  <!-- =============================================================
-       INTERACTIVE ACCORDION / DETAILS BELOW CARD
-       ============================================================= -->
-  <div class="card-interactive-drawer">
+  <!-- Interactive Wax Seal & Action Footer -->
+  <div class="card-interactive-footer">
     
-    <!-- Countdown Clock -->
+    <!-- 3D Wax Seal Stamp -->
+    <div class="wax-seal-wrapper" onclick="handleWaxSealClick()">
+      <div class="wax-seal-disc">
+        <span>${state.waxSealMonogram}</span>
+      </div>
+      <div class="wax-seal-hint">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Tap Seal to Celebrate
+      </div>
+    </div>
+
+    <!-- Live Countdown Timer -->
     ${state.enableCountdown ? `
-    <div class="countdown-pill-card">
-      <div>
-        <span class="countdown-val" id="cntDays">00</span>
-        <span class="countdown-lbl">Days / أيام</span>
+      <div class="countdown-widget" id="countdownWidget">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdDays">--</span>
+          <span class="countdown-lbl">Days</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdHours">--</span>
+          <span class="countdown-lbl">Hours</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdMins">--</span>
+          <span class="countdown-lbl">Mins</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="cdSecs">--</span>
+          <span class="countdown-lbl">Secs</span>
+        </div>
       </div>
-      <div>
-        <span class="countdown-val" id="cntHours">00</span>
-        <span class="countdown-lbl">Hours / ساعات</span>
-      </div>
-      <div>
-        <span class="countdown-val" id="cntMinutes">00</span>
-        <span class="countdown-lbl">Minutes / دقائق</span>
-      </div>
-      <div>
-        <span class="countdown-val" id="cntSeconds">00</span>
-        <span class="countdown-lbl">Seconds / ثواني</span>
-      </div>
-    </div>
     ` : ''}
 
-    <!-- Itinerary -->
-    <div class="itinerary-pill-card">
-      <h3 class="itinerary-card-title"><i class="fa-solid fa-champagne-glasses"></i> Order of Celebration</h3>
-      <div class="itinerary-pill-list">
-        ${itineraryHTML}
-      </div>
+    <!-- Action Buttons -->
+    <div class="card-actions-row">
+      ${state.enableRSVP ? `
+        <button class="card-btn" onclick="openRSVPModal()">
+          <i class="fa-solid fa-heart"></i> Confirm Attendance (RSVP)
+        </button>
+      ` : ''}
+      <button class="card-btn-outline" onclick="addToCalendar()">
+        <i class="fa-solid fa-calendar-plus"></i> Add to Calendar
+      </button>
     </div>
-
-    <!-- Google Maps Button -->
-    <a href="${state.venueMapLink}" target="_blank" class="map-pill-btn">
-      <i class="fa-solid fa-location-arrow"></i>
-      <span>Open in Google Maps / الاتجاهات إلى القاعة</span>
-    </a>
-
-    <!-- RSVP Confirmation -->
-    ${state.enableRSVP ? `
-    <div class="rsvp-pill-card">
-      <h3 class="rsvp-card-title">RSVP / تأكيد الحضور</h3>
-      <p style="font-size: 13px; opacity: 0.8;">Kindly confirm your attendance</p>
-      
-      <form class="rsvp-form-row" onsubmit="handleRSVP(event)">
-        <input type="text" class="rsvp-input" value="${state.guestEn}" placeholder="Your Name" required>
-        <select class="rsvp-input">
-          <option value="yes">Joyfully Accepts / يسعدني الحضور بكل سرور ✨</option>
-          <option value="no">Regretfully Declines / للأسف أعتذر لظروف خاصة</option>
-        </select>
-        <button type="submit" class="rsvp-submit-btn">Send RSVP Confirmation</button>
-        <div id="rsvpSuccessMsg" class="rsvp-success-toast">🎉 Thank you, ${state.guestEn}! Your RSVP is confirmed with love.</div>
-      </form>
-    </div>
-    ` : ''}
 
   </div>
 
+  <!-- RSVP MODAL -->
+  <div class="rsvp-modal" id="rsvpModal">
+    <div class="rsvp-card">
+      <button class="rsvp-close" onclick="closeRSVPModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="rsvp-title">Wedding RSVP</div>
+      <p class="rsvp-desc">We look forward to celebrating with you, <strong>${state.guestEn}</strong>!</p>
+      
+      <div class="rsvp-actions">
+        <button class="rsvp-btn-yes" onclick="submitRSVP('Attending with Joy!')">
+          <i class="fa-solid fa-check"></i> Accept with Pleasure (Joyfully Attend)
+        </button>
+        <button class="card-btn-outline" style="width:100%; justify-content:center;" onclick="submitRSVP('Regretfully Decline')">
+          <i class="fa-solid fa-envelope"></i> Regretfully Decline
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio & Petals Engine Scripts -->
   <script>
-    // Audio Symphony
+    // 1. Procedural Royal Wedding Symphony (Web Audio API - No MP3 needed)
     let audioCtx = null;
-    let isPlaying = false;
+    let isPlayingMusic = false;
     let musicInterval = null;
 
-    function initAudio() {
-      if (audioCtx) return;
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AudioContext();
-    }
-
-    const chords = [
-      { bass: 146.83, chord: [293.66, 369.99, 440.00, 587.33] },
-      { bass: 110.00, chord: [220.00, 277.18, 329.63, 440.00] },
-      { bass: 123.47, chord: [246.94, 293.66, 369.99, 493.88] },
-      { bass: 98.00,  chord: [196.00, 246.94, 293.66, 392.00] }
-    ];
-
-    function playTone(freq, startTime, duration, type = 'sine', volume = 0.05) {
-      if (!audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, startTime);
-      gain.gain.setValueAtTime(0.0001, startTime);
-      gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.12);
-      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(startTime);
-      osc.stop(startTime + duration);
-    }
-
-    function startSymphony() {
-      if (!audioCtx) initAudio();
+    function playRoyalMelody() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-      isPlaying = true;
-      document.getElementById('audioStatusText').textContent = 'Melody Playing';
 
-      let step = 0;
-      function nextBar() {
-        if (!isPlaying) return;
-        const now = audioCtx.currentTime;
-        const current = chords[step % chords.length];
-        playTone(current.bass, now, 3.0, 'sine', 0.07);
-        current.chord.forEach((freq, idx) => {
-          playTone(freq, now + idx * 0.38, 2.2, 'triangle', 0.06);
-          if (idx % 2 === 0) playTone(freq * 2, now + idx * 0.38 + 0.1, 1.2, 'sine', 0.02);
-        });
-        step++;
-        musicInterval = setTimeout(nextBar, 2400);
+      const canonNotes = [
+        293.66, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00,
+        587.33, 440.00, 493.88, 369.99, 392.00, 293.66, 392.00, 440.00
+      ];
+      let noteIdx = 0;
+
+      function triggerNextNote() {
+        if (!isPlayingMusic) return;
+        const freq = canonNotes[noteIdx % canonNotes.length];
+        noteIdx++;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.3);
       }
-      nextBar();
+
+      isPlayingMusic = true;
+      document.getElementById('lblMusic').textContent = 'Pause Music';
+      musicInterval = setInterval(triggerNextNote, 600);
+      triggerNextNote();
     }
 
-    function stopSymphony() {
-      isPlaying = false;
-      clearTimeout(musicInterval);
-      document.getElementById('audioStatusText').textContent = 'Royal Symphony';
+    function toggleRoyalMusic() {
+      if (isPlayingMusic) {
+        isPlayingMusic = false;
+        clearInterval(musicInterval);
+        document.getElementById('lblMusic').textContent = 'Play Music';
+      } else {
+        playRoyalMelody();
+      }
     }
 
-    function toggleRoyalAudio() {
-      if (isPlaying) stopSymphony();
-      else startSymphony();
-    }
-
-    function triggerCardCelebration() {
-      if (!isPlaying) startSymphony();
+    function handleWaxSealClick() {
       if (typeof confetti === 'function') {
         confetti({
-          particleCount: 80,
-          spread: 75,
+          particleCount: 100,
+          spread: 80,
           origin: { y: 0.6 },
-          colors: ['#D4AF37', '#FFF8D4', '#B8860B', '#E74C3C']
+          colors: ['#D4AF37', '#FFF3B3', '#AA771C']
         });
       }
+      if (!isPlayingMusic) playRoyalMelody();
     }
 
-    // Countdown Timer
-    const weddingTargetTime = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();
-    function refreshCountdown() {
-      const now = new Date().getTime();
-      const diff = weddingTargetTime - now;
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        const dEl = document.getElementById('cntDays');
-        if (dEl) {
-          dEl.textContent = String(days).padStart(2, '0');
-          document.getElementById('cntHours').textContent = String(hours).padStart(2, '0');
-          document.getElementById('cntMinutes').textContent = String(minutes).padStart(2, '0');
-          document.getElementById('cntSeconds').textContent = String(seconds).padStart(2, '0');
+    // 2. Falling Golden Petals FX
+    ${state.enablePetals ? `
+      (function() {
+        const canvas = document.getElementById('fxCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        });
+
+        const petals = [];
+        for (let i = 0; i < 35; i++) {
+          petals.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 5 + 3,
+            speedY: Math.random() * 1 + 0.5,
+            speedX: Math.random() * 0.8 - 0.4,
+            rotation: Math.random() * 360,
+            rotSpeed: Math.random() * 2 - 1,
+            color: ['#D4AF37', '#ECC870', '#FFF3B3', '#FADBD8'][Math.floor(Math.random() * 4)],
+            opacity: Math.random() * 0.6 + 0.3
+          });
         }
+
+        function draw() {
+          ctx.clearRect(0, 0, width, height);
+          petals.forEach(p => {
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.rotation += p.rotSpeed;
+
+            if (p.y > height) { p.y = -10; p.x = Math.random() * width; }
+            if (p.x > width) p.x = 0;
+            if (p.x < 0) p.x = width;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          });
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+    ` : ''}
+
+    // 3. Live Countdown
+    ${state.enableCountdown ? `
+      (function() {
+        const target = new Date('${state.weddingDate}T${state.weddingTime}:00').getTime();
+        function updateCd() {
+          const now = Date.now();
+          const diff = target - now;
+          if (diff <= 0) {
+            document.getElementById('countdownWidget').innerHTML = '<div style="color:var(--gold-primary); font-weight:700;">Celebrating Today! 💍✨</div>';
+            return;
+          }
+          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+          const elD = document.getElementById('cdDays');
+          if (elD) elD.textContent = d;
+          const elH = document.getElementById('cdHours');
+          if (elH) elH.textContent = h;
+          const elM = document.getElementById('cdMins');
+          if (elM) elM.textContent = m;
+          const elS = document.getElementById('cdSecs');
+          if (elS) elS.textContent = s;
+        }
+        setInterval(updateCd, 1000);
+        updateCd();
+      })();
+    ` : ''}
+
+    // 4. RSVP Handling
+    function openRSVPModal() { document.getElementById('rsvpModal').classList.add('active'); }
+    function closeRSVPModal() { document.getElementById('rsvpModal').classList.remove('active'); }
+    function submitRSVP(response) {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 120, spread: 90, origin: { y: 0.5 } });
       }
-    }
-    setInterval(refreshCountdown, 1000);
-    refreshCountdown();
-
-    function handleRSVP(e) {
-      e.preventDefault();
-      document.getElementById('rsvpSuccessMsg').style.display = 'block';
-      triggerCardCelebration();
+      alert('Thank you! Your RSVP response (' + response + ') has been recorded. 💍');
+      closeRSVPModal();
     }
 
-    // Floating Petals
-    const canvas = document.getElementById('fxCanvas');
-    const ctx = canvas.getContext('2d');
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
-    window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-    const particles = [];
-    for (let i = 0; i < 35; i++) {
-      particles.push({
-        x: Math.random() * w, y: Math.random() * h,
-        size: Math.random() * 4 + 2,
-        speedY: Math.random() * 1.0 + 0.5, speedX: Math.random() * 0.6 - 0.3,
-        rotation: Math.random() * 360, rotSpeed: Math.random() * 2 - 1,
-        color: i % 2 === 0 ? 'rgba(212, 175, 55, 0.45)' : 'rgba(235, 170, 180, 0.35)'
-      });
+    // 5. Add to Calendar
+    function addToCalendar() {
+      const title = encodeURIComponent('${state.groomEn} & ${state.brideEn} Wedding');
+      const details = encodeURIComponent('Celebrating the marriage of ${state.groomEn} & ${state.brideEn}. Guest: ${state.guestEn}');
+      const location = encodeURIComponent('${state.venueNameEn}, ${state.venueAddress}');
+      const gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + title + '&details=' + details + '&location=' + location;
+      window.open(gcalUrl, '_blank');
     }
-
-    function renderDust() {
-      ctx.clearRect(0, 0, w, h);
-      particles.forEach(p => {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.size, p.size * 1.6, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-        p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotSpeed;
-        if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
-      });
-      requestAnimationFrame(renderDust);
-    }
-    renderDust();
   <\/script>
 </body>
 </html>`;
 }
 
 // ==========================================================================
-// 4. LIVE PREVIEW ENGINE
+// 6. PREVIEW STAGE RENDERING
 // ==========================================================================
 function renderCardPreview() {
-  const iframe = document.getElementById('invitePreviewIframe');
-  if (!iframe) return;
-  const generatedHtml = generateCodedCardHTML(cardStudioState);
+  const container = document.getElementById('previewViewportContainer');
+  const titleDisplay = document.getElementById('activeDesignTitleDisplay');
+  const catalog = getCatalog();
+  const activeDesign = catalog.find(d => d.id === cardStudioState.activeDesignId) || catalog[0];
 
-  const doc = iframe.contentWindow || iframe.contentDocument;
-  if (doc.document) {
-    doc.document.open();
-    doc.document.write(generatedHtml);
-    doc.document.close();
-  } else {
-    iframe.srcdoc = generatedHtml;
+  if (titleDisplay && activeDesign) {
+    titleDisplay.textContent = `Active: ${activeDesign.titleEn} (#${activeDesign.index})`;
   }
+
+  if (!container) return;
+
+  const html = generateCodedCardHTML(cardStudioState);
+
+  // Render iframe for 100% css isolation and faithful preview
+  let iframe = container.querySelector('iframe.card-preview-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.className = 'card-preview-iframe';
+    iframe.style.width = '100%';
+    iframe.style.height = '880px';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '20px';
+    iframe.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.7)';
+    container.innerHTML = '';
+    container.appendChild(iframe);
+  }
+
+  iframe.srcdoc = html;
 }
 
 // ==========================================================================
-// 5. EXPORT & DOWNLOAD ACTIONS
+// 7. EXPORT, PRINT & VIP SHARE
 // ==========================================================================
 function downloadStandaloneInvite() {
-  const htmlContent = generateCodedCardHTML(cardStudioState);
-  const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+  const html = generateCodedCardHTML(cardStudioState);
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
-  const sanitizedNames = `${cardStudioState.groomEn}_and_${cardStudioState.brideEn}_for_${cardStudioState.guestEn}`.replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g, '_');
-  const filename = `Wedding_Card_${cardStudioState.activeStyle}_${sanitizedNames}.html`;
-
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename;
+  a.download = `Wedding_Invitation_${cardStudioState.groomEn}_and_${cardStudioState.brideEn}_(${cardStudioState.guestEn.replace(/[^a-zA-Z0-9]/g, '_')}).html`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-
-  showToast(`✅ Successfully downloaded standalone coded card: ${filename}!`);
+  showToast('Downloaded standalone wedding invitation card! 💌');
 }
 
 function printCard() {
-  const iframe = document.getElementById('invitePreviewIframe');
-  if (iframe && iframe.contentWindow) {
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-  }
+  const html = generateCodedCardHTML(cardStudioState);
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(html);
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(() => {
+    printWindow.print();
+  }, 600);
 }
 
 function copyPersonalizedLink() {
-  const currentUrl = new URL(window.location.href);
-  currentUrl.searchParams.set('style', cardStudioState.activeStyle);
-  currentUrl.searchParams.set('groom', cardStudioState.groomEn);
-  currentUrl.searchParams.set('bride', cardStudioState.brideEn);
-  currentUrl.searchParams.set('guest', cardStudioState.guestEn);
-  currentUrl.searchParams.set('view', 'card');
+  const url = new URL(window.location.href);
+  url.searchParams.set('design', cardStudioState.activeDesignId);
+  url.searchParams.set('guest', cardStudioState.guestEn);
+  url.searchParams.set('guestAr', cardStudioState.guestAr);
+  url.searchParams.set('groom', cardStudioState.groomEn);
+  url.searchParams.set('bride', cardStudioState.brideEn);
 
-  navigator.clipboard.writeText(currentUrl.toString()).then(() => {
-    showToast(`🔗 Copied VIP Invite link for "${cardStudioState.guestEn}"!`);
+  navigator.clipboard.writeText(url.toString()).then(() => {
+    showToast('VIP personalized invitation link copied to clipboard! 📋');
   }).catch(() => {
-    prompt('Copy VIP Invite Link:', currentUrl.toString());
+    prompt('Copy your VIP personalized link:', url.toString());
   });
 }
 
-function openPreviewFullscreen() {
-  const htmlContent = generateCodedCardHTML(cardStudioState);
-  const win = window.open('', '_blank');
-  win.document.open();
-  win.document.write(htmlContent);
-  win.document.close();
+function readUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('design')) cardStudioState.activeDesignId = params.get('design');
+  if (params.has('guest')) {
+    cardStudioState.guestEn = params.get('guest');
+    document.getElementById('guestNameInput').value = cardStudioState.guestEn;
+  }
+  if (params.has('guestAr')) {
+    cardStudioState.guestAr = params.get('guestAr');
+    document.getElementById('guestNameArInput').value = cardStudioState.guestAr;
+  }
+  if (params.has('groom')) {
+    cardStudioState.groomEn = params.get('groom');
+    document.getElementById('groomEnInput').value = cardStudioState.groomEn;
+  }
+  if (params.has('bride')) {
+    cardStudioState.brideEn = params.get('bride');
+    document.getElementById('brideEnInput').value = cardStudioState.brideEn;
+  }
 }
 
 function showToast(msg) {
   const toast = document.getElementById('toastNotification');
   if (!toast) return;
-  toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--gold-primary);"></i> ${msg}`;
-  toast.classList.remove('hidden');
-  setTimeout(() => toast.classList.add('hidden'), 4000);
+  toast.textContent = msg;
+  toast.classList.add('active');
+  setTimeout(() => toast.classList.remove('active'), 3500);
 }
 
-// ==========================================================================
-// 6. INITIALIZATION
-// ==========================================================================
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-
-  if (params.has('style')) cardStudioState.activeStyle = params.get('style');
-  if (params.has('groom')) cardStudioState.groomEn = params.get('groom');
-  if (params.has('bride')) cardStudioState.brideEn = params.get('bride');
-  if (params.has('guest')) cardStudioState.guestEn = params.get('guest');
-
-  // Direct standalone card view via URL parameter ?view=card
-  if (params.get('view') === 'card') {
-    document.body.innerHTML = generateCodedCardHTML(cardStudioState);
-    return;
-  }
-
-  const isUnlocked = sessionStorage.getItem('portal_unlocked') === 'true';
-  if (isUnlocked) {
-    unlockPortal();
-  }
+// Auto unlock if previously unlocked in this session
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    if (sessionStorage.getItem('portal_unlocked') === 'true') {
+      document.getElementById('passwordGateModal').classList.remove('active');
+      document.body.classList.remove('locked-body');
+      document.getElementById('appContainer').classList.remove('hidden');
+      initStudioApp();
+    }
+  } catch(e) {}
 });
